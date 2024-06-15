@@ -61,7 +61,7 @@
 	"SUPER, Space, togglefloating"
 
 	# make focused client to master
-	"SUPER, Return, swapwithmaster"
+	# "SUPER, Return, swapwithmaster" this isnt real
 
 	# TODO resize focused client
 	
