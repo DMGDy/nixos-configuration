@@ -17,18 +17,18 @@
       efiSysMountPoint = "/boot/efi";
     };
     grub = {
+      enable = true;
       efiSupport = true;
       device = "nodev";
     };
   };
-  networking.hostName = "nixtest";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "super-nixos"; # Define your hostname.
   # Pick only one of the below networking options.
 
-   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -59,7 +59,11 @@
    users.users.dylandy= {
      shell = pkgs.zsh;
      isNormalUser = true;
-     extraGroups = [ "wheel" "sudo" "input" "networkmanager" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "wheel"
+     "sudo" 
+     "input" 
+     "networkmanager" 
+     ];
    };
    home-manager = {
      extraSpecialArgs = { inherit inputs; };
@@ -79,6 +83,8 @@
      wget
      neofetch
      neovim
+     git
+     tree
    ];
 
   programs.hyprland = {
