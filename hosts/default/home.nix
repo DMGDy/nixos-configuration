@@ -13,55 +13,55 @@
     ];
 
     settings = {
-      "$mod" = "SUPER";
+      "$mod" = "Alt";
       "debug:disable_logs" = "false";
 
       bind = [
 	# open kitty
-        "SUPER_SHIFT, Return, exec, kitty"
+        "SHIFT_ALT, Return, exec, kitty"
 
 	# close focused client
-	"SUPER_SHIFT, C, killactive"
+	"SHIFT_ALT, C, killactive"
 
 	# close hyprland session
-	"SUPER_SHIFT, Q, exit"
+	"SHIFT_ALT, Q, exit"
 
 	# move focused client
-	"SUPER, J, movefocus, l"
-	"SUPER, K, movefocus, r"
-	"SUPER, H, movefocus, d"
-	"SUPER, L, movefocus, u"
+	"Alt, J, movefocus, l"
+	"Alt, K, movefocus, r"
+	"Alt, H, movefocus, d"
+	"Alt, L, movefocus, u"
 
 	# switch workspaces
-	"SUPER, 1, workspace, 1"
-	"SUPER, 2, workspace, 2"
-	"SUPER, 3, workspace, 3"
-	"SUPER, 4, workspace, 4"
-	"SUPER, 5, workspace, 5"
-	"SUPER, 6, workspace, 6"
-	"SUPER, 7, workspace, 7"
-	"SUPER, 8, workspace, 8"
-	"SUPER, 9, workspace, 9"
+	"Alt, 1, workspace, 1"
+	"Alt, 2, workspace, 2"
+	"Alt, 3, workspace, 3"
+	"Alt, 4, workspace, 4"
+	"Alt, 5, workspace, 5"
+	"Alt, 6, workspace, 6"
+	"Alt, 7, workspace, 7"
+	"Alt, 8, workspace, 8"
+	"Alt, 9, workspace, 9"
 
 	# cycle through client layouts
-	"SUPER, Tab, cyclenext"
+	"Alt, Tab, cyclenext"
 
 	# move focused client to workspace
-	"SUPER_SHIFT, 1, movetoworkspace, 1"
-	"SUPER_SHIFT, 2, movetoworkspace, 2"
-	"SUPER_SHIFT, 3, movetoworkspace, 3"
-	"SUPER_SHIFT, 4, movetoworkspace, 4"
-	"SUPER_SHIFT, 5, movetoworkspace, 5"
-	"SUPER_SHIFT, 6, movetoworkspace, 6"
-	"SUPER_SHIFT, 7, movetoworkspace, 7"
-	"SUPER_SHIFT, 8, movetoworkspace, 8"
-	"SUPER_SHIFT, 9, movetoworkspace, 9"
+	"SHIFT_ALT, 1, movetoworkspace, 1"
+	"SHIFT_ALT, 2, movetoworkspace, 2"
+	"SHIFT_ALT, 3, movetoworkspace, 3"
+	"SHIFT_ALT, 4, movetoworkspace, 4"
+	"SHIFT_ALT, 5, movetoworkspace, 5"
+	"SHIFT_ALT, 6, movetoworkspace, 6"
+	"SHIFT_ALT, 7, movetoworkspace, 7"
+	"SHIFT_ALT, 8, movetoworkspace, 8"
+	"SHIFT_ALT, 9, movetoworkspace, 9"
 
 	# toggle floating clients
-	"SUPER, Space, togglefloating"
+	"Alt, Space, togglefloating"
 
 	# make focused client to master
-	# "SUPER, Return, swapwithmaster" this isnt real
+	# "Alt, Return, swapwithmaster" this isnt real
 
 	# TODO resize focused client
 	
