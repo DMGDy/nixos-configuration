@@ -16,7 +16,7 @@
     settings = {
 
       # monitor scaling down since default is 2
-      monitor = "eDP-1 2256x1504@60, 0x0, 1.25";
+      monitor = "eDP-1,2256x1504@59.999,0x0,1.175";
 
       "$mod" = "Alt";
       "debug:disable_logs" = "false";
@@ -72,6 +72,11 @@
 	"Alt, Return, movewindow, l"
 
 	# TODO resize focused client
+	"SHIFT_ALT, h, resizeactive, -10,0"
+	"SHIFT_ALT, l, resizeactive, 10,0"
+	"SHIFT_ALT, k, resizeactive, 0,10"
+	"SHIFT_ALT, j, resizeactive, 0,-10"
+
       ];
       bindm = [
         "ALT, mouse:272, movewindow"
