@@ -64,7 +64,7 @@
 	"Alt, Space, fullscreen"
 
 	# make focused client to master
-	"Alt, Return, swapwithmaster master"
+	"Alt, Return, movewindow, l"
 
 	# TODO resize focused client
       ];
