@@ -23,6 +23,7 @@
     zsh
     mako
     foot
+    discord
   ];
 }
 
