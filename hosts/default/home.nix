@@ -46,6 +46,9 @@
 	# switch between previous workspace
 	"Alt, Tab,workspace, previous"
 
+	# toggle floating client
+	"Alt, F, togglefloating" 
+
 	# move focused client to workspace
 	"SHIFT_ALT, 1, movetoworkspace, 1"
 	"SHIFT_ALT, 2, movetoworkspace, 2"
@@ -61,7 +64,7 @@
 	"Alt, Space, fullscreen"
 
 	# make focused client to master
-	# "Alt, Return, swapwithmaster" this isnt real
+	"Alt, Return, swapwithmaster master"
 
 	# TODO resize focused client
       ];
