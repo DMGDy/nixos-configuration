@@ -72,10 +72,10 @@
 	"Alt, Return, movewindow, l"
 
 	# TODO resize focused client
-	"SHIFT_ALT, h, resizeactive, -10,0"
-	"SHIFT_ALT, l, resizeactive, 10,0"
-	"SHIFT_ALT, k, resizeactive, 0,10"
-	"SHIFT_ALT, j, resizeactive, 0,-10"
+	"SHIFT_ALT, H, resizeactive, -15 0"
+	"SHIFT_ALT, L, resizeactive, 15 0"
+	"SHIFT_ALT, K, resizeactive, 0 15"
+	"SHIFT_ALT, J, resizeactive, 0 -15"
 
       ];
       bindm = [
@@ -102,15 +102,15 @@
 
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
-    size = 16;
+    size = 24;
   };
 
 
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.flat-remix-gtk;
-      name = "Flat-Remix-GTK-Grey-Darkest";
+      package = pkgs.sweet;
+      name = "sweet";
     };
 
     iconTheme = {
@@ -118,7 +118,7 @@
       name = "Adwaita";
       };
 
-      font = {
+      font ={
         name = "Sans";
         size = 16;
      };
