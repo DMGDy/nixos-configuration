@@ -43,8 +43,8 @@
 	"Alt, 8, workspace, 8"
 	"Alt, 9, workspace, 9"
 
-	# cycle through client layouts
-	"Alt, Tab, previous"
+	# switch between previous workspace
+	"Alt, Tab,workspace, previous"
 
 	# move focused client to workspace
 	"SHIFT_ALT, 1, movetoworkspace, 1"
