@@ -8,14 +8,16 @@
   wayland.windowManager.hyprland = {
     enable = true;
 
-    # monitor scaling down since default is 2
-    monitor = "eDP-1 2256x1504@60, 0x0, 1.25";
    
     plugins = [
       # inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
     ];
 
     settings = {
+
+      # monitor scaling down since default is 2
+      monitor = "eDP-1 2256x1504@60, 0x0, 1.25";
+
       "$mod" = "Alt";
       "debug:disable_logs" = "false";
 
