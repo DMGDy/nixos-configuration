@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    fire-code-nerdfont
+    fira-code-nerdfont
     ubuntu_font_family
   ];
 }
