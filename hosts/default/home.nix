@@ -44,7 +44,7 @@
 	"Alt, 9, workspace, 9"
 
 	# cycle through client layouts
-	"Alt, Tab, cyclenext"
+	"Alt, Tab, previous"
 
 	# move focused client to workspace
 	"SHIFT_ALT, 1, movetoworkspace, 1"
@@ -57,14 +57,17 @@
 	"SHIFT_ALT, 8, movetoworkspace, 8"
 	"SHIFT_ALT, 9, movetoworkspace, 9"
 
-	# toggle floating clients
-	"Alt, Space, togglefloating"
+	# make current client fullscreen
+	"Alt, Space, fullscreen"
 
 	# make focused client to master
 	# "Alt, Return, swapwithmaster" this isnt real
 
 	# TODO resize focused client
-	
+      ];
+      bindm = [
+        "ALT, mouse:272, movewindow"
+	"ALT, mouse:273, resizewindow"
       ];
       # "plugin:borders-plus-plus" = {
       #   add_borders = 1;
