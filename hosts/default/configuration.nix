@@ -54,6 +54,7 @@
   # services.libinput.enable = true;
 
   programs.zsh.enable = true;
+  nixpkgs.config.allowUnfree = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
    users.users.dylandy= {
@@ -71,10 +72,6 @@
        dylandy = import ./home.nix;
      };
    };
-
-  
-
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
