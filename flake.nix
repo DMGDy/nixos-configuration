@@ -37,6 +37,7 @@
 	  ./modules/nixos/package-config/openssh.nix
 	  ./modules/nixos/hardware.nix
 	  ./modules/home-manager/hyprland.nix
+	  ./modules/nixos/fonts.nix
         ];
       };
     };
