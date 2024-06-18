@@ -125,9 +125,32 @@
 
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+
+    autosuggestion.enable = true;
     enableCompletion = true;
-    envExtra = ''
+    syntaxHighlighting.enable;
+
+    shellAliases = {
+      ls = "ls --color=auto";
+      shutdown = "sudo shutdown -h now";
+    };
+
+    history = {
+      size  = 50000;
+      path = "/home/dylandy/.zsh_history";
+    };
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "git";
+        "colored-man-pages";
+        "fzf"
+      ];
+        theme = "agnoster";
+      };
+    };
+    
     '';
   };
 
