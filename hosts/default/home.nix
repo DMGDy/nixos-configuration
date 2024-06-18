@@ -1,14 +1,20 @@
 { config, pkgs, inputs, lib, ... }:
 
+let 
+  startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+    swww-daemon &
 
+    sleep 1 &
+    swww img ${/home/dylandy/Pictures/wps/nixos-anime.png}&
+  '';
+in
 {
   home.username = "dylandy";
   home.homeDirectory = "/home/dylandy";
-
   wayland.windowManager.hyprland = {
     enable = true;
 
-   
+ 
     plugins = [
       # inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
     ];
@@ -21,65 +27,68 @@
       "debug:disable_logs" = "false";
 
       bind = [
-	# open kitty
+        # open kitty
         "SHIFT_ALT, Return, exec, kitty"
 
-	# close focused client
-	"SHIFT_ALT, C, killactive"
+        # close focused client
+        "SHIFT_ALT, C, killactive"
 
-	# close hyprland session
-	"SHIFT_ALT, Q, exit"
+        # close hyprland session
+        "SHIFT_ALT, Q, exit"
 
-	# move focused client
-	"Alt, J, movefocus, l"
-	"Alt, K, movefocus, r"
-	"Alt, H, movefocus, d"
-	"Alt, L, movefocus, u"
+        # move focused client
+        "Alt, J, movefocus, l"
+        "Alt, K, movefocus, r"
+        "Alt, H, movefocus, d"
+        "Alt, L, movefocus, u"
 
-	# switch workspaces
-	"Alt, 1, workspace, 1"
-	"Alt, 2, workspace, 2"
-	"Alt, 3, workspace, 3"
-	"Alt, 4, workspace, 4"
-	"Alt, 5, workspace, 5"
-	"Alt, 6, workspace, 6"
-	"Alt, 7, workspace, 7"
-	"Alt, 8, workspace, 8"
-	"Alt, 9, workspace, 9"
+        # switch workspaces
+        "Alt, 1, workspace, 1"
+        "Alt, 2, workspace, 2"
+        "Alt, 3, workspace, 3"
+        "Alt, 4, workspace, 4"
+        "Alt, 5, workspace, 5"
+        "Alt, 6, workspace, 6"
+        "Alt, 7, workspace, 7"
+        "Alt, 8, workspace, 8"
+        "Alt, 9, workspace, 9"
 
-	# switch between previous workspace
-	"Alt, Tab,workspace, previous"
+        # Take screenshot and copy to clipboard
+        "Alt, s, exec, hyprshot -m region"
 
-	# toggle floating client
-	"Alt, F, togglefloating" 
+        # switch between previous workspace
+        "Alt, Tab,workspace, previous"
 
-	# move focused client to workspace
-	"SHIFT_ALT, 1, movetoworkspace, 1"
-	"SHIFT_ALT, 2, movetoworkspace, 2"
-	"SHIFT_ALT, 3, movetoworkspace, 3"
-	"SHIFT_ALT, 4, movetoworkspace, 4"
-	"SHIFT_ALT, 5, movetoworkspace, 5"
-	"SHIFT_ALT, 6, movetoworkspace, 6"
-	"SHIFT_ALT, 7, movetoworkspace, 7"
-	"SHIFT_ALT, 8, movetoworkspace, 8"
-	"SHIFT_ALT, 9, movetoworkspace, 9"
+        # toggle floating client
+        "Alt, F, togglefloating" 
 
-	# make current client fullscreen
-	"Alt, Space, fullscreen"
+        # move focused client to workspace
+        "SHIFT_ALT, 1, movetoworkspace, 1"
+        "SHIFT_ALT, 2, movetoworkspace, 2"
+        "SHIFT_ALT, 3, movetoworkspace, 3"
+        "SHIFT_ALT, 4, movetoworkspace, 4"
+        "SHIFT_ALT, 5, movetoworkspace, 5"
+        "SHIFT_ALT, 6, movetoworkspace, 6"
+        "SHIFT_ALT, 7, movetoworkspace, 7"
+        "SHIFT_ALT, 8, movetoworkspace, 8"
+        "SHIFT_ALT, 9, movetoworkspace, 9"
 
-	# make focused client to master
-	"Alt, Return, movewindow, l"
+        # make current client fullscreen
+        "Alt, Space, fullscreen"
 
-	# TODO resize focused client
-	"SHIFT_ALT, H, resizeactive, -15 0"
-	"SHIFT_ALT, L, resizeactive, 15 0"
-	"SHIFT_ALT, K, resizeactive, 0 15"
-	"SHIFT_ALT, J, resizeactive, 0 -15"
+        # make focused client to master
+        "Alt, Return, movewindow, l"
+
+        # TODO resize focused client
+        "SHIFT_ALT, H, resizeactive, -15 0"
+        "SHIFT_ALT, L, resizeactive, 15 0"
+        "SHIFT_ALT, K, resizeactive, 0 15"
+        "SHIFT_ALT, J, resizeactive, 0 -15"
 
       ];
       bindm = [
         "ALT, mouse:272, movewindow"
-	"ALT, mouse:273, resizewindow"
+        "ALT, mouse:273, resizewindow"
       ];
       # "plugin:borders-plus-plus" = {
       #   add_borders = 1;
@@ -93,6 +102,7 @@
 
       #   natural_rounding = "no";
       # };
+      exec-once = "${startupScript}/bin/start";
     };
   };
 
@@ -126,9 +136,10 @@
   programs.zsh = {
     enable = true;
 
+    dotDir = ".zshdir";
     autosuggestion.enable = true;
     enableCompletion = true;
-    syntaxHighlighting.enable;
+    syntaxHighlighting.enable = true;
 
     shellAliases = {
       ls = "ls --color=auto";
@@ -137,21 +148,26 @@
 
     history = {
       size  = 50000;
-      path = "/home/dylandy/.zsh_history";
+      path = ".zsh_history";
     };
 
+    initExtraFirst = ''
+        pfetch
+        VI_MODE_SET_CURSOR=true
+        wallust cs /home/dylandy/.cache/wallust/Full/Lab/SoftDarkComp/20/nixos-anime.png_3159858_84823779_1.3_I.json 1> /dev/null
+    '';
     oh-my-zsh = {
       enable = true;
       plugins = [
-        "git";
-        "colored-man-pages";
+        "git"
+        "colored-man-pages"
         "fzf"
+        "vi-mode"
       ];
-        theme = "agnoster";
-      };
+      custom = "/home/dylandy/.zshdir/oh-my-zsh/themes";
+      theme = "agnoster_custom";
+
     };
-    
-    '';
   };
 
   
