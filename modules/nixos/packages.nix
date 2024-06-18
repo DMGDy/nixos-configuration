@@ -25,6 +25,16 @@
     foot
     discord
     pavucontrol
+    tig
+    powerline
+    powerline-fonts
+    oh-my-zsh
+    fzf
+    fzf-zsh
+    silver-searcher
+    ripgrep
+    nerdfonts
+    nerdfetch
+    neovide
   ];
 }
-
