@@ -36,5 +36,11 @@
     nerdfonts
     nerdfetch
     neovide
+    wpgtk
+    wallust
+    swww
+    dash
+    pfetch-rs
+    hyprshot
   ];
 }
