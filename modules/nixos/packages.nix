@@ -49,5 +49,8 @@
     go
     nodejs_22
     brightnessctl
+    coreutils-full
+    file
+    tofi
   ];
 }

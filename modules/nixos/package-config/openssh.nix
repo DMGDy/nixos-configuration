@@ -3,7 +3,7 @@
 {
   services.openssh = {
       enable = true;
-      PasswordAuthentication = true;
+      settings.PasswordAuthentication = true;
       ports = [
         22
       ];
