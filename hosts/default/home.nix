@@ -58,8 +58,8 @@ in
         "Alt, s, exec, hyprshot -m region --clipboard-only"
 
         #change brightness
-        "SUPERSHIFT, k, brightnessctl +5%"
-        "SUPERSHIFT, j, brightnessctl 5%-"
+        "SUPERSHIFT, k, exec, brightnessctl +5%"
+        "SUPERSHIFT, j, exec, brightnessctl 5%-"
 
         # switch between previous workspace
         "Alt, Tab,workspace, previous"
