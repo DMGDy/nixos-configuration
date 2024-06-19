@@ -42,5 +42,12 @@
     dash
     pfetch-rs
     hyprshot
+    catppuccin-sddm
+    bat
+    python3Full
+    cmake
+    go
+    nodejs_22
+    brightnessctl
   ];
 }

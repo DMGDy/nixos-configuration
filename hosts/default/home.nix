@@ -53,8 +53,13 @@ in
         "Alt, 8, workspace, 8"
         "Alt, 9, workspace, 9"
 
+
         # Take screenshot and copy to clipboard
-        "Alt, s, exec, hyprshot -m region"
+        "Alt, s, exec, hyprshot -m region --clipboard-only"
+
+        #change brightness
+        "SUPERSHIFT, k, brightnessctl +5%"
+        "SUPERSHIFT, j, brightnessctl 5%-"
 
         # switch between previous workspace
         "Alt, Tab,workspace, previous"
@@ -136,7 +141,7 @@ in
   programs.zsh = {
     enable = true;
 
-    dotDir = ".zshdir";
+    dotDir = ".zshdir/";
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
@@ -148,7 +153,7 @@ in
 
     history = {
       size  = 50000;
-      path = ".zsh_history";
+      path = "/home/dylandy/.zshdir/.zsh_history";
     };
 
     initExtraFirst = ''
