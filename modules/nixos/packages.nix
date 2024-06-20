@@ -52,5 +52,6 @@
     coreutils-full
     file
     tofi
+    catppuccin-sddm-corners
   ];
 }

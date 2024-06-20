@@ -87,7 +87,7 @@ in
         "SHIFT_ALT, J, resizeactive, 0 -15"
 
         # launch tofi
-        "Alt, p, exec, tofi-drun | xargs hyprctl dispatch exec"
+        "Alt, p, exec, tofi-run | xargs hyprctl dispatch exec"
       ];
       bindm = [
         "ALT, mouse:272, movewindow"

@@ -11,6 +11,8 @@
   home.homeDirectory = "/home/dylandy";
   home.preferXdgDirectories = true;
 
+  qt.enable = true;
+
   home.pointerCursor = {
     gtk.enable = true;
 
