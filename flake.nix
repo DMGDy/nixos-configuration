@@ -34,10 +34,8 @@
           # inputs.home-manager.nixosModules.default
           # Custom Modules
           ./modules/nixos/packages.nix
-          ./modules/nixos/package-config/openssh.nix
           ./modules/nixos/hardware.nix
           ./modules/nixos/fonts.nix
-          ./modules/nixos/display-manager.nix
         ];
       };
     };
