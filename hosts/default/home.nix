@@ -14,11 +14,11 @@
   home.preferXdgDirectories = true;
 
   xdg = {
-    configHome = "~/.config";
-    usersDirs = {
+    configHome = /home/dylandy/.config;
+    userDirs = {
       enable = true;
-      pictures = "${home.homeDirectory}/Pictures";
-      download = "${home.homeDirectory}/Downloads";
+      pictures = "$~/Pictures";
+      download = "$~/Downloads";
     };
   };
 
