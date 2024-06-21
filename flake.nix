@@ -33,9 +33,7 @@
           ./hosts/default/configuration.nix
           # inputs.home-manager.nixosModules.default
           # Custom Modules
-          ./modules/nixos/packages.nix
           ./modules/nixos/hardware.nix
-          ./modules/nixos/fonts.nix
         ];
       };
     };

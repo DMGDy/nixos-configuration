@@ -28,7 +28,7 @@
       indentLine
       markdown-preview-nvim
       yuck-vim
-      lsp-config
+      nvim-lspconfig
     ];
   };
 }
