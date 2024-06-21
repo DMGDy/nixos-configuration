@@ -27,6 +27,8 @@
       pretty-fold-nvim
       indentLine
       markdown-preview-nvim
+      yuck-vim
+      lsp-config
     ];
   };
 }
