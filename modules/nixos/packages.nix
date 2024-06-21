@@ -45,6 +45,7 @@
     catppuccin-sddm
     bat
     python3Full
+    make
     cmake
     go
     nodejs_22
