@@ -11,6 +11,8 @@
       inputs.home-manager.nixosModules.home-manager
       ../../modules/nixos/display-manager.nix
       ../../modules/nixos/package-config/openssh.nix
+      ../../modules/nixos/packages.nix
+      ../../modules/nixos/fonts.nix
     ];
 
   boot.loader = {

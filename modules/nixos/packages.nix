@@ -53,5 +53,9 @@
     file
     tofi
     catppuccin-sddm-corners
+    rustc
+    cargo
+    unicode-paracode
+    man-pages
   ];
 }

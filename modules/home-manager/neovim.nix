@@ -29,6 +29,8 @@
       markdown-preview-nvim
       yuck-vim
       nvim-lspconfig
+      nvim-cmp
+      nvim-treesitter
     ];
   };
 }
