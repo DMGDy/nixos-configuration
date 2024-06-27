@@ -13,6 +13,7 @@
       ../../modules/nixos/package-config/openssh.nix
       ../../modules/nixos/packages.nix
       ../../modules/nixos/fonts.nix
+      ../../modules/nixos/steam.nix
     ];
 
   boot.loader = {
@@ -37,25 +38,16 @@
   # Set your time zone.
   time.timeZone = "America/New_York";
 
-  
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
-  # Enable sound.
-  # hardware.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
+
+  services.libinput = {
+    enable = true;
+    touchpad.disableWhileTyping = false;
+  };
+
+  services.blueman.enable = true;
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -83,7 +75,6 @@
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      wget
      neofetch
-     neovim
      git
      tree
    ];

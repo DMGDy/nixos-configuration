@@ -4,5 +4,6 @@
     ./bufferline.nix 
     ./lsp.nix
     ./plugins.nix
+    ./options.nix
   ];
 }

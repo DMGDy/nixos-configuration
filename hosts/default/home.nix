@@ -3,10 +3,11 @@
 {
 
   imports = [
+    inputs.nixvim.homeManagerModules.nixvim
     ./../../modules/home-manager/tofi.nix
     ./../../modules/home-manager/hyprland.nix
-    ./../../modules/home-manager/neovim.nix
     ./../../modules/home-manager/zsh.nix
+    ../../modules/home-manager/nixvim.nix
   ];
 
   home.username = "dylandy";
@@ -67,38 +68,39 @@
 
    };
 
-  home.sessionVariables = {
-     EDITOR = "nvim";
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    extraConfig = ''
-      syntax on
-      set number
-      set relativenumber
-      let g:airline_theme='deus'
-      set tabstop=2
-      set shiftwidth=2
-      set softtabstop=2
-      set expandtab
-      
-      let g:indentLine_char='|'
-    '';
-
-    plugins = with pkgs.vimPlugins; [
-      YouCompleteMe
-      nerdtree
-      nvim-autopairs
-      vim-airline
-      vim-airline-themes
-      vim-nix
-      pretty-fold-nvim
-      indentLine
-      markdown-preview-nvim
-    ];
-  };
+#  home.sessionVariables = {
+#     EDITOR = "nvim";
+#  };
+#
+#  programs.neovim = {
+#    enable = true;
+#    defaultEditor = true;
+#    extraConfig = ''
+#      syntax on
+#      set number
+#      set relativenumber
+#      let g:airline_theme='deus'
+#      set tabstop=2
+#      set shiftwidth=2
+#      set softtabstop=2
+#      set expandtab
+#      
+#      let g:indentLine_char='|'
+#    '';
+#
+#    plugins = with pkgs.vimPlugins; [
+#      YouCompleteMe
+#      nerdtree
+#      nvim-autopairs
+#      vim-airline
+#      vim-airline-themes
+#      vim-nix
+#      pretty-fold-nvim
+#      indentLine
+#      markdown-preview-nvim
+#    ];
+#  };
+#
 
   programs.home-manager.enable = true;
 }

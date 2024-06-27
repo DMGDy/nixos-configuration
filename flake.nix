@@ -9,12 +9,18 @@
       inputs.hyprland.follows = "hyprland";
     };
 
-     home-manager = {
-       url = "github:nix-community/home-manager";
-       inputs.nixpkgs.follows = "nixpkgs";
-     };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stylix.url = "github:danth/stylix";
+    
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = { self, nixpkgs, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: 
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -27,11 +33,15 @@
   {
     nixosConfigurations = {
       default = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs system; };
+        specialArgs = { 
+          inherit inputs system; 
+        };
 
         modules = [
+          inputs.nixvim.nixosModules.nixvim
+          inputs.stylix.nixosModules.stylix
           ./hosts/default/configuration.nix
-          # inputs.home-manager.nixosModules.default
+          inputs.home-manager.nixosModules.default
           # Custom Modules
           ./modules/nixos/hardware.nix
         ];

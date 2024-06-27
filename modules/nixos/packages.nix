@@ -45,7 +45,10 @@
     catppuccin-sddm
     bat
     python3Full
-    make
+    gccgo
+    libgcc
+    gnumake
+    clang
     cmake
     go
     nodejs_22
@@ -58,5 +61,13 @@
     cargo
     unicode-paracode
     man-pages
+    iw
+    pulseaudioFull
+    spotify
+    spotifyd
+    libinput
+    btop
+    blueman
   ];
+
 }

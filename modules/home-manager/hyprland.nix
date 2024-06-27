@@ -22,6 +22,8 @@ in
       "$mod" = "Alt";
       "debug:disable_logs" = "false";
 
+      input.touchpad.disable_while_typing = false;
+
       bind = [
         # open kitty
         "SHIFT_ALT, Return, exec, kitty"

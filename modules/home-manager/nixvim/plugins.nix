@@ -1,7 +1,5 @@
-{ self, ... }:
-
 {
-  plugins = {
+  programs.nixvim.plugins = {
     airline.enable  = true;
     nvim-autopairs.enable  = true;
     indent-blankline.enable = true;
