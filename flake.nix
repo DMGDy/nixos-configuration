@@ -13,14 +13,17 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     stylix.url = "github:danth/stylix";
     
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-environments.url = "github:nix-community/nix-environments";
   };
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: 
+  outputs = { self, nixpkgs, ... }@inputs: 
   let 
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -36,13 +39,11 @@
         specialArgs = { 
           inherit inputs system; 
         };
-
         modules = [
-          inputs.nixvim.nixosModules.nixvim
-          inputs.stylix.nixosModules.stylix
-          ./hosts/default/configuration.nix
           inputs.home-manager.nixosModules.default
+          ./hosts/default/configuration.nix
           # Custom Modules
+          inputs.nixvim.nixosModules.nixvim
           ./modules/nixos/hardware.nix
         ];
       };

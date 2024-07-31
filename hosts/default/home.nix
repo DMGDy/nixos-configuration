@@ -1,13 +1,15 @@
 { config, pkgs, inputs, lib, ... }:
 
 {
-
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
+    inputs.stylix.homeManagerModules.stylix
     ./../../modules/home-manager/tofi.nix
     ./../../modules/home-manager/hyprland.nix
     ./../../modules/home-manager/zsh.nix
     ../../modules/home-manager/nixvim.nix
+    ../../modules/home-manager/stylix.nix
+#    ../../modules/home-manager/eww.nix
   ];
 
   home.username = "dylandy";
@@ -22,39 +24,34 @@
       download = "$~/Downloads";
     };
   };
+#
+#  qt.enable = true;
+#
+#  home.pointerCursor = {
+#    gtk.enable = true;
+#
+#    package = pkgs.bibata-cursors;
+#    name = "Bibata-Modern-Classic";
+#  };
+#
+#  gtk = {
+#    enable = true;
+#    theme = {
+#      package = pkgs.sweet;
+#      name = "sweet";
+#    };
+#
+#    iconTheme = {
+#      package = pkgs.gnome.adwaita-icon-theme;
+#      name = "Adwaita";
+#    };
+#
+#    font ={
+#      name = "Sans";
+#      size = 16;
+#    };
+#  };
 
-  
-
-  qt.enable = true;
-
-  home.pointerCursor = {
-    gtk.enable = true;
-
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
-    size = 24;
-  };
-
-  gtk = {
-    enable = true;
-    theme = {
-      package = pkgs.sweet;
-      name = "sweet";
-    };
-
-    iconTheme = {
-      package = pkgs.gnome.adwaita-icon-theme;
-      name = "Adwaita";
-    };
-
-    font ={
-      name = "Sans";
-      size = 16;
-    };
-  };
-
-  
-  
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
   home.packages = [
@@ -67,40 +64,6 @@
   home.file = {
 
    };
-
-#  home.sessionVariables = {
-#     EDITOR = "nvim";
-#  };
-#
-#  programs.neovim = {
-#    enable = true;
-#    defaultEditor = true;
-#    extraConfig = ''
-#      syntax on
-#      set number
-#      set relativenumber
-#      let g:airline_theme='deus'
-#      set tabstop=2
-#      set shiftwidth=2
-#      set softtabstop=2
-#      set expandtab
-#      
-#      let g:indentLine_char='|'
-#    '';
-#
-#    plugins = with pkgs.vimPlugins; [
-#      YouCompleteMe
-#      nerdtree
-#      nvim-autopairs
-#      vim-airline
-#      vim-airline-themes
-#      vim-nix
-#      pretty-fold-nvim
-#      indentLine
-#      markdown-preview-nvim
-#    ];
-#  };
-#
 
   programs.home-manager.enable = true;
 }

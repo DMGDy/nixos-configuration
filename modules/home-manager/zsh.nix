@@ -22,7 +22,6 @@
     initExtraFirst = ''
         pfetch
         VI_MODE_SET_CURSOR=true
-        wallust cs /home/dylandy/.cache/wallust/Full/Lab/SoftDarkComp/20/nixos-anime.png_3159858_84823779_1.3_I.json 1> /dev/null
         DISABLE_FZF_AUTO_COMPLETION="false"
     '';
     oh-my-zsh = {

@@ -8,15 +8,15 @@
         autostart = true;
       };
 
-      pylsp = {
+      pyright = {
         enable = true;
         autostart = true;
       };
 
-      rnix-lsp = {
-        enable = true;
-        autostart = true;
-      };
+#      pylsp = {
+#        enable = true;
+#        autostart = true;
+#      };
 
       bashls = {
         enable = true;
@@ -33,6 +33,10 @@
         autostart = true;
       };
 
+      nil_ls = {
+        enable = true;
+        autostart = true;
+      };
     };
   };
 }

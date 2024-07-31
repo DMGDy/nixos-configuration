@@ -68,6 +68,18 @@
     libinput
     btop
     blueman
+    dconf
+    whatsapp-for-linux
+    whatsapp-emoji-font
+    nchat
+    socat
+    gdb
+    valgrind
+    xournalpp
+    perf-tools
+    wayfarer
+    stm32cubemx
+    stm32flash
   ];
 
 }

@@ -2,10 +2,10 @@
 
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-    swww-daemon &
+    #swww-daemon &
 
-    sleep 1 &
-    swww img ${/home/dylandy/Pictures/wps/nixos-anime.png}&
+    #swww img ${/home/dylandy/Pictures/wps/nixos-anime.png}&
+    eww open bar
   '';
 in
 {
@@ -22,7 +22,12 @@ in
       "$mod" = "Alt";
       "debug:disable_logs" = "false";
 
-      input.touchpad.disable_while_typing = false;
+      input = {
+        touchpad = {
+          disable_while_typing = false;
+          tap-to-click = false;
+        };
+      };
 
       bind = [
         # open kitty

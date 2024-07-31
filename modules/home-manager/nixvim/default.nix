@@ -5,5 +5,7 @@
     ./lsp.nix
     ./plugins.nix
     ./options.nix
+    ./color.nix
+    ./cmp.nix
   ];
 }

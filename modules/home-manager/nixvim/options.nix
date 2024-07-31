@@ -11,6 +11,10 @@
       expandtab = true;
       signcolumn = "yes";
       colorcolumn= "80";
+
+      foldlevel = 100;
+      updatetime = 50;
+      completeopt = ["menuone" "noselect" "noinsert"];
     };
   };
 }
