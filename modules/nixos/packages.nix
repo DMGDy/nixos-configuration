@@ -80,6 +80,26 @@
     wayfarer
     stm32cubemx
     stm32flash
+    qemu
+    linuxKernel.packages.linux_6_6.virtualbox
+    ascii-image-converter
+    stlink
+    gptfdisk 
+    usbutils
+    picocom
+    mmc-utils
+    udftools
+    libudfread
+    zip
+    unzip
+    dfu-util
+    libusb1
+    ungoogled-chromium
+    pkg-config
+    openssl
+    libressl
+    trunk
+    rustup
   ];
 
 }

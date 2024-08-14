@@ -37,6 +37,12 @@
         enable = true;
         autostart = true;
       };
+      rust-analyzer = {
+        enable = true;
+        autostart = true;
+        installCargo = true;
+        installRustc = true;
+      };
     };
   };
 }

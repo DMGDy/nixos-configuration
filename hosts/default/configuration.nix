@@ -14,6 +14,8 @@
       ../../modules/nixos/packages.nix
       ../../modules/nixos/fonts.nix
       ../../modules/nixos/steam.nix
+      ../../modules/nixos/virtual.nix
+      ../../modules/nixos/environment.nix
     ];
 
   boot.loader = {
@@ -57,9 +59,10 @@
      shell = pkgs.zsh;
      isNormalUser = true;
      extraGroups = [ "wheel"
-     "sudo" 
-     "input" 
-     "networkmanager" 
+       "sudo" 
+       "input" 
+       "networkmanager" 
+       "vboxusers"
      ];
    };
    home-manager = {
@@ -102,6 +105,8 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
   };
+
+  services.udev.enable =true;
 
 
 
