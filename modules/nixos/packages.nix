@@ -110,6 +110,7 @@
     hexdino
     marp-cli
     zathura
+    wirelesstools
   ];
 
 }
