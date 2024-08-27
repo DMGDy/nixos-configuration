@@ -49,10 +49,10 @@ in
         "SHIFT_ALT, Q, exit"
 
         # move focused client
-        "Alt, J, movefocus, l"
-        "Alt, K, movefocus, r"
-        "Alt, H, movefocus, d"
-        "Alt, L, movefocus, u"
+        "Alt, J, movefocus, d"
+        "Alt, K, movefocus, u"
+        "Alt, H, movefocus, l"
+        "Alt, L, movefocus, r"
 
         # switch workspaces
         "Alt, 1, workspace, 1"
