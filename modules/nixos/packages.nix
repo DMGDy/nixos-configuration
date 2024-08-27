@@ -2,6 +2,7 @@
 # system packages 
 {
   environment.systemPackages = with pkgs; [
+    grub2_efi
     kitty
     git
     tree
@@ -57,7 +58,6 @@
     file
     tofi
     catppuccin-sddm-corners
-    rustc
     cargo
     unicode-paracode
     man-pages
@@ -100,6 +100,16 @@
     libressl
     trunk
     rustup
+    nginx
+    wabt
+    ncdu
+    yazi
+    qimgv
+    gimp
+    tcpdump
+    hexdino
+    marp-cli
+    zathura
   ];
 
 }

@@ -7,7 +7,6 @@
       enableExtensionPack = true;
     };
     guest = {
-      enable = true;
       clipboard= true;
     };
   };

@@ -8,6 +8,7 @@
     noto-fonts-cjk
     noto-fonts-emoji
     cascadia-code
+    source-sans-pro
   ];
 }
 

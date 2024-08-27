@@ -31,7 +31,6 @@
         "colored-man-pages"
         "fzf"
         "vi-mode"
-        "ag"
       ];
       custom = "/home/dylandy/.zshdir/oh-my-zsh/themes";
       theme = "agnoster_custom";

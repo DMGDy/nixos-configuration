@@ -1,7 +1,9 @@
 {
   programs.nixvim = {
+    globals = {
+      neovide_transparency = 0.8;
+    };
     clipboard.providers.wl-copy.enable = true;
-
     opts = {
       number = true;
       relativenumber = true;
@@ -10,7 +12,6 @@
       autoindent = true;
       expandtab = true;
       signcolumn = "yes";
-      colorcolumn= "80";
 
       foldlevel = 100;
       updatetime = 50;

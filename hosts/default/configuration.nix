@@ -16,6 +16,7 @@
       ../../modules/nixos/steam.nix
       ../../modules/nixos/virtual.nix
       ../../modules/nixos/environment.nix
+      ../../modules/nixos/nginx.nix
     ];
 
   boot.loader = {
@@ -88,7 +89,6 @@
     xwayland.enable = true;
   };
 
-  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

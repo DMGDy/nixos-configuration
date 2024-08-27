@@ -33,7 +33,7 @@
         autostart = true;
       };
 
-      nil_ls = {
+      nil-ls = {
         enable = true;
         autostart = true;
       };

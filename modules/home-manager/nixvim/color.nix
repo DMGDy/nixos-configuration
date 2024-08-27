@@ -1,5 +1,5 @@
 {
   programs.nixvim.colorschemes = {
-    vscode.enable = true;
+    tokyonight.enable = true;
   };
 }

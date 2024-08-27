@@ -16,6 +16,10 @@ in
     ];
 
     settings = {
+      general = {
+        gaps_in = "0";
+        gaps_out = "0";
+      };
       # monitor scaling down since default is 2
       monitor = "eDP-1,2256x1504@59.999,0x0,1.175";
 
@@ -28,6 +32,11 @@ in
           tap-to-click = false;
         };
       };
+
+      binds = {
+        "allow_workspace_cycles" = true;
+      };
+        
 
       bind = [
         # open kitty

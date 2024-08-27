@@ -15,6 +15,10 @@
   home.username = "dylandy";
   home.homeDirectory = "/home/dylandy";
   home.preferXdgDirectories = true;
+  home.sessionPath = 
+    [
+      "$HOME/.cargo/bin/"
+    ];
 
   xdg = {
     configHome = /home/dylandy/.config;
