@@ -9,6 +9,7 @@
     noto-fonts-emoji
     cascadia-code
     source-sans-pro
+    ubuntu-sans
   ];
 }
 
