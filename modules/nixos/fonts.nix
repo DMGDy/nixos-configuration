@@ -11,6 +11,8 @@
     source-sans-pro
     ubuntu-sans
     ubuntu-classic
+    nerdfonts
+    nerd-font-patcher
   ];
 }
 
