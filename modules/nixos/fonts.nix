@@ -10,6 +10,7 @@
     cascadia-code
     source-sans-pro
     ubuntu-sans
+    ubuntu-classic
   ];
 }
 
