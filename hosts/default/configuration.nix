@@ -17,6 +17,7 @@
       ../../modules/nixos/virtual.nix
       ../../modules/nixos/environment.nix
       ../../modules/nixos/nginx.nix
+      ../../modules/nixos/python.nix
     ];
 
   boot.loader = {
