@@ -115,6 +115,7 @@
     ffmpeg
     vscode
     dbus
+    dbus-glib
   ];
 
 }
