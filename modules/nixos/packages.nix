@@ -117,6 +117,7 @@
     dbus
     dbus-glib
     pkg-config
+    maven
   ];
 
 }
