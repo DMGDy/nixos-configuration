@@ -3,7 +3,10 @@
     globals = {
       neovide_transparency = 0.8;
     };
-    clipboard.providers.wl-copy.enable = true;
+    clipboard = {
+      providers.wl-copy.enable = true;
+      register="unnamedplus";
+    };
     opts = {
       number = true;
       relativenumber = true;
