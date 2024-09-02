@@ -113,6 +113,7 @@
     wirelesstools
     linuxKernel.packages.linux_6_6.perf
     ffmpeg
+    vscode
   ];
 
 }
