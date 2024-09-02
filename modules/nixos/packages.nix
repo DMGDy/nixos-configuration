@@ -116,6 +116,7 @@
     vscode
     dbus
     dbus-glib
+    pkg-config
   ];
 
 }
