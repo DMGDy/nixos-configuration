@@ -118,6 +118,7 @@
     dbus-glib
     pkg-config
     maven
+    netbeans
   ];
 
 }
