@@ -119,6 +119,8 @@
     pkg-config
     maven
     netbeans
+    jre_minimal
+    jdk
   ];
 
 }
