@@ -121,6 +121,7 @@
     netbeans
     jre_minimal
     jdk
+    ant
   ];
 
 }
