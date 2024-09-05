@@ -123,6 +123,7 @@
     jdk
     ant
     texliveFull
+    imagemagick
   ];
 
 }
