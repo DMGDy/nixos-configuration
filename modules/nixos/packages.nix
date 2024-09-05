@@ -122,6 +122,7 @@
     jre_minimal
     jdk
     ant
+    texliveFull
   ];
 
 }
