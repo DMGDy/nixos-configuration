@@ -124,6 +124,7 @@
     ant
     texliveFull
     imagemagick
+    imv
   ];
 
 }
