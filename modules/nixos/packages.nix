@@ -127,6 +127,7 @@
     imv
     grim
     slurp
+    swappy
   ];
 
 }
