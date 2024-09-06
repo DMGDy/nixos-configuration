@@ -67,7 +67,7 @@ in
 
 
         # Take screenshot and copy to clipboard
-        "Alt, s, exec, hyprshot -m region --clipboard-only"
+        "Alt, s, exec, grim -g \"$(slurp)\" - | swappy -f -"
 
         #change brightness
         "SUPERSHIFT, k, exec, brightnessctl s +5%"
