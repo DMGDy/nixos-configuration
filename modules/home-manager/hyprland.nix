@@ -21,7 +21,7 @@ in
         gaps_out = "0";
       };
       # monitor scaling down since default is 2
-      monitor = "eDP-1,2256x1504@59.999,0x0,1.175";
+      monitor = "eDP-1,2256x1504@59.999,0x0,1.175,bitdepth, 10";
 
       "$mod" = "Alt";
       "debug:disable_logs" = "false";
