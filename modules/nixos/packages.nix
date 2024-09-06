@@ -128,6 +128,7 @@
     grim
     slurp
     swappy
+    xdg-desktop-portal-hyprland
   ];
 
 }
