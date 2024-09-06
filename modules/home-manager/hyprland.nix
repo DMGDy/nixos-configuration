@@ -121,10 +121,7 @@ in
 
       #   natural_rounding = "no";
       # };
-      exec-once = [
-        "${startupScript}/bin/start"
-        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-      ];
+      exec-once = "${startupScript}/bin/start";
     };
   };
 }
