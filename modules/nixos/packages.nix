@@ -129,8 +129,6 @@
     slurp
     swappy
     xdg-desktop-portal-hyprland
-    teams
-    teams-for-linux
   ];
 
 }
