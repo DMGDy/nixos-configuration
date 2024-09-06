@@ -102,7 +102,7 @@ in
         "SHIFT_ALT, K, resizeactive, 0 15"
         "SHIFT_ALT, J, resizeactive, 0 -15"
 
-        # launch tofi
+        # launch tofi, application launcher
         "Alt, p, exec, tofi-run | xargs hyprctl dispatch exec"
       ];
       bindm = [
