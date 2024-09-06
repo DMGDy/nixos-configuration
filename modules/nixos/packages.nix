@@ -125,6 +125,8 @@
     texliveFull
     imagemagick
     imv
+    grim
+    slurp
   ];
 
 }
