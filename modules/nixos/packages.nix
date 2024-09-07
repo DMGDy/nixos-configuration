@@ -132,6 +132,7 @@
     teams-for-linux
     hyprcursor
     pipes-rs
+    asciiquarium
   ];
 
 }
