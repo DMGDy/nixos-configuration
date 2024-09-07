@@ -131,6 +131,7 @@
     xdg-desktop-portal-hyprland
     teams-for-linux
     hyprcursor
+    pipes-rs
   ];
 
 }
