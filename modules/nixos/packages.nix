@@ -133,6 +133,7 @@
     hyprcursor
     pipes-rs
     asciiquarium
+    ganttproject-bin
   ];
 
 }
