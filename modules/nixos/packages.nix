@@ -134,6 +134,7 @@
     pipes-rs
     asciiquarium
     ganttproject-bin
+    dtc
   ];
 
 }
