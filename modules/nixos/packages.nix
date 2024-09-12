@@ -136,6 +136,7 @@
     ganttproject-bin
     dtc
     projectlibre
+    libreoffice-fresh
   ];
 
 }
