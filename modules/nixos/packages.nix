@@ -135,6 +135,7 @@
     asciiquarium
     ganttproject-bin
     dtc
+    projectlibre
   ];
 
 }
