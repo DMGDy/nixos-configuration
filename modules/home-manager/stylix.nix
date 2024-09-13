@@ -12,7 +12,7 @@
     cursor = {
       name = "GoogleDot-Red";
       package = pkgs.google-cursor;
-      size = 32;
+      size = 36;
     };
 
     targets.hyprland = {
