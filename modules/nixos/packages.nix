@@ -137,6 +137,8 @@
     dtc
     projectlibre
     libreoffice-fresh
+    ffmpeg_7-headless
+    mpv
   ];
 
 }
