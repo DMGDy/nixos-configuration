@@ -9,6 +9,12 @@
     imageScalingMode = "fit";
     polarity = "dark";
 
+    cursor = {
+      name = "GoogleDot-Red";
+      package = pkgs.google-cursor;
+      size = 32;
+    };
+
     targets.hyprland = {
       enable = true;
     };
