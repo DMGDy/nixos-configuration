@@ -139,6 +139,7 @@
     libreoffice-fresh
     ffmpeg_7-headless
     mpv
+    google-cursor
   ];
 
 }
