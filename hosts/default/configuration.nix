@@ -18,6 +18,7 @@
       ../../modules/nixos/environment.nix
       ../../modules/nixos/nginx.nix
       ../../modules/nixos/python.nix
+      ../../modules/nixos/avahi.nix
     ];
 
   boot.loader = {
