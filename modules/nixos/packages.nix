@@ -140,6 +140,7 @@
     ffmpeg_7-headless
     mpv
     google-cursor
+    avahi
   ];
 
 }
