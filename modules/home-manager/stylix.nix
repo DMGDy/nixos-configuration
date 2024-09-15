@@ -10,8 +10,9 @@
     polarity = "dark";
 
     cursor = {
-      name = "GoogleDot-Red";
-      package = pkgs.google-cursor;
+#      name = "oreo-black-cursors";
+      package = pkgs.breeze-hacked-cursor-theme;
+      name = "Breeze_Hacked";
       size = 36;
     };
 
