@@ -141,6 +141,7 @@
     mpv
     google-cursor
     avahi
+    oreo-cursors-plus
   ];
 
 }
