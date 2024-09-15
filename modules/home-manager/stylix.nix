@@ -13,7 +13,7 @@
 #      name = "oreo-black-cursors";
       package = pkgs.breeze-hacked-cursor-theme;
       name = "Breeze_Hacked";
-      size = 36;
+      size = 42;
     };
 
     targets.hyprland = {
