@@ -31,6 +31,12 @@
     };
   };
   # Open firewall port
-  networking.firewall.allowedTCPPorts = [ 80 ];
+  networking = {
+    firewall= {
+      allowedTCPPorts = [ 80  444 ];
+      allowedUDPPorts = [ 5353 ];
+    };
+  };
+
 }
 
