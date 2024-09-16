@@ -143,6 +143,7 @@
     avahi
     oreo-cursors-plus
     breeze-hacked-cursor-theme
+    apple-cursor
   ];
 
 }
