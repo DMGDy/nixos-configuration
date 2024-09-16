@@ -11,9 +11,9 @@
 
     cursor = {
 #      name = "oreo-black-cursors";
-      package = pkgs.breeze-hacked-cursor-theme;
-      name = "Breeze_Hacked";
-      size = 42;
+      package = pkgs.apple-cursor;
+      name = "macOS-BigSur";
+      size = 32;
     };
 
     targets.hyprland = {
