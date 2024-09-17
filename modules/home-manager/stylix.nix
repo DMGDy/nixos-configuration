@@ -13,7 +13,7 @@
 #      name = "oreo-black-cursors";
       package = pkgs.apple-cursor;
       name = "macOS-BigSur";
-      size = 32;
+      size = 28;
     };
 
     targets.hyprland = {
