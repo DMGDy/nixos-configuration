@@ -6,9 +6,18 @@
         powerline_fonts = false;
       };
     };
+
+
     nvim-autopairs.enable  = true;
     indent-blankline.enable = true;
-    markdown-preview.enable = true;
+    markdown-preview= {
+      enable = true;
+      settings = {
+        autostart = true;
+        auto_start = true;
+        browser = "chromium";
+      };
+    };
     transparent.enable = true;
 
     treesitter = {
