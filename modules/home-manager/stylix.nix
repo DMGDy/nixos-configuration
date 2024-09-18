@@ -20,7 +20,7 @@
       enable = true;
     };
 
-    targers.bat = {
+    targets.bat = {
       enable = true;
     };
 
