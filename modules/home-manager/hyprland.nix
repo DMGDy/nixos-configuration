@@ -8,6 +8,7 @@ in
 {
   wayland.windowManager.hyprland = {
     enable = true;
+    settings = {
       general = {
         gaps_in = "0";
         gaps_out = "0";
