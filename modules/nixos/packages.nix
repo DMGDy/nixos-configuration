@@ -148,5 +148,6 @@
     where-is-my-sddm-theme
     ly
     swww
+    mesa
   ];
 }
