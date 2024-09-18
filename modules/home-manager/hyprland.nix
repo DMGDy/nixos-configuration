@@ -2,8 +2,8 @@
 
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+    swww-daemon & 
     swww clear-cache &
-    swww daemon & 
     swww img /home/dylandy/Pictures/wps/nix.png &
     eww open bar & 
     kitty
