@@ -2,19 +2,12 @@
 
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-    swww init&
-    swww img $HOME/Pictures/wps/nix.png &
     eww open bar
   '';
 in
 {
   wayland.windowManager.hyprland = {
     enable = true;
-    plugins = [
-      # inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
-    ];
-
-    settings = {
       general = {
         gaps_in = "0";
         gaps_out = "0";
