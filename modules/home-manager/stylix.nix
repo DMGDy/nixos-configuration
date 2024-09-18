@@ -11,8 +11,8 @@
 
     cursor = {
 #      name = "oreo-black-cursors";
-      package = pkgs.apple-cursor;
-      name = "macOS-BigSur";
+      package = pkgs.whitesur-cursors;
+      name = "WhiteSur-cursors";
       size = 28;
     };
 
