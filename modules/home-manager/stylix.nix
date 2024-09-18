@@ -20,6 +20,10 @@
       enable = true;
     };
 
+    targers.bat = {
+      enable = true;
+    };
+
     targets.firefox = {
       enable = true;
     };
