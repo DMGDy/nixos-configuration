@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 
 {
   stylix = 
@@ -6,20 +6,25 @@
     enable = true;
     autoEnable = false;
     image = /home/dylandy/Pictures/wps/nix.png;
-    imageScalingMode = "fit";
+
     polarity = "dark";
 
     cursor = {
 #      name = "oreo-black-cursors";
       package = pkgs.whitesur-cursors;
       name = "WhiteSur-cursors";
-      size = 28;
+      size = 26;
     };
 
     targets.hyprland = {
       enable = true;
     };
 
+    targets.tofi= {
+      enable = false;
+    };
+
+ 
     targets.bat = {
       enable = true;
     };
