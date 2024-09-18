@@ -145,6 +145,7 @@
     breeze-hacked-cursor-theme
     apple-cursor
     zenity
+    where-is-my-sddm-theme
   ];
 
 }
