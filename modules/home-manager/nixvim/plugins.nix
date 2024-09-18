@@ -3,7 +3,7 @@
     airline = {
       enable = true;
       settings = {
-        powerline_fonts = false;
+        powerline_fonts = 0;
       };
     };
 
@@ -13,8 +13,8 @@
     markdown-preview= {
       enable = true;
       settings = {
-        autostart = true;
-        auto_start = true;
+        autostart = 1;
+        auto_start = 1;
         browser = "chromium";
       };
     };
@@ -42,15 +42,15 @@
     lspkind.enable = true;
     luasnip.enable = true;
 
-    chadtree = {
-      enable = true;
-      keymap.windowManagement = {
-        bigger = ["+"];
-        smaller = ["-"];
-        refresh = ["<c-r>"];
-
-      };
-    };
+#    chadtree = {
+#      enable = true;
+#      keymap.windowManagement = {
+#        bigger = ["+"];
+#        smaller = ["-"];
+#        refresh = ["<c-r>"];
+#
+#      };
+#    };
 
     noice = {
       enable = true;
