@@ -146,6 +146,6 @@
     apple-cursor
     zenity
     where-is-my-sddm-theme
+    ly
   ];
-
 }
