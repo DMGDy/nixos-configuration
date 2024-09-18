@@ -2,7 +2,11 @@
 
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-    eww open bar
+    swww clear-cache &
+    swww daemon & 
+    swww img /home/dylandy/Pictures/wps/nix.png &
+    eww open bar & 
+    kitty
   '';
 in
 {
