@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  servies.displayManager.ly = {
+  services.displayManager.ly = {
     enable = true;
   };
 #  services.displayManager.sddm = {
