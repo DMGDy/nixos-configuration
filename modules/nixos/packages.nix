@@ -125,7 +125,7 @@
     texliveFull
     imagemagick
     imv
-    wayshot
+    grim
     slurp
     swappy
     xdg-desktop-portal-hyprland
