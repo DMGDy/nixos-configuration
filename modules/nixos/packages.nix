@@ -143,7 +143,7 @@
     avahi
     oreo-cursors-plus
     breeze-hacked-cursor-theme
-    apple-cursor
+    whitesur-cursors
     zenity
     where-is-my-sddm-theme
     ly
