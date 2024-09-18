@@ -2,16 +2,22 @@
 
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-    swww-daemon & 
-    swww clear-cache &
-    swww img /home/dylandy/Pictures/wps/nix.png &
-    eww open bar & 
-    kitty
+    swww-daemon &
+    #swww img /home/dylandy/Pictures/wps/nix.png &
+    #swww clear-cache &
+    eww open bar
   '';
 in
 {
   wayland.windowManager.hyprland = {
     enable = true;
+
+    extraConfig = ''
+      misc {
+        disable_splash_rendering = true
+        disable_hyprland_logo = true
+      }
+    '';
     settings = {
       general = {
         gaps_in = "0";
@@ -19,7 +25,7 @@ in
       };
       # monitor scaling down since default is 2
       monitor = [
-        "eDP-1,2256x1504@59.999,0x0,1.175,bitdepth, 10"
+        "eDP-1,2256x1504@59.999,0x0,1.175"
         ",preferred,auto,1,mirror,eDP-1"
       ];
 
