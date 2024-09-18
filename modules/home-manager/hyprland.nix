@@ -2,9 +2,8 @@
 
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-    #swww-daemon &
-
-    #swww img ${/home/dylandy/Pictures/wps/nixos-anime.png}&
+    swww init&
+    swww img $HOME/Pictures/wps/nix.png &
     eww open bar
   '';
 in
