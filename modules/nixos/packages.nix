@@ -149,5 +149,6 @@
     ly
     swww
     mesa
+    shellcheck
   ];
 }
