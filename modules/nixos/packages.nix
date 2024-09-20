@@ -151,5 +151,6 @@
     mesa
     shellcheck
     antidote
+    gitstatus
   ];
 }
