@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 
 {
   programs.zsh = {
@@ -7,7 +7,7 @@
     dotDir = ".zshdir/";
     autosuggestion.enable = true;
     enableCompletion = true;
-    syntaxHighlighting.enable = true;
+    syntaxHighlighting.enable = false;
 
     shellAliases = {
       ls = "ls --color=auto";
@@ -15,6 +15,7 @@
     };
 
     history = {
+      share = false;
       size  = 50000;
       path = "/home/dylandy/.zshdir/.zsh_history";
     };
@@ -24,8 +25,62 @@
         VI_MODE_SET_CURSOR=true
         DISABLE_FZF_AUTO_COMPLETION="false"
     '';
-    oh-my-zsh = {
+
+    initExtra = ''
+      source ${pkgs.gitstatus}/share/gitstatus/gitstatus.plugin.zsh
+      autoload -Uz vcs_info
+      setopt prompt_subst
+      autoload -Uz vcs_info
+      precmd() { vcs_info }
+
+      
+      zstyle ':vcs_info:git:*' check-for-changes true
+      zstyle ':vcs_info:git:*' stagedstr '%F{yellow}●%f'
+      zstyle ':vcs_info:git:*' unstagedstr '%F{red}●%f'
+      zstyle ':vcs_info:git:*' formats '%F{green}(%b)%f %c%u'
+      zstyle ':vcs_info:git:*' actionformats '%F{green}(%b|%a)%f %c%u'
+
+      setopt PROMPT_SUBST
+
+      PROMPT='%F{red}┌%f%F{red}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{red}]%f%F{8}::%f%F{red}[%f%F{blue}%~%f%F{red}]%f%F{8}::%f%F{red}[%f$vcs_info_msg_0_%F{red}]%f 
+%F{red}└%f%F{red}[%f%F{yellow}$%f%F{red}]%f%F{green}❯%f '
+
+      # Right prompt for additional information (e.g., time)
+      RPROMPT='%F{green}$pr_return%f'
+
+      # Set colors for syntax highlighting
+      ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=cyan'
+      ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=green'
+      ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=yellow'
+      ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta'
+      ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=yellow'
+      ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=yellow'
+      ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=cyan'
+      ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=cyan'
+      ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]='fg=cyan'
+      ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
+      ZSH_HIGHLIGHT_STYLES[redirection]='fg=magenta'
+      ZSH_HIGHLIGHT_STYLES[comment]='fg=240'
+      ZSH_HIGHLIGHT_STYLES[arg0]='fg=green'
+    '';
+
+    antidote = {
       enable = true;
+      plugins = [
+        "jeffreytse/zsh-vi-mode"
+        "zpm-zsh/colors"
+        "zpm-zsh/figures"
+        "zsh-users/zsh-autosuggestions"
+        "zsh-users/zsh-syntax-highlighting"
+        "zpm-zsh/pr-git"
+        "zpm-zsh/pr-return"
+        "zpm-zsh/pr-user"
+        "unixorn/fzf-zsh-plugin"
+      ];
+    };
+
+    oh-my-zsh = {
+      enable = false;
       plugins = [
         "git"
         "colored-man-pages"
