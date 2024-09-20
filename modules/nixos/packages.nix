@@ -150,5 +150,6 @@
     swww
     mesa
     shellcheck
+    antidote
   ];
 }
