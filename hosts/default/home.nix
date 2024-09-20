@@ -18,6 +18,7 @@
   home.sessionPath = 
     [
       "$HOME/.cargo/bin/"
+      "$HOME/Scripts/"
     ];
 
   xdg = {
@@ -28,34 +29,6 @@
       download = "$~/Downloads";
     };
   };
-#
-#  qt.enable = true;
-#
-#  home.pointerCursor = {
-#    gtk.enable = true;
-#
-#    package = pkgs.bibata-cursors;
-#    name = "Bibata-Modern-Classic";
-#  };
-#
-#  gtk = {
-#    enable = true;
-#    theme = {
-#      package = pkgs.sweet;
-#      name = "sweet";
-#    };
-#
-#    iconTheme = {
-#      package = pkgs.gnome.adwaita-icon-theme;
-#      name = "Adwaita";
-#    };
-#
-#    font ={
-#      name = "Sans";
-#      size = 16;
-#    };
-#  };
-
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
   home.packages = [
