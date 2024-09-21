@@ -20,13 +20,12 @@
       path = "/home/dylandy/.zshdir/.zsh_history";
     };
 
-    initExtraFirst = ''
-        pfetch
+    initExtra= ''
         VI_MODE_SET_CURSOR=true
         DISABLE_FZF_AUTO_COMPLETION="false"
     '';
 
-    initExtra = ''
+    initExtraFirst = ''
       source ${pkgs.gitstatus}/share/gitstatus/gitstatus.plugin.zsh
       autoload -Uz vcs_info
       setopt prompt_subst
@@ -47,21 +46,7 @@
 
       # Right prompt for additional information (e.g., time)
       RPROMPT='%F{green}$pr_return%f'
-
-      # Set colors for syntax highlighting
-      ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=cyan'
-      ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=green'
-      ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=yellow'
-      ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta'
-      ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=yellow'
-      ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=yellow'
-      ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=cyan'
-      ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=cyan'
-      ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]='fg=cyan'
-      ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
-      ZSH_HIGHLIGHT_STYLES[redirection]='fg=magenta'
-      ZSH_HIGHLIGHT_STYLES[comment]='fg=240'
-      ZSH_HIGHLIGHT_STYLES[arg0]='fg=green'
+      pfetch
     '';
 
     antidote = {
