@@ -17,6 +17,16 @@ in
         disable_splash_rendering = true
         disable_hyprland_logo = true
       }
+      decoration {
+        blur {
+          enabled = true
+          size = 18
+          passes = 1
+          new_optimizations = true
+          noise = 0.02
+          
+        }
+      }
     '';
     settings = {
       general = {
@@ -25,7 +35,7 @@ in
       };
       # monitor scaling down since default is 2
       monitor = [
-        "eDP-1,2256x1504@59.999,0x0,1.175"
+        "eDP-1,2256x1504@59.999,0x0,1.566667"
         ",preferred,auto,1,mirror,eDP-1"
       ];
 
@@ -97,7 +107,7 @@ in
         "SHIFT_ALT, 9, movetoworkspace, 9"
 
         # make current client fullscreen
-        "Alt, Space, fullscreen"
+        "Alt, Space, fullscreen, 1"
 
         # make focused client to master
         "Alt, Return, movewindow, l"
