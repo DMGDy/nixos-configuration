@@ -61,6 +61,8 @@
     cargo
     unicode-paracode
     man-pages
+    man
+    man-pages-posix
     iw
     pulseaudioFull
     spotify
