@@ -154,6 +154,5 @@
     shellcheck
     antidote
     gitstatus
-    p7zip
   ];
 }
