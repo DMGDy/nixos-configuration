@@ -26,7 +26,6 @@
     '';
 
     initExtraFirst = ''
-      source ${pkgs.gitstatus}/share/gitstatus/gitstatus.plugin.zsh
       autoload -Uz vcs_info
       setopt prompt_subst
       autoload -Uz vcs_info
