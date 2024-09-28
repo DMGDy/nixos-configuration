@@ -154,5 +154,6 @@
     shellcheck
     antidote
     gitstatus
+    noisetorch
   ];
 }
