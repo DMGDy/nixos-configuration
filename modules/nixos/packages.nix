@@ -155,5 +155,6 @@
     antidote
     gitstatus
     noisetorch
+    kmag
   ];
 }
