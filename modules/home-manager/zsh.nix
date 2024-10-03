@@ -26,21 +26,11 @@
     '';
 
     initExtraFirst = ''
-      autoload -Uz vcs_info
-      setopt prompt_subst
-      autoload -Uz vcs_info
-      precmd() { vcs_info }
-
-      
-      zstyle ':vcs_info:git:*' check-for-changes true
-      zstyle ':vcs_info:git:*' stagedstr '%F{yellow}●%f'
-      zstyle ':vcs_info:git:*' unstagedstr '%F{red}●%f'
-      zstyle ':vcs_info:git:*' formats '%F{green}(%b)%f %c%u'
-      zstyle ':vcs_info:git:*' actionformats '%F{green}(%b|%a)%f %c%u'
-
+      source ${pkgs.zsh-git-prompt}/share/zsh-git-prompt/zshrc.sh
       setopt PROMPT_SUBST
+      setopt norcs
 
-      PROMPT='%F{red}┌%f%F{red}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{red}]%f%F{8}::%f%F{red}[%f%F{blue}%~%f%F{red}]%f%F{8}::%f%F{red}[%f$vcs_info_msg_0_%F{red}]%f 
+      PROMPT='%F{red}┌%f%F{red}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{red}]%f%F{8}::%f%F{red}[%f%F{blue}%~%f%F{red}]%f%F{8}::%f%F{red}[%f$(git_super_status)%F{red}]%f 
 %F{red}└%f%F{red}[%f%F{yellow}$%f%F{red}]%f%F{green}❯%f '
 
       # Right prompt for additional information (e.g., time)
@@ -56,10 +46,10 @@
         "zpm-zsh/figures"
         "zsh-users/zsh-autosuggestions"
         "zsh-users/zsh-syntax-highlighting"
-        "zpm-zsh/pr-git"
         "zpm-zsh/pr-return"
         "zpm-zsh/pr-user"
         "unixorn/fzf-zsh-plugin"
+        "Aloxaf/fzf-tab"
       ];
     };
 
