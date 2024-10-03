@@ -156,5 +156,6 @@
     gitstatus
     noisetorch
     kmag
+    zsh-git-prompt
   ];
 }
