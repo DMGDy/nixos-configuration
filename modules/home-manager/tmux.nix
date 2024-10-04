@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.tmux = {
@@ -19,14 +19,14 @@
       set -g status-right '%d-%m-%Y %H:%M'
 
       # colors active tags 
-      setw -g window-status-current-style 'fg=white bg=magenta'
+      setw -g window-status-current-style 'fg=white bg=blue'
       setw -g window-status-current-format ' #I #W #F '
 
-
-
+      # start windows and panes at 1, not 0
+      set -g base-index 1
+      setw -g pane-base-index 1
 
       # unbind arrow keys and pane switching keys
-
       unbind Up     
       unbind Down   
       unbind Left   
@@ -37,11 +37,21 @@
       unbind C-Left 
       unbind C-Right
 
-      # bind vim keys to moving around
-      bind -r k select-pane -U 
-      bind -r j select-pane -D 
-      bind -r h select-pane -L 
-      bind -r l select-pane -R
+      # bind vim keys to moving around without prefix of a simply ctrl+<key>
+      bind -n C-k select-pane -U 
+      bind -n C-j select-pane -D 
+      bind -n C-h select-pane -L 
+      bind -n C-l select-pane -R
+
+      # vim-like pane resizing  
+      bind -r C-k resize-pane -U
+      bind -r C-j resize-pane -D
+      bind -r C-h resize-pane -L
+      bind -r C-l resize-pane -R     
+
     ";
+    plugins = with pkgs.tmuxPlugins; [
+      resurrect
+    ];
   };
 }
