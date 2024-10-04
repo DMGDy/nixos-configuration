@@ -50,5 +50,10 @@
       enable = false;
     };
 
+    targets.tmux = {
+      enable = true;
+    };
+    
+
   };
 }
