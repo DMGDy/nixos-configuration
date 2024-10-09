@@ -17,6 +17,7 @@
         "nvim-treesitter"
         "nvim-treesitter-textobjects"
         "vimplugin-treesitter-grammar-nix"
+        "copilot.lua"
       ];
     };
   };
