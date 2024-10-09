@@ -43,6 +43,12 @@
         installCargo = true;
         installRustc = true;
       };
+
+      html = {
+        enable = true;
+        autostart = true;
+      };
+
     };
   };
 }
