@@ -12,6 +12,7 @@
     shellAliases = {
       ls = "ls --color=auto";
       shutdown = "sudo shutdown -h now";
+      nix-reflake= "nix-reflake() { sudo nixos-rebuild switch --flake .#$1 };nix-reflake";
     };
 
     history = {
