@@ -157,5 +157,6 @@
     noisetorch
     kmag
     zsh-git-prompt
+    reveal-md
   ];
 }
