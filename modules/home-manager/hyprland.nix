@@ -111,7 +111,7 @@ in
         "Alt, Space, fullscreen, 1"
 
         # make current client fullscreen - ignoring bar
-        "Alt, Space, fullscreen"
+        "SHIFT_ALT, Space, fullscreen"
 
         # make focused client to master
         "Alt, Return, movewindow, l"
