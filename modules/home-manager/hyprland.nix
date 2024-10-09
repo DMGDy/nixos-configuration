@@ -107,8 +107,11 @@ in
         "SHIFT_ALT, 8, movetoworkspace, 8"
         "SHIFT_ALT, 9, movetoworkspace, 9"
 
-        # make current client fullscreen
+        # make current client fullscreen - keeping bar
         "Alt, Space, fullscreen, 1"
+
+        # make current client fullscreen - ignoring bar
+        "Alt, Space, fullscreen"
 
         # make focused client to master
         "Alt, Return, movewindow, l"
