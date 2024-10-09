@@ -158,5 +158,6 @@
     kmag
     zsh-git-prompt
     reveal-md
+    zapzap
   ];
 }
