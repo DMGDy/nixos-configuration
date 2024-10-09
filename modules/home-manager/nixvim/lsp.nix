@@ -48,12 +48,6 @@
         enable = true;
         autostart = true;
       };
-      
-      quick_lint_js = {
-        enable = true;
-        autostart = true;
-      };
-
     };
   };
 }
