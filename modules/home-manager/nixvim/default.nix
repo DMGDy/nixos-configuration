@@ -7,5 +7,6 @@
     ./options.nix
     ./color.nix
     ./cmp.nix
+    ./performance.nix
   ];
 }
