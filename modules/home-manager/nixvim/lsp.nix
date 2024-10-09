@@ -33,11 +33,11 @@
         autostart = true;
       };
 
-      nil-ls = {
+      nil_ls = {
         enable = true;
         autostart = true;
       };
-      rust-analyzer = {
+      rust_analyzer = {
         enable = true;
         autostart = true;
         installCargo = true;
