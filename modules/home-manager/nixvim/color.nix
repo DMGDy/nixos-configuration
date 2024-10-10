@@ -1,5 +1,8 @@
 {
   programs.nixvim.colorschemes = {
-    tokyonight.enable = true;
+    nightfox = {
+      enable = true;
+      flavor = "carbonfox";
+    };
   };
 }
