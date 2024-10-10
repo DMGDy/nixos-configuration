@@ -57,6 +57,10 @@
     targets.dunst = {
       enable = true;
     };
+
+     targets.zathura = {
+      enable = true;
+    };
     
 
   };
