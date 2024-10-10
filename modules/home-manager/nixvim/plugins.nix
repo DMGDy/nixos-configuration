@@ -7,7 +7,8 @@
       };
     };
 
-
+    web-devicons.enable = true;
+    
     nvim-autopairs.enable  = true;
     indent-blankline.enable = true;
     markdown-preview= {
@@ -58,8 +59,27 @@
     };
 
     neo-tree = {
+
       enable = true;
       enableRefreshOnWrite = true;
+      usePopupsForInput = false;
+
+      filesystem = {
+
+        groupEmptyDirs = true;
+        followCurrentFile.enabled = true;
+        useLibuvFileWatcher = true;
+
+        filteredItems = {
+          hideDotfiles = false;
+          hideByName = [".git"];
+        };
+        
+      };
+      window = {
+        position = "float";
+        popup.position = "50%";
+      };
     };
 
     noice = {
