@@ -159,5 +159,6 @@
     zsh-git-prompt
     reveal-md
     zapzap
+    cbonsai
   ];
 }
