@@ -53,6 +53,10 @@
     targets.tmux = {
       enable = true;
     };
+
+    targets.dunst = {
+      enable = true;
+    };
     
 
   };
