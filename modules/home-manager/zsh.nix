@@ -13,6 +13,7 @@
       ls = "ls --color=auto";
       shutdown = "sudo shutdown -h now";
       nix-reflake= "nix-reflake() { sudo nixos-rebuild switch --flake .#$1 };nix-reflake";
+      nix-yocto = "nix-shell https://github.com/nix-community/nix-environments/archive/master.tar.gz -A yocto";
     };
 
     history = {
