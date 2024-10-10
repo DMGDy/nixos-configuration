@@ -47,15 +47,20 @@
     lspkind.enable = true;
     luasnip.enable = true;
 
-#    chadtree = {
-#      enable = true;
-#      keymap.windowManagement = {
-#        bigger = ["+"];
-#        smaller = ["-"];
-#        refresh = ["<c-r>"];
-#
-#      };
-#    };
+    chadtree = {
+      enable = false;
+      keymap.windowManagement = {
+        bigger = ["+"];
+        smaller = ["-"];
+        refresh = ["<c-r>"];
+
+      };
+    };
+
+    neo-tree = {
+      enable = true;
+      enableRefreshOnWrite = true;
+    };
 
     noice = {
       enable = true;
