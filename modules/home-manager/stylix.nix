@@ -10,10 +10,15 @@
     polarity = "dark";
 
     cursor = {
-#      name = "oreo-black-cursors";
+
       package = pkgs.whitesur-cursors;
       name = "WhiteSur-cursors";
       size = 26;
+
+      # For Presentations
+      #package = pkgs.google-cursor;
+      #name = "GoogleDot-Red";
+      #size = 36;
     };
 
     targets.hyprland = {
