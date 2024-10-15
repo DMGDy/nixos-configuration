@@ -33,6 +33,11 @@ in
         gaps_in = "0";
         gaps_out = "0";
         windowrulev2 = "noborder, onworkspace:w[tv1] f[-1], floating:0";
+        animation = [
+          "workspaces, 0"
+          "windows, 0"
+          "fade, 0"
+        ];
       };
       # monitor scaling down since default is 2
       monitor = [
