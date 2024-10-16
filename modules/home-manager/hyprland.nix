@@ -20,10 +20,10 @@ in
       decoration {
         blur {
           enabled = true
-          size = 18
-          passes = 1
+          size = 8
+          passes = 2
           new_optimizations = true
-          noise = 0.02
+          noise = 0.01
           
         }
       }
