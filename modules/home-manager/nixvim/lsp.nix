@@ -48,6 +48,12 @@
         enable = true;
         autostart = true;
       };
+
+      jdtls = {
+        enable = true;
+        autostart = true;
+      };
+
     };
   };
 }
