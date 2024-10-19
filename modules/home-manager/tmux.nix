@@ -12,14 +12,14 @@
 
     extraConfig = "
       set -g @plugin 'tmux-plugins/tmux-resurrect'
-      set -g @continuum-restore 'on'
-      set -g @continuum-save-interval '5' 
+      set -g @resurrect-capture-pane-contents 'on'
+      set -g @resurrect-strategy-nvim 'session'
 
       set -g status-position bottom
       set -g status-justify left
       # show date and time
       set -g status-left ''
-      set -g status-right 'Continuum: #{continuum_status} %d-%m-%Y %H:%M'
+      set -g status-right '%d-%m-%Y %H:%M'
 
       # colors active tags 
       setw -g window-status-current-style 'fg=white bg=blue'
@@ -54,7 +54,6 @@
     ";
     plugins = with pkgs.tmuxPlugins; [
       resurrect
-      continuum
     ];
   };
 }
