@@ -29,7 +29,12 @@
 
       settings = {
         ensure_installed = "all";
-        highlight.enable = true;
+        highlight= {
+          enable = true;
+          disable = [
+            "scss"
+          ];
+        };
       };
     };
 
