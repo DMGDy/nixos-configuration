@@ -11,19 +11,21 @@
     resizeAmount = 1;
 
     extraConfig = "
+      set -g @plugin 'tmux-plugins/tmux-resurrect'
+      set -g @continuum-restore 'on'
+      set -g @continuum-save-interval '5' 
+
       set -g status-position bottom
       set -g status-justify left
-
       # show date and time
       set -g status-left ''
-      set -g status-right '%d-%m-%Y %H:%M'
+      set -g status-right 'Continuum: #{continuum_status} %d-%m-%Y %H:%M'
 
       # colors active tags 
       setw -g window-status-current-style 'fg=white bg=blue'
       setw -g window-status-current-format ' #I #W #F '
 
-      # start windows and panes at 1, not 0
-      set -g base-index 1
+      # start windows and panes at 1, not 0 set -g base-index 1
       setw -g pane-base-index 1
 
       # unbind arrow keys and pane switching keys
@@ -52,6 +54,7 @@
     ";
     plugins = with pkgs.tmuxPlugins; [
       resurrect
+      continuum
     ];
   };
 }
