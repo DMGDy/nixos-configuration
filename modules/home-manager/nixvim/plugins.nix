@@ -90,5 +90,10 @@
         progress.enabled = true;
       };
     };
+    
+    vim-css-color = {
+      enable = true;
+    };
+
   };
 }
