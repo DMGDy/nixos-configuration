@@ -1,11 +1,11 @@
-{ pkgs, ... }:
+{ pkgs,  ... }:
 
 {
   stylix = 
   {
     enable = true;
     autoEnable = false;
-    image = /home/dylandy/Pictures/wps/nix.png;
+    image = ../../assets/nix.png;
 
     polarity = "dark";
 
