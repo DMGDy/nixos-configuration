@@ -161,5 +161,6 @@
     zapzap
     cbonsai
     obs-studio
+    video-trimmer
   ];
 }
