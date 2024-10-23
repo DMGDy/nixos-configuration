@@ -160,5 +160,6 @@
     reveal-md
     zapzap
     cbonsai
+    obs-studio
   ];
 }
