@@ -39,6 +39,9 @@ in
           "fade, 0"
         ];
       };
+      cursor = {
+        no_warps = true;
+      };
       # monitor scaling down since default is 2
       monitor = [
         "eDP-1,2256x1504@59.999,0x0,1.566667"
