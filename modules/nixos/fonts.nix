@@ -5,7 +5,7 @@
     fira-code-nerdfont
     ubuntu_font_family
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-emoji
     cascadia-code
     source-sans-pro
