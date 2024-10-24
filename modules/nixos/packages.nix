@@ -162,5 +162,7 @@
     cbonsai
     obs-studio
     video-trimmer
+    nchat
+    discordo
   ];
 }
