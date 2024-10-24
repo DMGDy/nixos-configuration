@@ -164,5 +164,6 @@
     video-trimmer
     nchat
     discordo
+    gnome-keyring
   ];
 }
