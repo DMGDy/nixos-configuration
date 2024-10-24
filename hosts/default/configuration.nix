@@ -33,6 +33,7 @@
     };
   };
 
+  services.gnome.gnome-keyring.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "super-nixos"; # Define your hostname.
