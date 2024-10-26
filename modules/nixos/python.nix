@@ -8,6 +8,7 @@
       pandas
       matplotlib
       sklearn-deap
+      scikit-learn
     ]))
   ];
 }
