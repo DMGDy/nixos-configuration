@@ -165,5 +165,6 @@
     nchat
     discordo
     gnome-keyring
+    can-utils
   ];
 }
