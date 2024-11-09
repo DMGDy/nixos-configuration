@@ -17,9 +17,11 @@
     };
 
     history = {
-      share = false;
+      share = true;
       size  = 50000;
       path = "/home/dylandy/.zshdir/.zsh_history";
+      ignoreDups = true;
+      expireDuplicatesFirst = true;
     };
     historySubstringSearch.enable = true;
 
