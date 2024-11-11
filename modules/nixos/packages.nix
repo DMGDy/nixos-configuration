@@ -166,5 +166,8 @@
     discordo
     gnome-keyring
     can-utils
+    hare
+    harec
+    haredoc
   ];
 }
