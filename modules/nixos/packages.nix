@@ -169,5 +169,6 @@
     hare
     harec
     haredoc
+    pitivi
   ];
 }
