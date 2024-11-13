@@ -170,5 +170,6 @@
     harec
     haredoc
     pitivi
+    hyprpicker
   ];
 }
