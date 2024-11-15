@@ -45,6 +45,10 @@
       };
     };
 
+    ts-autotag = {
+      enable = true;
+    };
+
     hmts.enable = true;
 
     clangd-extensions.enable = true;
