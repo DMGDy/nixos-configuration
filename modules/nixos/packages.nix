@@ -171,5 +171,7 @@
     haredoc
     pitivi
     hyprpicker
+    meld
+    pympress
   ];
 }
