@@ -22,7 +22,7 @@
     };
 
     targets.hyprland = {
-      enable = true;
+      enable = false;
     };
 
     targets.tofi= {
