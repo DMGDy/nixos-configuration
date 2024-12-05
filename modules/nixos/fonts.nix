@@ -2,7 +2,12 @@
 
 {
   fonts.packages = with pkgs; [
-    fira-code-nerdfont
+    nerd-fonts.fira-code
+    nerd-fonts.ubuntu
+    nerd-fonts.ubuntu-sans
+    nerd-fonts.ubuntu-mono
+    nerd-fonts.iosevka
+    nerd-fonts.iosevka-term
     ubuntu_font_family
     noto-fonts
     noto-fonts-cjk-sans
@@ -11,7 +16,6 @@
     source-sans-pro
     ubuntu-sans
     ubuntu-classic
-    nerdfonts
     nerd-font-patcher
   ];
 }
