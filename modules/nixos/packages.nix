@@ -34,7 +34,6 @@
     fzf-zsh
     silver-searcher
     ripgrep
-    nerdfonts
     nerdfetch
     neovide
     wpgtk
