@@ -87,17 +87,17 @@
       };
       window = {
         position = "float";
-        popup.position = "50%";
+        popup.position = "35%";
       };
     };
 
     noice = {
       enable = true;
-      lsp = {
-        hover.enabled = true;
-        message.enabled = true;
-        progress.enabled = true;
-      };
+      #lsp = {
+      #  hover.enabled = true;
+      #  message.enabled = true;
+      #  progress.enabled = true;
+      #};
     };
     
     vim-css-color = {
