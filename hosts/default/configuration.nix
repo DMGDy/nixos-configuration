@@ -34,7 +34,7 @@
   };
 
   boot.kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
-  boot.kernelPackages = pkgs.linuxKernel.kernels.linux_xanmod;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod;
 
   services.gnome.gnome-keyring.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
