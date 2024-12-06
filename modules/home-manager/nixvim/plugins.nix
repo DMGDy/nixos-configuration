@@ -92,7 +92,7 @@
     };
 
     noice = {
-      enable = true;
+      enable = false;
       #lsp = {
       #  hover.enabled = true;
       #  message.enabled = true;
