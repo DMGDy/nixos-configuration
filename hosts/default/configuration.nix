@@ -36,6 +36,13 @@
   boot.kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
   boot.kernelPackages = pkgs.linuxPackages_xanmod;
 
+  services.logind = {
+    lidSwitch = "hibernate";
+    extraConfig =''
+    HandleLidSwitch=hibernate
+    '';
+  };
+
   services.gnome.gnome-keyring.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
