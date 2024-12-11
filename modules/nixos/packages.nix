@@ -172,5 +172,6 @@
     hyprpicker
     meld
     pympress
+    fzy
   ];
 }
