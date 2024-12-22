@@ -175,5 +175,6 @@
     fzy
     jmtpfs
     android-tools
+    tor
   ];
 }
