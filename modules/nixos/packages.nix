@@ -173,5 +173,6 @@
     meld
     pympress
     fzy
+    jmtpfs
   ];
 }
