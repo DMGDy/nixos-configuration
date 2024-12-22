@@ -176,5 +176,6 @@
     jmtpfs
     android-tools
     tor
+    tor-browser
   ];
 }
