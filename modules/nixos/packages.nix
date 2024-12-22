@@ -174,5 +174,6 @@
     pympress
     fzy
     jmtpfs
+    android-tools
   ];
 }
