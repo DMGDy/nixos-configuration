@@ -177,5 +177,6 @@
     android-tools
     tor
     tor-browser
+    raylib
   ];
 }
