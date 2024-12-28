@@ -52,7 +52,9 @@
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
+  time.timeZone = "Asia/Jakarta";
+  #time.timeZone = "America/New_York";
+  #time.timeZone = "America/Chicago";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
