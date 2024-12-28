@@ -178,6 +178,6 @@
     tor
     tor-browser
     raylib
-    wineWowPackages.wayland
+    wineWowPackages.waylandFull
   ];
 }
