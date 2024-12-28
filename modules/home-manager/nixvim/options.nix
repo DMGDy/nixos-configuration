@@ -2,6 +2,7 @@
   programs.nixvim = {
     globals = {
       neovide_transparency = 0.8;
+       globals.c_syntax_for_h = 1;
     };
     clipboard = {
       providers.wl-copy.enable = true;
