@@ -3,7 +3,7 @@
     cmp-nvim-lsp = {enable = true;}; # lsp
     cmp-fuzzy-buffer = {enable = true;};
     copilot-cmp = {enable = true;}; # copilot suggestions
-    copilot-lua = {
+    copilot-lua.settings = {
       panel.enabled = false;
       suggestion.enabled = false;
     };
