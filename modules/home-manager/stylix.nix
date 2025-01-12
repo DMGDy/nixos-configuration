@@ -13,7 +13,7 @@
 
       package = pkgs.whitesur-cursors;
       name = "WhiteSur-cursors";
-      size = 26;
+      size = 32;
 
       # For Presentations
       #package = pkgs.google-cursor;
