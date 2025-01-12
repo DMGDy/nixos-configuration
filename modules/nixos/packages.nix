@@ -179,5 +179,6 @@
     tor-browser
     raylib
     wineWowPackages.waylandFull
+    inspector
   ];
 }
