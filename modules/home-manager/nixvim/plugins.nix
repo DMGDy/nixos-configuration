@@ -19,7 +19,7 @@
         browser = "chromium";
       };
     };
-    transparent.enable = true;
+    transparent.enable = false;
 
     treesitter = {
       enable = true;
