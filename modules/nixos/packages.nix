@@ -180,5 +180,6 @@
     raylib
     wineWowPackages.waylandFull
     inspector
+    noicetorch
   ];
 }
