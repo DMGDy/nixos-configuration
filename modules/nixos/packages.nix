@@ -181,5 +181,6 @@
     wineWowPackages.waylandFull
     inspector
     noisetorch
+    openshot-qt
   ];
 }
