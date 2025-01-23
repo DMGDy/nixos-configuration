@@ -2,17 +2,12 @@
   programs.nixvim.plugins = {
     cmp-nvim-lsp = {enable = true;}; # lsp
     cmp-fuzzy-buffer = {enable = false;};
-    copilot-cmp = {enable = false;}; # copilot suggestions
-    copilot-lua.settings = {
-      panel.enabled = false;
-      suggestion.enabled = false;
-    };
     cmp-path = {enable = true;}; # file system paths
     cmp_luasnip = {enable = true;}; # snippets
     cmp-cmdline = {enable = false;}; # autocomplete for cmdline
     cmp = {
       enable = true;
-      autoEnableSources = false;
+      autoEnableSources = true;
       settings = {
         experimental = {
           ghost_text = false;

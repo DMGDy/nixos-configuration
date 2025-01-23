@@ -1,16 +1,20 @@
 {
   programs.nixvim.plugins = {
+
     airline = {
       enable = true;
       settings = {
-        powerline_fonts = 0;
+        powerline_fonts = 1;
+        excluse_preview = 1;
       };
     };
 
     web-devicons.enable = true;
     
     nvim-autopairs.enable  = true;
+
     indent-blankline.enable = true;
+
     markdown-preview= {
       enable = true;
       settings = {
@@ -19,12 +23,13 @@
         browser = "chromium";
       };
     };
+
     transparent.enable = false;
 
     treesitter = {
       enable = true;
       nixvimInjections = true;
-      folding = true;
+      folding = false;
       settings.indent.enabled= true;
 
       settings = {
@@ -46,7 +51,7 @@
     };
 
     ts-autotag = {
-      enable = true;
+      enable = false;
     };
 
     hmts.enable = true;
