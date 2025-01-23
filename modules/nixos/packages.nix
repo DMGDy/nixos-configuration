@@ -182,5 +182,6 @@
     inspector
     noisetorch
     openshot-qt
+    libsForQt5.libopenshot
   ];
 }
