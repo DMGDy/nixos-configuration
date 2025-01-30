@@ -17,6 +17,7 @@
     ubuntu-sans
     ubuntu-classic
     nerd-font-patcher
+    fira-sans
   ];
 }
 
