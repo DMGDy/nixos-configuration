@@ -40,7 +40,7 @@ in
         ];
       };
       cursor = {
-        no_warps = true;
+        no_warps = false;
       };
       # monitor scaling down since default is 2
       monitor = [
