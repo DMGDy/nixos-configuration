@@ -33,11 +33,12 @@
     '';
 
     initExtraFirst = ''
-      source ${pkgs.zsh-git-prompt}/share/zsh-git-prompt/zshrc.sh
+      #source ${pkgs.zsh-git-prompt}/share/zsh-git-prompt/zshrc.sh
       setopt PROMPT_SUBST
       setopt norcs
 
-      PROMPT='%F{white}┌%f%F{white}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{white}]%f%F{8}::%f%F{white}[%f%F{blue}%~%f%F{white}]%f%F{8}::$(git_super_status) 
+      #PROMPT='%F{white}┌%f%F{white}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{white}]%f%F{8}::%f%F{white}[%f%F{blue}%~%f%F{white}]%f%F{8}::$(git_super_status) 
+      #PROMPT='%F{white}┌%f%F{white}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{white}]%f%F{8}::%f%F{white}[%f%F{blue}%~%f%F{white}]%f%F{8}
 %F{white}└%f%F{white}[%f%F{yellow}$%f%F{white}]%f%F{green}❯%f '
 
       # Right prompt for additional information (e.g., time)
@@ -53,25 +54,10 @@
         "zpm-zsh/figures"
         "zsh-users/zsh-autosuggestions"
         "zsh-users/zsh-syntax-highlighting"
-        "zpm-zsh/pr-return"
-        "zpm-zsh/pr-user"
         "unixorn/fzf-zsh-plugin"
         "Aloxaf/fzf-tab"
         "zsh-users/zsh-history-substring-search"
       ];
-    };
-
-    oh-my-zsh = {
-      enable = false;
-      plugins = [
-        "git"
-        "colored-man-pages"
-        "fzf"
-        "vi-mode"
-      ];
-      custom = "/home/dylandy/.zshdir/oh-my-zsh/themes";
-      theme = "agnoster_custom";
-
     };
   };
 }
