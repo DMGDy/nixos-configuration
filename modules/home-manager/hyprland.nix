@@ -3,9 +3,8 @@
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     swww-daemon &
-    #swww img /home/dylandy/Pictures/wps/nix.png &
-    #swww clear-cache &
-    eww open bar
+    swww img /home/dylandy/Pictures/wps/nix.png &
+    swww clear-cache &
   '';
 in
 {
@@ -137,18 +136,6 @@ in
         "ALT, mouse:272, movewindow"
         "ALT, mouse:273, resizewindow"
       ];
-      # "plugin:borders-plus-plus" = {
-      #   add_borders = 1;
-
-      #   # can add up to 9 borders
-      #   "col.border_1" = "rgb(ffffff)";
-      #   "col.border_2" = "rgb(2222ff)";
-
-      #   border_size_1 = 10;
-      #   border_size_2 = -1;
-
-      #   natural_rounding = "no";
-      # };
       exec-once = [
         "${startupScript}/bin/start"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
