@@ -16,6 +16,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-environments.url = "github:nix-community/nix-environments";
+    # epic status bar i made
+    epic-bar-rs.url = "github:DMGDy/epic-bar-rs";
   };
   outputs = { self, nixpkgs, ... }@inputs: 
   let 
