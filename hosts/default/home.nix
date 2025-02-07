@@ -13,6 +13,7 @@
     ../../modules/home-manager/tmux.nix
   ];
 
+  stylix.enable = true;
   home.username = "dylandy";
   home.homeDirectory = "/home/dylandy";
   home.preferXdgDirectories = true;

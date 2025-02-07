@@ -6,6 +6,7 @@
     enable = true;
     autoEnable = false;
     image = ../../assets/nix.png;
+    imageScalingMode = "fill";
 
     polarity = "dark";
 
