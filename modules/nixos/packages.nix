@@ -184,5 +184,6 @@
     openshot-qt
     libsForQt5.libopenshot
     python312Packages.anyqt
+    ed
   ];
 }
