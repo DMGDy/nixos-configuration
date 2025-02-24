@@ -2,7 +2,7 @@
 {
   # Enable the Nginx service
   services.nginx = {
-    enable = true;
+    enable = false;
     
     # Configure a virtual host using the default server
     virtualHosts."_" = {
