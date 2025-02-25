@@ -185,5 +185,6 @@
     libsForQt5.libopenshot
     python312Packages.anyqt
     ed
+    pandoc
   ];
 }
