@@ -187,5 +187,7 @@
     ed
     pandoc
     mkcert
+    glibc
+    certbot
   ];
 }
