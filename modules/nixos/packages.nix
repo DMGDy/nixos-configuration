@@ -186,5 +186,6 @@
     python312Packages.anyqt
     ed
     pandoc
+    mkcert
   ];
 }
