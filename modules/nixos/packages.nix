@@ -189,5 +189,6 @@
     mkcert
     glibc
     certbot
+    ghidra
   ];
 }
