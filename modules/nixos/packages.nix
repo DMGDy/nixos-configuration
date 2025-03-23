@@ -190,5 +190,6 @@
     glibc
     certbot
     ghidra
+    inetutils
   ];
 }
