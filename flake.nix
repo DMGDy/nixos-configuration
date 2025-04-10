@@ -31,18 +31,20 @@
   in
   {
     nixosConfigurations = {
-      default = nixpkgs.lib.nixosSystem {
+
+      framework = nixpkgs.lib.nixosSystem {
         specialArgs = { 
           inherit inputs system; 
         };
         modules = [
           inputs.home-manager.nixosModules.default
-          ./hosts/default/configuration.nix
+          ./hosts/framework/configuration.nix
           # Custom Modules
           inputs.nixvim.nixosModules.nixvim
           ./modules/nixos/hardware.nix
         ];
       };
+
     };
   };
 }
