@@ -1,10 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32bit = true;
   };
+  
 
   services.xserver.videoDrivers = [ "nvidia"  ];
 
