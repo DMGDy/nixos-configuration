@@ -11,10 +11,6 @@
 
     stylix.url = "github:danth/stylix";
     
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-environments.url = "github:nix-community/nix-environments";
     # epic status bar i made
     epic-bar-rs.url = "github:DMGDy/epic-bar-rs";
@@ -53,7 +49,6 @@
           inputs.home-manager.nixosModules.default
           ./hosts/t7910/configuration.nix
           # Custom Modules
-          inputs.nixvim.nixosModules.nixvim
           #./modules/nixos/hardware.nix
           ./modules/nixos/nvidia.nix
         ];
