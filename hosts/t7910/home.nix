@@ -10,7 +10,6 @@
     ../../modules/home-manager/stylix.nix
 #    ../../modules/home-manager/eww.nix
     ../../modules/home-manager/tmux.nix
-    ../../modules/home-manager/kitty.nix
   ];
 
   stylix.enable = true;
