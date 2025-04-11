@@ -45,6 +45,20 @@
         ];
       };
 
+      t7910= nixpkgs.lib.nixosSystem {
+        specialArgs = { 
+          inherit inputs system; 
+        };
+        modules = [
+          inputs.home-manager.nixosModules.default
+          ./hosts/t7910/configuration.nix
+          # Custom Modules
+          inputs.nixvim.nixosModules.nixvim
+          #./modules/nixos/hardware.nix
+          ./modules/nixos/nvidia.nix
+        ];
+      };
+
     };
   };
 }
