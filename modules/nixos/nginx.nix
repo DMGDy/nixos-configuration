@@ -33,7 +33,7 @@
   # Open firewall port
   networking = {
     firewall= {
-      allowedTCPPorts = [ 80  444 ];
+      allowedTCPPorts = [ 80  444 8080 8000 ];
       allowedUDPPorts = [ 5353 ];
     };
   };
