@@ -25,6 +25,41 @@
     };
     systemd-boot.enable = true;
   };
+  networking = {
+    # DNS settings
+    nameservers = [ "10.94.2.200" "10.86.2.200" ];
+    
+    # Static routes
+    networkmanager.enable = true;  # If you're using NetworkManager
+    
+    # Static route configuration
+    extraHosts = ''
+      # Any host mappings you might need
+    '';
+    
+    # Define the routes from the image
+    staticRoutes = [
+      { destination = "10.8.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "10.10.30.21"; netmask = "255.255.255.255"; gateway = "158.100.69.1"; }
+      { destination = "10.10.32.86"; netmask = "255.255.255.255"; gateway = "158.100.69.1"; }
+      { destination = "10.59.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "10.70.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "10.86.2.200"; netmask = "255.255.255.255"; gateway = "158.100.69.1"; }
+      { destination = "10.94.2.200"; netmask = "255.255.255.255"; gateway = "158.100.69.1"; }
+      { destination = "10.122.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "10.192.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "10.194.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "10.216.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "158.100.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "158.100.77.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "159.99.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "165.195.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "172.26.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "199.63.0.0"; netmask = "255.255.0.0"; gateway = "158.100.69.1"; }
+      { destination = "158.100.69.1"; netmask = "255.255.255.255"; gateway = "158.100.69.1"; }
+      { destination = "199.63.86.148"; netmask = "255.255.255.255"; gateway = "158.100.69.1"; }
+    ];
+  };
 
   services.gnome.gnome-keyring.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
