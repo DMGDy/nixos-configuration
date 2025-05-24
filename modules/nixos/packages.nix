@@ -182,7 +182,6 @@
     inspector
     noisetorch
     openshot-qt
-    libsForQt5.libopenshot
     python312Packages.anyqt
     ed
     pandoc
@@ -191,5 +190,6 @@
     certbot
     ghidra
     inetutils
+    calibre
   ];
 }
