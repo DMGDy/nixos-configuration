@@ -154,7 +154,6 @@
     antidote
     gitstatus
     noisetorch
-    kmag
     zsh-git-prompt
     reveal-md
     zapzap
