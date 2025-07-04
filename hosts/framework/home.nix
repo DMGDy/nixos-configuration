@@ -2,16 +2,14 @@
 
 {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
     inputs.stylix.homeManagerModules.stylix
     ./../../modules/home-manager/tofi.nix
     ./../../modules/home-manager/hyprland.nix
     ./../../modules/home-manager/zsh.nix
-#    ../../modules/home-manager/nixvim.nix
     ../../modules/home-manager/stylix.nix
 #    ../../modules/home-manager/eww.nix
     ../../modules/home-manager/tmux.nix
-    ../../modules/home-manager/kitty.nix
+#    ../../modules/home-manager/kitty.nix
   ];
 
   stylix.enable = true;
