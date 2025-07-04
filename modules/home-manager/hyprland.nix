@@ -44,7 +44,7 @@ in
       # monitor scaling down since default is 2
       monitor = [
         "eDP-1,2256x1504@59.999,0x0,1.566667"
-        ",preferred,auto,auto,bitdepth,10"
+        ",preferred,auto,auto,bitdepth,8"
       ];
 
       "$mod" = "Alt";
