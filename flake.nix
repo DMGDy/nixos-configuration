@@ -36,7 +36,6 @@
           inputs.home-manager.nixosModules.default
           ./hosts/framework/configuration.nix
           # Custom Modules
-          inputs.nixvim.nixosModules.nixvim
           ./modules/nixos/hardware.nix
         ];
       };
