@@ -14,7 +14,7 @@
 
       package = pkgs.whitesur-cursors;
       name = "WhiteSur-cursors";
-      size = 32;
+      size = 24;
 
       # For Presentations
       #package = pkgs.google-cursor;
@@ -57,7 +57,7 @@
     };
 
     targets.tmux = {
-      enable = true;
+      enable = false;
     };
 
     targets.dunst = {
