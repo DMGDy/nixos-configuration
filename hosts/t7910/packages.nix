@@ -177,5 +177,9 @@
     certbot
     ghidra
     inetutils
+    docker
+    teleport
+    gcc-arm-embedded-10
+    android-tools
   ];
 }
