@@ -2,7 +2,7 @@
 
 {
   imports = [
-    inputs.stylix.homeManagerModules.stylix
+    inputs.stylix.homeModules.stylix
     ./../../modules/home-manager/tofi.nix
     ./../../modules/home-manager/hyprland.nix
     ../../modules/home-manager/stylix.nix
