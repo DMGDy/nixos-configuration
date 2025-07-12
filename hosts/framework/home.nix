@@ -47,7 +47,6 @@
     history = {
       share = true;
       size  = 50000;
-      path = "/home/dylandy/.zshdir/.zsh_history";
       ignoreDups = true;
       expireDuplicatesFirst = true;
     };
@@ -61,28 +60,28 @@
       '';
 
     initExtraFirst = ''
-      setopt PROMPT_SUBST
-      setopt norcs
-
-# PROMPT='%F{white}┌%f%F{white}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{white}]%f%F{8}::%f%F{white}[%f%F{blue}%~%f%F{white}]%f%F{8}::$(git_super_status) 
-      PROMPT='%F{white}┌%f%F{white}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{white}]%f%F{8}::%f%F{white}[%f%F{blue}%~%f%F{white}]%f%F{8}
-%F{white}└%f%F{white}[%f%F{yellow}$%f%F{white}]%f%F{green}❯%f '
+#      setopt PROMPT_SUBST
+#
+#      PROMPT='%F{white}┌%f%F{white}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{white}]%f%F{8}::%f%F{white}[%f%F{blue}%~%f%F{white}]%f%F{8}
+#%F{white}└%f%F{white}[%f%F{yellow}$%f%F{white}]%f%F{green}❯%f '
 
 # Right prompt for additional information (e.g., time)
-      RPROMPT='%F{green}$pr_return%f'
+#      RPROMPT='%F{green}$pr_return%f'
       pfetch
       '';
 
     antidote = {
       enable = true;
       plugins = [
-        "jeffreytse/zsh-vi-mode"
+          "jeffreytse/zsh-vi-mode"
           "zpm-zsh/colors"
           "zpm-zsh/figures"
           "zsh-users/zsh-autosuggestions"
           "zsh-users/zsh-syntax-highlighting"
           "unixorn/fzf-zsh-plugin"
           "Aloxaf/fzf-tab"
+          "spaceship-prompt/spaceship-prompt"
+          "spaceship-prompt/spaceship-vi-mode@main"
           "zsh-users/zsh-history-substring-search"
       ];
     };
