@@ -11,7 +11,7 @@
       inputs.home-manager.nixosModules.home-manager
       ../../modules/nixos/display-manager.nix
       ../../modules/nixos/package-config/openssh.nix
-      ../../modules/nixos/packages.nix
+      ./packages.nix
       ../../modules/nixos/fonts.nix
       ../../modules/nixos/steam.nix
       ../../modules/nixos/virtual.nix
