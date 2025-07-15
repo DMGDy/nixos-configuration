@@ -63,8 +63,8 @@ in
         
 
       bind = [
-        # open kitty
-        "SHIFT_ALT, Return, exec, kitty"
+        # open ghostty
+        "SHIFT_ALT, Return, exec, ghostty"
 
         # close focused client
         "SHIFT_ALT, C, killactive"
