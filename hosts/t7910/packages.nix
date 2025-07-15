@@ -141,8 +141,6 @@
     shellcheck
     antidote
     gitstatus
-    noisetorch
-    kmag
     zsh-git-prompt
     reveal-md
     zapzap
@@ -179,7 +177,6 @@
     inetutils
     docker
     teleport
-    gcc-arm-embedded-10
     android-tools
   ];
 }
