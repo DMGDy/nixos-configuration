@@ -60,13 +60,6 @@
       '';
 
     initExtraFirst = ''
-#      setopt PROMPT_SUBST
-#
-#      PROMPT='%F{white}┌%f%F{white}[%f%F{magenta}%n%f%F{white}@%f%F{cyan}%m%f%F{white}]%f%F{8}::%f%F{white}[%f%F{blue}%~%f%F{white}]%f%F{8}
-#%F{white}└%f%F{white}[%f%F{yellow}$%f%F{white}]%f%F{green}❯%f '
-
-# Right prompt for additional information (e.g., time)
-#      RPROMPT='%F{green}$pr_return%f'
       pfetch
       '';
 
