@@ -34,7 +34,7 @@
   };
 
   boot.kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
-  boot.kernelPackages = pkgs.linuxPackages_xanmod;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   services.logind = {
     lidSwitch = "hibernate";
