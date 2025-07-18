@@ -8,7 +8,7 @@
     ../../modules/home-manager/stylix.nix
 #    ../../modules/home-manager/eww.nix
     ../../modules/home-manager/tmux.nix
-#    ../../modules/home-manager/kitty.nix
+    ../../modules/home-manager/ghostty.nix
   ];
 
   stylix.enable = true;
@@ -30,6 +30,25 @@
     };
   };
 
+  programs.starship = { 
+    enable = true;
+    settings = {
+      hostname = {
+        ssh_only=false;
+        ssh_symbol="🔐 ";
+        format="[$ssh_symbol$hostname]($style) in ";
+      };
+      directory = {
+        truncation_length = 0;
+        truncate_to_repo = true;
+      };
+      username = {
+        disabled = false;
+        show_always = true;
+        format="[$user]($style) using ";
+      };
+    };
+  };
   programs.zsh = {
     enable = true;
 
@@ -61,6 +80,7 @@
 
     initExtraFirst = ''
       pfetch
+      eval "$(starship init zsh)"
       '';
 
     antidote = {
@@ -73,8 +93,6 @@
           "zsh-users/zsh-syntax-highlighting"
           "unixorn/fzf-zsh-plugin"
           "Aloxaf/fzf-tab"
-          "spaceship-prompt/spaceship-prompt"
-          "spaceship-prompt/spaceship-vi-mode@main"
           "zsh-users/zsh-history-substring-search"
       ];
     };

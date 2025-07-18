@@ -190,5 +190,6 @@
     ghidra
     inetutils
     calibre
+    ghostty
   ];
 }
