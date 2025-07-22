@@ -21,7 +21,6 @@
     wl-clipboard
     zsh
     mako
-    discord
     pavucontrol
     tig
     fzf
@@ -64,7 +63,6 @@
     btop
     blueman
     dconf
-    nchat
     socat
     gdb
     valgrind
@@ -160,11 +158,7 @@
     pympress
     fzy
     tor
-    tor-browser
-    raylib
-    wineWowPackages.waylandFull
     inspector
-    noisetorch
     openshot-qt
     libsForQt5.libopenshot
     python312Packages.anyqt
@@ -178,5 +172,6 @@
     docker
     teleport
     android-tools
+    ghc
   ];
 }
