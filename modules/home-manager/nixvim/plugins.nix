@@ -4,7 +4,7 @@
     airline = {
       enable = true;
       settings = {
-        powerline_fonts = 1;
+        powerline_fonts = 0;
         excluse_preview = 1;
       };
     };
@@ -29,15 +29,15 @@
     treesitter = {
       enable = true;
       nixvimInjections = true;
-      folding = false;
+      folding = true;
       settings.indent.enabled= true;
 
       settings = {
-        ensure_installed = "all";
         highlight= {
           enable = true;
           disable = [
             "scss"
+            "ipkg"
           ];
         };
       };
@@ -91,18 +91,18 @@
         
       };
       window = {
-        position = "float";
+        position = "left";
         popup.position = "35%";
       };
     };
 
     noice = {
       enable = false;
-      #lsp = {
-      #  hover.enabled = true;
-      #  message.enabled = true;
-      #  progress.enabled = true;
-      #};
+      lsp = {
+        hover.enabled = true;
+        message.enabled = true;
+        progress.enabled = true;
+      };
     };
     
     vim-css-color = {

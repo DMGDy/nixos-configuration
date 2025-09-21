@@ -1,16 +1,16 @@
 {
   programs.nixvim.performance = {
       byteCompileLua = {
-      enable = true;
-      configs = true;
+      enable = false;
+      configs = false;
       initLua = true;
       nvimRuntime = true;
-      plugins = true;
+      plugins = false;
     };
 
     # increase load time by combining plugins
     combinePlugins = {
-      enable = true;
+      enable = false;
 
       # collisions
       standalonePlugins = [

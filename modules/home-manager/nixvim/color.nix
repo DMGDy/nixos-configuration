@@ -1,8 +1,7 @@
 {
   programs.nixvim.colorschemes = {
-    nightfox = {
+    vscode = {
       enable = true;
-      flavor = "duskfox";
     };
   };
 }

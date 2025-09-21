@@ -37,7 +37,7 @@
     hyprshot
     catppuccin-sddm
     bat
-    python3Full
+    python314
     gccgo
     libgcc
     gnumake
@@ -139,7 +139,6 @@
     shellcheck
     antidote
     gitstatus
-    zsh-git-prompt
     reveal-md
     zapzap
     cbonsai
@@ -159,9 +158,6 @@
     fzy
     tor
     inspector
-    openshot-qt
-    libsForQt5.libopenshot
-    python312Packages.anyqt
     ed
     pandoc
     mkcert

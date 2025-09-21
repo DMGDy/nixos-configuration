@@ -33,10 +33,6 @@
         autostart = true;
       };
 
-      nil_ls = {
-        enable = true;
-        autostart = true;
-      };
       rust_analyzer = {
         enable = true;
         autostart = true;
