@@ -11,7 +11,7 @@
       theme="Dark Pastel";
       title="ghostty";
       font-size=16;
-      font-family="Iosevka Nerd Font Mono";
+      font-family="Cascadia Mono Regular";
       keybind = [
         "ctrl+shift+plus=increase_font_size:1"
         "ctrl+shift+minus=decrease_font_size:1"
