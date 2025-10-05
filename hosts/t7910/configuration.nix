@@ -17,6 +17,7 @@
       ../../modules/nixos/python.nix
       ../../modules/nixos/docker.nix
       ../../modules/nixos/nginx.nix
+      ../../modules/nixos/sunshine.nix
     ];
   swapDevices = [ {
       device = "/swapfile";
