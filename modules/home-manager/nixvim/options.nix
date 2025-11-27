@@ -9,8 +9,8 @@
       register="unnamedplus";
     };
     opts = {
-      number = true;
       relativenumber = true;
+      number = true;
       tabstop = 2;
       shiftwidth = 2;
       autoindent = true;

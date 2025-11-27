@@ -1,16 +1,16 @@
 {
   programs.nixvim.plugins = {
     cmp-nvim-lsp = {enable = true;}; # lsp
-    cmp-fuzzy-buffer = {enable = false;};
+    cmp-fuzzy-buffer = {enable = true;};
     cmp-path = {enable = true;}; # file system paths
     cmp_luasnip = {enable = true;}; # snippets
-    cmp-cmdline = {enable = false;}; # autocomplete for cmdline
+    cmp-cmdline = {enable = true;}; # autocomplete for cmdline
     cmp = {
       enable = true;
-      autoEnableSources = true;
+      autoEnableSources = false;
       settings = {
         experimental = {
-          ghost_text = false;
+          ghost_text = true;
         };
       };
       settings = {

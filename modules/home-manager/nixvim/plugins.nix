@@ -45,7 +45,7 @@
 
     treesitter-refactor = {
       enable = true;
-      highlightDefinitions = {
+      settings.highlight_definitions = {
         enable = true;
       };
     };
@@ -62,47 +62,31 @@
     lspkind.enable = true;
     luasnip.enable = true;
 
-    chadtree = {
-      enable = false;
-      keymap.windowManagement = {
-        bigger = ["+"];
-        smaller = ["-"];
-        refresh = ["<c-r>"];
-
-      };
-    };
-
     neo-tree = {
 
       enable = true;
-      enableRefreshOnWrite = true;
-      usePopupsForInput = false;
-
-      filesystem = {
-
-        groupEmptyDirs = true;
-        followCurrentFile.enabled = true;
-        useLibuvFileWatcher = true;
-
-        filteredItems = {
-          hideDotfiles = false;
-          hideByName = [".git"];
+      settings = {
+        enable_refresh_on_write = true;
+        use_popups_for_input = false;
+        filesystem = {
+          group_empty_dirs = true;
+          follow_current_file.enabled = true;
+          use_libuv_file_watcher = true;
+          filtered_items = {
+            hide_dot_files = false;
+            hide_by_name = [".git"];
+          };
         };
-        
+        window = {
+          position = "left";
+          popup.position = "35%";
+        };
       };
-      window = {
-        position = "left";
-        popup.position = "35%";
-      };
+
     };
 
     noice = {
       enable = false;
-      lsp = {
-        hover.enabled = true;
-        message.enabled = true;
-        progress.enabled = true;
-      };
     };
     
     vim-css-color = {
