@@ -29,6 +29,8 @@
       # start windows and panes at 1, not 0 set -g base-index 1
       setw -g pane-base-index 1
 
+      bind-key C-a last-window
+
       # unbind arrow keys and pane switching keys
       unbind Up     
       unbind Down   
