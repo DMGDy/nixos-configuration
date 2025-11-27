@@ -18,6 +18,7 @@
     ubuntu-classic
     nerd-font-patcher
     fira-sans
+    jetbrains-mono
   ];
 }
 
