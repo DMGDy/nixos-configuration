@@ -98,7 +98,7 @@
     marp-cli
     zathura
     wirelesstools
-    linuxKernel.packages.linux_6_6.perf
+    perf
     ffmpeg
     vscode
     dbus
@@ -169,5 +169,7 @@
     teleport
     android-tools
     ghc
+    audacity
+    apacheHttpd
   ];
 }
