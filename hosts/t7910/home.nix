@@ -2,8 +2,8 @@
 
 {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
-    inputs.stylix.homeManagerModules.stylix
+    inputs.nixvim.homeModules.nixvim
+    inputs.stylix.homeModules.stylix
     ./../../modules/home-manager/tofi.nix
     ./../../modules/home-manager/hyprland.nix
     ../../modules/home-manager/nixvim.nix
@@ -54,7 +54,7 @@
   programs.zsh = {
     enable = true;
 
-    dotDir = ".zshdir/";
+    dotDir = "${config.home.homeDirectory}/.zshdir/";
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = false;
@@ -79,9 +79,6 @@
       bindkey '^[[A' history-substring-search-up # or '\eOA'
       bindkey '^[[B' history-substring-search-down # or '\eOB'
       HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
-      '';
-
-    initExtraFirst = ''
       pfetch
       eval "$(starship init zsh)"
       '';

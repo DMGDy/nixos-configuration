@@ -165,6 +165,10 @@
     ];
   };
 
+  security.pam.loginLimits = [
+    { domain = "*"; item = "nofile"; type = "-"; value = "65536"; }
+  ];
+
   services.gnome.gnome-keyring.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
