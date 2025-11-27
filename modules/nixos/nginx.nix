@@ -12,12 +12,14 @@
         listen = [
         { addr = "0.0.0.0"; port = 8080; }
         { addr = "[::]"; port = 8080; }
+        { addr = "0.0.0.0"; port = 80; }
+        { addr = "[::]"; port = 80; }
         ];
 
 # Server configuration
         extraConfig = ''
 # Directory to serve files from
-          root /var/www/html/fs;
+          root /var/www/html;
 
 # Enable directory listing
         autoindex on;
