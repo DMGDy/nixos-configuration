@@ -7,9 +7,9 @@
 
     extraPackages = with pkgs; [
       intel-media-driver
-        vaapiIntel
-        vaapiVdpau
-        libvdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
+      libvdpau
     ];
   };
   
@@ -17,7 +17,7 @@
 
   hardware.nvidia = {
     open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
 
     modesetting.enable = true;
     powerManagement.enable = false;
