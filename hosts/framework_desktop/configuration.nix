@@ -19,15 +19,7 @@
       ../../modules/nixos/nginx.nix
       ../../modules/nixos/sunshine.nix
     ];
-  swapDevices = [ {
-      device = "/swapfile";
-      size = 64 * 1024;
-    }
-    {
-      device = "/swapfile2";
-      size = 128 * 1024;
-    }
-  ];
+
   zramSwap= {
     enable = true;
     memoryMax = 65536;
@@ -51,119 +43,119 @@
     };
     systemd-boot.enable = true;
   };
-  networking = {
-    networkmanager.enable = true;  
-    nameservers = [ "10.94.2.200" "10.86.2.200" ];
-
-    interfaces.enp9s0.ipv4.routes = [
-    {
-      address      = "10.8.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.10.30.21";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.10.32.86";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.59.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.70.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.86.2.200";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.94.2.200";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.122.20.0";
-      prefixLength = 24;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.192.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.194.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "10.216.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "158.100.0.0";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "158.100.67.0";
-      prefixLength = 24;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "158.100.67.1";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "158.100.77.0";
-      prefixLength = 26;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "159.99.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "165.195.0.0";
-      prefixLength = 26;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "172.26.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "199.63.0.0";
-      prefixLength = 16;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "158.100.89.254";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-    {
-      address      = "199.63.86.148";
-      prefixLength = 32;
-      via          = "158.100.89.254";
-    }
-
-    ];
-  };
+#  networking = {
+#    networkmanager.enable = true;  
+#    nameservers = [ "10.94.2.200" "10.86.2.200" ];
+#
+#    interfaces.enp9s0.ipv4.routes = [
+#    {
+#      address      = "10.8.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.10.30.21";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.10.32.86";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.59.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.70.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.86.2.200";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.94.2.200";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.122.20.0";
+#      prefixLength = 24;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.192.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.194.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "10.216.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "158.100.0.0";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "158.100.67.0";
+#      prefixLength = 24;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "158.100.67.1";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "158.100.77.0";
+#      prefixLength = 26;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "159.99.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "165.195.0.0";
+#      prefixLength = 26;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "172.26.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "199.63.0.0";
+#      prefixLength = 16;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "158.100.89.254";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#    {
+#      address      = "199.63.86.148";
+#      prefixLength = 32;
+#      via          = "158.100.89.254";
+#    }
+#
+#    ];
+#  };
 
   security.pam.loginLimits = [
     { domain = "*"; item = "nofile"; type = "-"; value = "65536"; }
@@ -203,6 +195,7 @@
       "networkmanager" 
     ];
   };
+
   users.users.rezi= {
     shell = pkgs.zsh;
     isNormalUser = true;

@@ -8,10 +8,10 @@
     nerd-fonts.ubuntu-mono
     nerd-fonts.iosevka
     nerd-fonts.iosevka-term
-    ubuntu_font_family
+    ubuntu-classic
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     cascadia-code
     source-sans-pro
     ubuntu-sans

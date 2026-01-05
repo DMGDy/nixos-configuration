@@ -15,6 +15,9 @@ in
       misc {
         disable_splash_rendering = true
         disable_hyprland_logo = true
+        mouse_move_enables_dpms = true
+        enable_swallow = true
+        swallow_regex = ^(sunshine)$
       }
       decoration {
         blur {
@@ -33,8 +36,8 @@ in
         gaps_out = "0";
         windowrulev2 = "noborder, onworkspace:w[tv1] f[-1], floating:0";
         animation = [
-          "workspaces, 0"
-          "windows, 0"
+          "workspaces, 1, 8, default, slidefade 20%"
+          "windows, 1, 8, default, popin 80%"
           "fade, 0"
         ];
       };
@@ -47,7 +50,7 @@ in
         ",preferred,auto,auto,bitdepth,8"
       ];
 
-      "$mod" = "Alt";
+      "$mod" = "Super";
       "debug:disable_logs" = "false";
 
       input = {
@@ -64,77 +67,78 @@ in
 
       bind = [
         # open ghostty
-        "SHIFT_ALT, Return, exec, ghostty"
+        "SHIFT_SUPER, Return, exec, ghostty"
 
         # close focused client
-        "SHIFT_ALT, C, killactive"
+        "SHIFT_SUPER, C, killactive"
 
         # close hyprland session
-        "SHIFT_ALT, Q, exit"
+        "SHIFT_SUPER, Q, exit"
 
         # move focused client
-        "Alt, J, movefocus, d"
-        "Alt, K, movefocus, u"
-        "Alt, H, movefocus, l"
-        "Alt, L, movefocus, r"
+        "Super, J, movefocus, d"
+        "Super, K, movefocus, u"
+        "Super, H, movefocus, l"
+        "Super, L, movefocus, r"
 
         # switch workspaces
-        "Alt, 1, workspace, 1"
-        "Alt, 2, workspace, 2"
-        "Alt, 3, workspace, 3"
-        "Alt, 4, workspace, 4"
-        "Alt, 5, workspace, 5"
-        "Alt, 6, workspace, 6"
-        "Alt, 7, workspace, 7"
-        "Alt, 8, workspace, 8"
-        "Alt, 9, workspace, 9"
+        "Super, 1, workspace, 1"
+        "Super, 2, workspace, 2"
+        "Super, 3, workspace, 3"
+        "Super, 4, workspace, 4"
+        "Super, 5, workspace, 5"
+        "Super, 6, workspace, 6"
+        "Super, 7, workspace, 7"
+        "Super, 8, workspace, 8"
+        "Super, 9, workspace, 9"
 
 
         # Take screenshot and copy to clipboard
-        "Alt, s, exec, grim -g \"$(slurp)\" - | swappy -f -"
+        "Super, s, exec, grim -g \"$(slurp)\" - | swappy -f -"
 
         #change brightness
         "SUPERSHIFT, k, exec, brightnessctl s +5%"
         "SUPERSHIFT, j, exec, brightnessctl s 5%-"
 
         # switch between previous workspace
-        "Alt, Tab,workspace, previous"
+        "Super, Tab,workspace, previous"
+        "Alt, Tab, focuscurrentorlast"
 
         # toggle floating client
-        "Alt, F, togglefloating" 
+        "Super, F, togglefloating" 
 
         # move focused client to workspace
-        "SHIFT_ALT, 1, movetoworkspace, 1"
-        "SHIFT_ALT, 2, movetoworkspace, 2"
-        "SHIFT_ALT, 3, movetoworkspace, 3"
-        "SHIFT_ALT, 4, movetoworkspace, 4"
-        "SHIFT_ALT, 5, movetoworkspace, 5"
-        "SHIFT_ALT, 6, movetoworkspace, 6"
-        "SHIFT_ALT, 7, movetoworkspace, 7"
-        "SHIFT_ALT, 8, movetoworkspace, 8"
-        "SHIFT_ALT, 9, movetoworkspace, 9"
+        "SHIFT_SUPER, 1, movetoworkspace, 1"
+        "SHIFT_SUPER, 2, movetoworkspace, 2"
+        "SHIFT_SUPER, 3, movetoworkspace, 3"
+        "SHIFT_SUPER, 4, movetoworkspace, 4"
+        "SHIFT_SUPER, 5, movetoworkspace, 5"
+        "SHIFT_SUPER, 6, movetoworkspace, 6"
+        "SHIFT_SUPER, 7, movetoworkspace, 7"
+        "SHIFT_SUPER, 8, movetoworkspace, 8"
+        "SHIFT_SUPER, 9, movetoworkspace, 9"
 
         # make current client fullscreen - keeping bar
-        "Alt, Space, fullscreen, 1"
+        "Super, Space, fullscreen, 1"
 
         # make current client fullscreen - ignoring bar
-        "SHIFT_ALT, Space, fullscreen"
+        "SHIFT_SUPER, Space, fullscreen"
 
         # make focused client to master
-        "Alt, Return, movewindow, l"
+        "Super, Return, movewindow, l"
 
         # resize focused client
-        "SHIFT_ALT, H, resizeactive, -15 0"
-        "SHIFT_ALT, L, resizeactive, 15 0"
-        "SHIFT_ALT, K, resizeactive, 0 15"
-        "SHIFT_ALT, J, resizeactive, 0 -15"
+        "SHIFT_SUPER, H, resizeactive, -15 0"
+        "SHIFT_SUPER, L, resizeactive, 15 0"
+        "SHIFT_SUPER, K, resizeactive, 0 15"
+        "SHIFT_SUPER, J, resizeactive, 0 -15"
 
         # launch tofi, application launcher
-        "Alt, p, exec, tofi-run | xargs hyprctl dispatch exec"
+        "Super, p, exec, tofi-run | xargs hyprctl dispatch exec"
       ];
       bindm = [
-        "ALT, mouse:272, movewindow"
-        "ALT, mouse:273, resizewindow"
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
       ];
       exec-once = [
         "${startupScript}/bin/start"
