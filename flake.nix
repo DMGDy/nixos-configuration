@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs_stable.url ="github:nixos/nixpkgs/nixos-25.05";
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -23,10 +22,10 @@
     # epic status bar i made
     epic-bar-rs.url = "github:DMGDy/epic-bar-rs";
   };
-  outputs = { self, nixpkgs, nixpkgs_stable , ... }@inputs: 
+  outputs = { self, nixpkgs, ... }@inputs: 
   let 
     system = "x86_64-linux";
-    pkgs = import nixpkgs_stable {
+    pkgs = import nixpkgs{
       inherit system;
       config = {
         allowUnfree = true;
@@ -49,7 +48,7 @@
         ];
       };
 
-      t7910= nixpkgs_stable.lib.nixosSystem {
+      t7910= nixpkgs.lib.nixosSystem {
         specialArgs = { 
           inherit inputs system; 
         };
@@ -63,7 +62,7 @@
         ];
       };
 
-      framework_desktop= nixpkgs_stable.lib.nixosSystem {
+      framework_desktop= nixpkgs.lib.nixosSystem {
         specialArgs = { 
           inherit inputs system; 
         };

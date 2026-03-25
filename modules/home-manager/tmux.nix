@@ -21,10 +21,16 @@
       set -g @resurrect-capture-pane-contents 'on'
       set -g @resurrect-strategy-nvim 'session'
 
+      unbind-key -T copy-mode-vi MouseDragEnd1Pane
       set -g status-position bottom
       set -g status-justify left
       set -g status-left ''
       set -g status-right
+
+      set -g  mouse on
+
+      # C-s to switch sessions 
+      bind -n C-s switch-client -l
 
       # start windows and panes at 1, not 0 set -g base-index 1
       setw -g pane-base-index 1
@@ -56,37 +62,56 @@
 
       set -g history-limit 131072
 
-    ";
-    plugins = with pkgs.tmuxPlugins; [
-     resurrect
-     tmux-floax
-     yank
-     sidebar
-     extrakto
-     {
+      ";
+      plugins = with pkgs.tmuxPlugins; [
+        resurrect
+        tmux-floax
+        yank
+        sidebar
+        extrakto
+        {
+          plugin = tokyo-night-tmux;
+          extraConfig = ''
+            set -g @tokyo-night-tmux_transparent 1  # 1 or 0
+            set -g @tokyo-night-tmux_pane_id_style hide
+            set -g @tokyo-night-tmux_window_id_style hsquare
+            set -g @tokyo-night-tmux_zoom_id_style hide
+            # Icon styles
+            set -g @tokyo-night-tmux_terminal_icon 
+            set -g @tokyo-night-tmux_active_terminal_icon 
 
-      plugin = rose-pine;
-      extraConfig = ''
-        set -g @rose_pine_variant 'main'
-        set -g @rose_pine_host 'on' # Enables hostname in the status bar
-        set -g @rose_pine_date_time '%d-%m-%Y %H:%M' # It accepts the date UNIX command format (man date for info)
-        set -g @rose_pine_user 'on' # Turn on the username component in the statusbar
-        set -g @rose_pine_directory 'on' # Turn on the current folder component in the status bar
-        set -g @rose_pine_bar_bg_disabled_color_option 'default'
+            set -g @tokyo-night-tmux_time_format 24H
+            set -g @tokyo-night-tmux_date_format MYD
+            set -g @tokyo-night-tmux_show_path 1
+            set -g @tokyo-night-tmux_path_format relative # 'relative' or 'full'
+            set -g @tokyo-night-tmux_show_battery_widget 0
+            set -g @tokyo-night-tmux_show_hostname 1
+          '';
+        }
+     #{
 
-        set -g @rose_pine_default_window_behavior 'on' # Forces tmux default window list behaviour
-        set -g @rose_pine_show_current_program 'on' # Forces tmux to show the current running program as window name
-        set -g @rose_pine_show_pane_directory 'on' # Forces tmux to show the current directory as window name
+     # plugin = rose-pine;
+     # extraConfig = ''
+     #   set -g @rose_pine_variant 'main'
+     #   set -g @rose_pine_host 'on' # Enables hostname in the status bar
+     #   set -g @rose_pine_date_time '%d-%m-%Y %H:%M' # It accepts the date UNIX command format (man date for info)
+     #   set -g @rose_pine_user 'on' # Turn on the username component in the statusbar
+     #   set -g @rose_pine_directory 'on' # Turn on the current folder component in the status bar
+     #   set -g @rose_pine_bar_bg_disabled_color_option 'default'
 
-        set -g @rose_pine_session_icon '' # Changes the default icon to the left of the session name
-        set -g @rose_pine_current_window_icon '' # Changes the default icon to the left of the active window name
-        set -g @rose_pine_folder_icon '' # Changes the default icon to the left of the current directory folder
-        set -g @rose_pine_username_icon '' # Changes the default icon to the right of the hostname
-        set -g @rose_pine_hostname_icon '󰒋' # Changes the default icon to the right of the hostname
-        set -g @rose_pine_date_time_icon '󰃰' # Changes the default icon to the right of the date module
-        set -g @rose_pine_window_status_separator "  " # Changes the default icon that appears between window namesk
-      '';
-     }
-    ];
-  };
+     #   set -g @rose_pine_default_window_behavior 'on' # Forces tmux default window list behaviour
+     #   set -g @rose_pine_show_current_program 'on' # Forces tmux to show the current running program as window name
+     #   set -g @rose_pine_show_pane_directory 'on' # Forces tmux to show the current directory as window name
+
+     #   set -g @rose_pine_session_icon '' # Changes the default icon to the left of the session name
+     #   set -g @rose_pine_current_window_icon '' # Changes the default icon to the left of the active window name
+     #   set -g @rose_pine_folder_icon '' # Changes the default icon to the left of the current directory folder
+     #   set -g @rose_pine_username_icon '' # Changes the default icon to the right of the hostname
+     #   set -g @rose_pine_hostname_icon '󰒋' # Changes the default icon to the right of the hostname
+     #   set -g @rose_pine_date_time_icon '󰃰' # Changes the default icon to the right of the date module
+     #   set -g @rose_pine_window_status_separator "  " # Changes the default icon that appears between window namesk
+     # '';
+     #}
+   ];
+ };
 }

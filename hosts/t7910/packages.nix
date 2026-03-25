@@ -166,5 +166,6 @@
     ghc
     audacity
     apacheHttpd
+    ollama-rocm
   ];
 }

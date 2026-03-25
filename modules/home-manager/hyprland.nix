@@ -19,14 +19,17 @@ in
         enable_swallow = true
         swallow_regex = ^(sunshine)$
       }
+
+      layerrule = blur, epic-bar
+      layerrule = ignorezero, epic-bar
+
       decoration {
         blur {
           enabled = true
-          size = 8
-          passes = 2
+          size = 10
+          passes = 3
           new_optimizations = true
-          noise = 0.01
-          
+          xray = false
         }
       }
     '';
@@ -34,19 +37,35 @@ in
       general = {
         gaps_in = "0";
         gaps_out = "0";
-        windowrulev2 = "noborder, onworkspace:w[tv1] f[-1], floating:0";
-        animation = [
-          "workspaces, 1, 8, default, slidefade 20%"
-          "windows, 1, 8, default, popin 80%"
-          "fade, 0"
-        ];
+        layout = "master";
+        border_size = 2;
+        "col.active_border" = "rgb(2d539e)";
+        "col.inactive_border" = "rgb(c6c8d1)";
       };
+      master = {
+        new_on_top = false;
+        new_status = "master";
+        mfact = 0.5;
+        orientation = "top";
+      };
+      windowrulev2 = [
+        "noborder, onworkspace:w[tv1] f[-1], floating:0"
+        "opacity 0.9 0.85, class:^(ghostty)$"
+        "opacity 0.95 0.9, class:^(firefox)$"
+        "opacity 0.95 0.9, class:^(neovide)$"
+      ];
+      animation = [
+        "workspaces, 1, 8, easeOutQuint, slidefade 30%"
+        "windows, 1, 8, easeOutQuint, popin 90%"
+        "fade, 0"
+      ];
+      bezier = "easeOutQuint, 0.23, 1.0, 0.32, 1.0";
       cursor = {
         no_warps = false;
       };
       # monitor scaling down since default is 2
       monitor = [
-        "eDP-1,2256x1504@59.999,0x0,1.566667"
+        "DP-4,2560x1440@120.000,0x0,1.0"
         ",preferred,auto,auto,bitdepth,8"
       ];
 
@@ -101,8 +120,8 @@ in
         "SUPERSHIFT, j, exec, brightnessctl s 5%-"
 
         # switch between previous workspace
-        "Super, Tab,workspace, previous"
-        "Alt, Tab, focuscurrentorlast"
+        "Alt, Tab,workspace, previous"
+        "Super, Tab, focuscurrentorlast"
 
         # toggle floating client
         "Super, F, togglefloating" 
@@ -125,7 +144,18 @@ in
         "SHIFT_SUPER, Space, fullscreen"
 
         # make focused client to master
-        "Super, Return, movewindow, l"
+        "Super, Return, layoutmsg, swapwithmaster master"
+
+        # increase/decrease master clients (horizontal split behavior)
+        "Super, I, layoutmsg, addmaster"
+        "Super, D, layoutmsg, removemaster"
+
+        # toggle split orientation (top/bottom or left/right)
+        "Super, O, layoutmsg, orientationtop"
+        "SHIFT_SUPER, O, layoutmsg, orientationleft"
+
+        # cycle focus in master layout
+        "Super, M, layoutmsg, focusmaster master"
 
         # resize focused client
         "SHIFT_SUPER, H, resizeactive, -15 0"

@@ -19,6 +19,7 @@
     nerd-font-patcher
     fira-sans
     jetbrains-mono
+    vista-fonts
   ];
 }
 

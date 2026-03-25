@@ -1,6 +1,8 @@
 {
   programs.nixvim = {
     globals = {
+      mapleader = " ";
+      maplocalleader = " ";
       neovide_transparency = 0.8;
       globals.c_syntax_for_h = 1;
     };
@@ -26,8 +28,8 @@
       vim.opt.termguicolors = true
       vim.opt.number = false
       vim.opt.relativenumber = true 
-      vim.opt.signcolumn = "no"
-      vim.opt.laststatus = 0          -- hide statusline
+      vim.opt.signcolumn = "yes"
+      vim.opt.laststatus = 3          -- global statusline
       vim.opt.showmode = false
       vim.opt.ruler = false
       vim.opt.cmdheight = 0           -- auto-hide cmdline (Neovim 0.9+)
@@ -69,8 +71,8 @@
         -- ---------- Neovide runtime controls ----------
         if vim.g.neovide then
         -- Opacity (replacement for deprecated transparency var)
-        vim.g.neovide_opacity = 0.7
-        vim.g.neovide_normal_opacity = 0.7  -- keep normal bg at same opacity
+        vim.g.neovide_opacity = 0.85
+        vim.g.neovide_normal_opacity = 0.85  -- keep normal bg at same opacity
         -- (Transparency/opacity is configured via Neovim globals, not TOML.)  -- see docs
 
         -- Zoom bindings

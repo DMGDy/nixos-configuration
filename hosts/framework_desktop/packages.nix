@@ -24,7 +24,6 @@
     pavucontrol
     tig
     fzf
-    fzf-zsh
     silver-searcher
     ripgrep
     nerdfetch
@@ -38,7 +37,6 @@
     catppuccin-sddm
     bat
     python314
-    gccgo
     libgcc
     gnumake
     clang
@@ -166,5 +164,7 @@
     ghc
     audacity
     apacheHttpd
+    discord
+    vimPlugins.vim-airline-themes
   ];
 }

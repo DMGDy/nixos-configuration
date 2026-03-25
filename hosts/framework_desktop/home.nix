@@ -63,7 +63,7 @@
       ls = "ls --color=auto";
       shutdown = "sudo shutdown -h now";
       nix-reflake= "nix-reflake() { sudo nixos-rebuild switch --flake .#$1 };nix-reflake";
-      yoctobuilder = "docker run -it --rm -v $PWD:/home/worker/building -v $HOME/.ssh:/home/worker/.ssh -v /var/www/html:/var/www/html gop-docker-stable-local.artifactory.softwaretools.resideo.com/yoctobuilder:22.04.8";
+      yoctobuilder = "docker run -it --rm -v $PWD:/home/worker/building -v $HOME/.ssh:/home/worker/.ssh -v /var/www/html:/var/www/html gop-docker-stable-local.artifactory.softwaretools.resideo.com/yoctobuilder:22.04.11";
     };
 
     history = {
