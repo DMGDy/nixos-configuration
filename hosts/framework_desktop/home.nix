@@ -44,6 +44,13 @@
         truncation_length = 0;
         truncate_to_repo = true;
       };
+      git_commit= {
+        disabled = false;
+        only_detached = false;
+        commit_hash_length = 8;
+        tag_symbol = "󰜘";
+      };
+
       username = {
         disabled = false;
         show_always = true;

@@ -20,6 +20,7 @@
       "llama3.1"
       "deepseek-r1"
       "qwen3:30b-a3b"
+      "qwen3.6"
     ];
   };
 }
