@@ -191,5 +191,6 @@
     inetutils
     calibre
     ghostty
+    ghc
   ];
 }

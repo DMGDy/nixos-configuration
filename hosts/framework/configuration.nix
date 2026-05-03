@@ -44,7 +44,10 @@
   };
 
   services.gnome.gnome-keyring.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    download-buffer-size = 262144000;
+  };
 
   networking.hostName = "super-nixos"; # Define your hostname.
   # Pick only one of the below networking options.
