@@ -166,5 +166,6 @@
     apacheHttpd
     discord
     vimPlugins.vim-airline-themes
+    pear-desktop
   ];
 }
