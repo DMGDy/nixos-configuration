@@ -156,5 +156,6 @@
     ghidra
     inetutils
     ghc
+    delta
   ];
 }
