@@ -11,7 +11,7 @@
     inputs.home-manager.nixosModules.home-manager
     ../../modules/nixos/display-manager.nix
     ../../modules/nixos/package-config/openssh.nix
-    ./packages.nix
+    ../../modules/nixos/common-packages.nix
     ../../modules/nixos/fonts.nix
     ../../modules/nixos/environment.nix
     ../../modules/nixos/python.nix
@@ -291,8 +291,15 @@ users.users.dylandy= {
 environment.systemPackages = with pkgs; [
   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   wget
-  git
-  tree
+  awww
+  python314
+  docker
+  teleport
+  audacity
+  apacheHttpd
+  discord
+  vimPlugins.vim-airline-themes
+  pear-desktop
 ];
 
 programs.hyprland = {
