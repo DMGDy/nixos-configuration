@@ -7,7 +7,7 @@
     cmp-cmdline = {enable = true;}; # autocomplete for cmdline
     cmp = {
       enable = true;
-      autoEnableSources = true;
+      autoEnableSources = false;
       settings = {
         experimental = {
           ghost_text = true;
