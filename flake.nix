@@ -16,7 +16,6 @@
     
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-environments.url = "github:nix-community/nix-environments";
     # epic status bar i made
