@@ -227,6 +227,26 @@
   services.gnome.gnome-keyring.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # systemd-resolved provides split DNS. NetworkManager (with
+  # networkmanager.dns = "systemd-resolved" above) hands each connection's
+  # DNS + search domains to resolved, which then dispatches queries
+  # per-domain (corporate domains -> corporate DNS, everything else ->
+  # the dock's public DNS). `domains = [ "~." ]` on the corporate NIC
+  # would be too aggressive; we only want the corporate suffixes to be
+  # routing domains. The connection's DHCP-provided search domains
+  # (ds.resideo.com, resideo.com) are already used as routing domains by
+  # resolved when they come from NM, so no further config is needed for
+  # the common case.
+  services.resolved = {
+    enable = true;
+    # Use the corporate DNS as a global fallback if a query matches no
+    # routing-domain rule and no other connection provides DNS. Harmless
+    # alongside per-link DNS from NM.
+    settings.Resolve.FallbackDNS = [ "10.94.2.200" "10.86.2.200" ];
+    # Keep DNSSEC off; corporate networks often break it.
+    settings.Resolve.DNSSEC = "false";
+  };
+
   networking.hostName = "framework-amd-ai395"; 
 
 # Set your time zone.
