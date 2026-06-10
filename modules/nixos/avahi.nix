@@ -5,7 +5,7 @@
     enable = true;
     nssmdns4 = true;
     nssmdns6 = true;
-    wideArea = true;
+    wideArea = false;
     publish = {
       enable = true;
       hinfo = true;
