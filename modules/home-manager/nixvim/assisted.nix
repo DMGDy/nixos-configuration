@@ -164,10 +164,12 @@
     # ============ Better UI for LSP ============
     lspsaga = {
       enable = true;
-      lightbulb.enable = false;
-      ui = {
-        border = "rounded";
-        codeAction = "💡";
+      settings = {
+        lightbulb.enable = false;
+        ui = {
+          border = "rounded";
+          code_action = "💡";
+        };
       };
     };
 
