@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   # Enable the Nginx service
@@ -6,6 +6,7 @@
     user = "dylandy";
     group = "users";
     enable = true;
+    additionalModules = [ pkgs.nginxModules.fancyindex ];
 
     # Configure a virtual host using the default server
     virtualHosts = {
@@ -21,10 +22,10 @@
         root = "/var/www/html";
 
         extraConfig = ''
-          autoindex on;
-          autoindex_exact_size off;
-          autoindex_localtime on;
-          autoindex_format html;
+          fancyindex on;
+          fancyindex_exact_size off;
+          fancyindex_localtime on;
+          fancyindex_default_sort date_desc;
         '';
 
         locations."/" = {
