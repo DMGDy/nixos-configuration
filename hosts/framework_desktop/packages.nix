@@ -24,7 +24,6 @@
     pavucontrol
     tig
     fzf
-    silver-searcher
     ripgrep
     nerdfetch
     neovide
