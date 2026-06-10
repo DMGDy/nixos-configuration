@@ -11,7 +11,7 @@
       inputs.home-manager.nixosModules.home-manager
       ../../modules/nixos/display-manager.nix
       ../../modules/nixos/package-config/openssh.nix
-      ./packages.nix
+      ../../modules/nixos/common-packages.nix
       ../../modules/nixos/fonts.nix
       ../../modules/nixos/environment.nix
       ../../modules/nixos/python.nix
@@ -225,9 +225,14 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       wget
-      neofetch
-      git
-      tree
+      swww
+      python314
+      gccgo
+      docker
+      teleport
+      audacity
+      apacheHttpd
+      ollama-rocm
   ];
 
   programs.hyprland = {
