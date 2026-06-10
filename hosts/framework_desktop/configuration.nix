@@ -70,8 +70,25 @@
     systemd-boot.enable = true;
   };
   networking = {
-    networkmanager.enable = true;  
+    networkmanager.enable = true;
+    # Use systemd-resolved for split DNS: route queries for the corporate
+    # search domains (ds.resideo.com, resideo.com) to corporate DNS, and let
+    # everything else (public Internet) use the DNS servers handed out by the
+    # other connection (e.g. the USB dock's 8.8.8.8/1.1.1.1). NetworkManager
+    # forwards each connection's DNS + search domains to systemd-resolved,
+    # which dispatches per-domain. This avoids the flat-resolv.conf trap
+    # where the first NS to return NXDOMAIN ends resolution.
+    networkmanager.dns = "systemd-resolved";
     nameservers = [ "10.94.2.200" "10.86.2.200" ];
+
+    interfaces.enp196s0f0u2u1.ipv4.routes = [
+      {
+        address      = "0.0.0.0";
+        prefixLength = 0;
+        via          = "10.10.100.1";
+        options.metric = "10";
+      }
+    ];
 
     interfaces.enp191s0.ipv4.routes = [
       {
@@ -177,6 +194,26 @@
       {
         address      = "199.63.86.148";
         prefixLength = 32;
+        via          = "158.100.89.254";
+      }
+      {
+        address      = "158.100.69.0";
+        prefixLength = 24;
+        via          = "158.100.89.254";
+      }
+      {
+        address      = "158.100.89.38";
+        prefixLength = 32;
+        via          = "158.100.89.254";
+      }
+      {
+        address      = "158.100.90.0";
+        prefixLength = 24;
+        via          = "158.100.89.254";
+      }
+      {
+        address      = "172.31.0.0";
+        prefixLength = 16;
         via          = "158.100.89.254";
       }
 
