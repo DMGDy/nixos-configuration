@@ -21,6 +21,7 @@
     [
       "$HOME/.cargo/bin/"
       "$HOME/Scripts/"
+      "$HOME/.local/bin"
     ];
 
   xdg = {
