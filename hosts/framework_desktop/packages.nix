@@ -30,7 +30,7 @@
     neovide
     wpgtk
     wallust
-    swww
+    awww
     dash
     pfetch-rs
     hyprshot
@@ -128,7 +128,6 @@
     zenity
     where-is-my-sddm-theme
     ly
-    swww
     mesa
     shellcheck
     antidote
