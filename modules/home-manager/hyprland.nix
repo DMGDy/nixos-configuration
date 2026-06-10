@@ -21,8 +21,8 @@ in
         swallow_regex = ^(sunshine)$
       }
 
-      layerrule = blur, epic-bar
-      layerrule = ignorezero, epic-bar
+      layerrule = blur true, match:namespace ^(epic-bar)$
+      layerrule = ignore_alpha 0.05, match:namespace ^(epic-bar)$
 
       decoration {
         blur {
@@ -49,11 +49,11 @@ in
         mfact = 0.5;
         orientation = "top";
       };
-      windowrulev2 = [
-        "noborder, onworkspace:w[tv1] f[-1], floating:0"
-        "opacity 0.9 0.85, class:^(ghostty)$"
-        "opacity 0.95 0.9, class:^(firefox)$"
-        "opacity 0.95 0.9, class:^(neovide)$"
+      windowrule = [
+        "border_size 0, match:workspace w[tv1] f[-1], match:float 0"
+        "opacity 0.9 0.85, match:class ^(ghostty)$"
+        "opacity 0.95 0.9, match:class ^(firefox)$"
+        "opacity 0.95 0.9, match:class ^(neovide)$"
       ];
       animation = [
         "workspaces, 1, 8, easeOutQuint, slidefade 30%"
