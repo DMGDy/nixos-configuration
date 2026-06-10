@@ -21,6 +21,7 @@
       "deepseek-r1"
       "qwen3:30b-a3b"
       "qwen3.6"
+      "qwen2.5:72b"
     ];
   };
 }
