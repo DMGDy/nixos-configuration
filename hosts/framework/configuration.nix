@@ -11,7 +11,7 @@
       inputs.home-manager.nixosModules.home-manager
       ../../modules/nixos/display-manager.nix
       ../../modules/nixos/package-config/openssh.nix
-      ./packages.nix
+      ../../modules/nixos/common-packages.nix
       ../../modules/nixos/fonts.nix
       ../../modules/nixos/steam.nix
       ../../modules/nixos/virtual.nix
@@ -97,9 +97,37 @@
    environment.systemPackages = with pkgs; [
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      wget
-     neofetch
-     git
-     tree
+     alacritty
+     wezterm
+     foot
+     discord
+     powerline
+     powerline-fonts
+     oh-my-zsh
+     swww
+     python3Full
+     gccgo
+     whatsapp-for-linux
+     whatsapp-emoji-font
+     stm32cubemx
+     stm32flash
+     linuxKernel.packages.linux_6_6.virtualbox
+     libusb1
+     linuxKernel.packages.linux_6_6.perf
+     vscode
+     jdk
+     ant
+     noisetorch
+     zsh-git-prompt
+     jmtpfs
+     android-tools
+     tor-browser
+     raylib
+     wineWowPackages.waylandFull
+     openshot-qt
+     python312Packages.anyqt
+     calibre
+     ghostty
    ];
 
   programs.hyprland = {
