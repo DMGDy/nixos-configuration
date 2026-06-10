@@ -50,7 +50,6 @@
       };
     };
 
-    transparent.enable = true;
 
     treesitter = {
       enable = true;
