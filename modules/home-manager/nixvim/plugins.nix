@@ -55,17 +55,15 @@
     treesitter = {
       enable = true;
       nixvimInjections = true;
-      folding = true;
+      folding.enable = true;
       settings.indent.enabled= true;
 
-      settings = {
-        highlight= {
-          enable = true;
-          disable = [
-            "scss"
-            "ipkg"
-          ];
-        };
+      highlight = {
+        enable = true;
+        disable = [
+          "scss"
+          "ipkg"
+        ];
       };
     };
     hmts.enable = true;
