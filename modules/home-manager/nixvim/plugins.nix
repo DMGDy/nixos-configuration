@@ -85,10 +85,6 @@
       enable = true;
     };
 
-    ansiesc = {
-      enable = true;
-    };
-
     oil = {
       enable = true;
       luaConfig = {
