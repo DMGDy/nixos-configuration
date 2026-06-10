@@ -28,6 +28,7 @@
     configHome = /home/dylandy/.config;
     userDirs = {
       enable = true;
+      setSessionVariables = true;
       pictures = "$~/Pictures";
       download = "$~/Downloads";
     };
