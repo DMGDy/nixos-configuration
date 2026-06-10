@@ -31,6 +31,7 @@
       efiSupport = true;
       device = "nodev";
     };
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   boot.kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
