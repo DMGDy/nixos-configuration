@@ -134,8 +134,10 @@
     # ============ Illuminate (highlight same words) ============
     illuminate = {
       enable = true;
-      delay = 200;
-      underCursor = true;
+      settings = {
+        delay = 200;
+        under_cursor = true;
+      };
     };
 
     # ============ Formatting ============
