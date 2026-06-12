@@ -72,6 +72,19 @@
         ];
       };
 
+      ryzen_rtx = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs system;
+        };
+        modules = [
+          inputs.home-manager.nixosModules.default
+          ./hosts/ryzen_rtx/configuration.nix
+          # Custom Modules
+          inputs.nixvim.nixosModules.nixvim
+          ./modules/nixos/nvidia.nix
+        ];
+      };
+
 
     };
   };
