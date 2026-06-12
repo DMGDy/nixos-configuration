@@ -69,8 +69,8 @@
         -- ---------- Neovide runtime controls ----------
         if vim.g.neovide then
         -- Opacity (replacement for deprecated transparency var)
-        vim.g.neovide_opacity = 0.7
-        vim.g.neovide_normal_opacity = 0.7  -- keep normal bg at same opacity
+        vim.g.neovide_opacity = 0.8
+        vim.g.neovide_normal_opacity = 0.8  -- keep normal bg at same opacity
         -- (Transparency/opacity is configured via Neovim globals, not TOML.)  -- see docs
 
         -- Zoom bindings

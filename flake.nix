@@ -10,24 +10,24 @@
     };
 
     stylix.url = "github:danth/stylix";
-    
+
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-environments.url = "github:nix-community/nix-environments";
-    # epic status bar i made
+# epic status bar i made
     epic-bar-rs.url = "github:DMGDy/epic-bar-rs";
   };
   outputs = { self, nixpkgs, ... }@inputs: 
-  let 
+    let 
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      config = {
-        allowUnfree = true;
-      };
+  pkgs = import nixpkgs {
+    inherit system;
+    config = {
+      allowUnfree = true;
     };
+  };
   in
   {
     nixosConfigurations = {
@@ -38,10 +38,10 @@
         };
         modules = [
           inputs.home-manager.nixosModules.default
-          ./hosts/framework/configuration.nix
-          # Custom Modules
-          inputs.nixvim.nixosModules.nixvim
-          ./modules/nixos/hardware.nix
+            ./hosts/framework/configuration.nix
+# Custom Modules
+            inputs.nixvim.nixosModules.nixvim
+            ./modules/nixos/hardware.nix
         ];
       };
 
@@ -51,11 +51,21 @@
         };
         modules = [
           inputs.home-manager.nixosModules.default
-          ./hosts/t7910/configuration.nix
-          # Custom Modules
-          inputs.nixvim.nixosModules.nixvim
-          #./modules/nixos/hardware.nix
-          ./modules/nixos/nvidia.nix
+            ./hosts/t7910/configuration.nix
+            inputs.nixvim.nixosModules.nixvim
+            ./modules/nixos/nvidia.nix
+        ];
+      };
+
+      ryzen_rtx= nixpkgs.lib.nixosSystem {
+        specialArgs = { 
+          inherit inputs system; 
+        };
+        modules = [
+          inputs.home-manager.nixosModules.default
+            ./hosts/ryzen_rtx/configuration.nix
+            inputs.nixvim.nixosModules.nixvim
+            ./modules/nixos/nvidia.nix
         ];
       };
 

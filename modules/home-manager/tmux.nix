@@ -24,8 +24,6 @@
       set -g status-position bottom
       set -g status-justify left
       set -g status-left ''
-      set -g status-right
-
       # start windows and panes at 1, not 0 set -g base-index 1
       setw -g pane-base-index 1
 
@@ -51,6 +49,8 @@
       bind -r C-j resize-pane -D
       bind -r C-h resize-pane -L
       bind -r C-l resize-pane -R     
+
+      bind-key a last-window
 
       set -g history-limit 131072
 

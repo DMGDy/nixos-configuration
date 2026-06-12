@@ -43,13 +43,6 @@
       };
     };
 
-    treesitter-refactor = {
-      enable = true;
-      highlightDefinitions = {
-        enable = true;
-      };
-    };
-
     ts-autotag = {
       enable = false;
     };

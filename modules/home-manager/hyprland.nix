@@ -3,8 +3,7 @@
 let 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     swww-daemon &
-    swww img /home/dylandy/Pictures/wps/nix.png &
-    swww clear-cache &
+    swww img /home/dylandy/Pictures/wp.png &
   '';
 in
 {

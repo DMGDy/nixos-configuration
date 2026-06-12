@@ -42,6 +42,18 @@
   };
 
 
+  boot.kernelParams = [
+    "resume=/swapfile"
+    "resume_offset=4898816"  # This is the value from your filefrag output
+  ];
+
+  # Enable hibernation
+  systemd.sleep.extraConfig = ''
+  HibernateDelaySec=1800
+  '';
+
+  powerManagement.enable = true;
+
   boot.kernelPackages = pkgs.linuxPackages_6_6;
 
   boot.loader = {

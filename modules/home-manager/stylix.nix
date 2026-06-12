@@ -5,7 +5,7 @@
   {
     enable = true;
     autoEnable = false;
-    image = ../../assets/nix.png;
+    image = ../../assets/wp.png;
     imageScalingMode = "fill";
 
     polarity = "dark";
