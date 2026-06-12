@@ -62,6 +62,7 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   boot.loader = {
     efi = {

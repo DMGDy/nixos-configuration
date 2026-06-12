@@ -69,6 +69,7 @@
     syntaxHighlighting.enable = false;
 
     shellAliases = {
+      ipa="ip -brief -4 a";
       ls = "ls --color=auto";
       shutdown = "sudo shutdown -h now";
       nix-reflake= "nix-reflake() { sudo nixos-rebuild switch --flake .#$1 };nix-reflake";
