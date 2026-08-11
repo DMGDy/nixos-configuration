@@ -1,0 +1,4 @@
+{ ...}:
+{
+  services.tomcat.enable = true;
+}
