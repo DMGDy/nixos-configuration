@@ -1,3 +1,4 @@
+{ username ? "dylandy" }:
 { config, pkgs, inputs, lib, ... }:
 
 {
@@ -13,8 +14,8 @@
   ];
 
   stylix.enable = true;
-  home.username = "dylandy";
-  home.homeDirectory = "/home/dylandy";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.preferXdgDirectories = true;
   home.sessionPath = 
     [
@@ -23,7 +24,7 @@
     ];
 
   xdg = {
-    configHome = /home/dylandy/.config;
+    configHome = "/home/${username}/.config";
     userDirs = {
       enable = true;
       pictures = "$~/Pictures";
