@@ -100,7 +100,6 @@
     dbus-glib
     maven
     netbeans
-    jre_minimal
     texliveFull
     imagemagick
     imv
@@ -157,5 +156,6 @@
     inetutils
     ghc
     delta
+    claude-code
   ];
 }
