@@ -20,6 +20,7 @@
     ../../modules/nixos/sunshine.nix
     ../../modules/nixos/avahi.nix
     ../../modules/nixos/ollama.nix
+    ../../modules/nixos/tomcat.nix
   ];
 
   systemd.tmpfiles.rules = 
@@ -63,6 +64,11 @@
 
   boot.kernelPackages = pkgs.linuxPackages_6_18;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  # amdgpu defaults GTT (the iGPU's unified-memory pool, since this board has
+  # only a 512MiB dedicated VRAM carveout) to 50% of system RAM (~62.5GiB of
+  # 125.1GiB), which is too small for large ollama models like gpt-oss:120b
+  # (~66GiB weights+KV+compute). Raise it to 100GiB, leaving ~25GiB for the host.
+  boot.kernelParams = [ "amdgpu.gttsize=102400" ];
 
   boot.loader = {
     efi = {
@@ -283,7 +289,7 @@ users.users.dylandy= {
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      dylandy = import ./home.nix;
+      dylandy = import ./home.nix { username = "dylandy"; };
     };
   };
 
@@ -301,6 +307,11 @@ environment.systemPackages = with pkgs; [
   discord
   vimPlugins.vim-airline-themes
   pear-desktop
+  opengrok
+  tomcat10
+  jdk21
+  p4
+  universal-ctags
 ];
 
 programs.hyprland = {
