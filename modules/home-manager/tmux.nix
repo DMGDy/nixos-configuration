@@ -1,5 +1,51 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
+let
+  colors = config.programs.kitty.settings;
+  # Keep the existing theme's layout and widgets, but share Kitty's palette.
+  autumnTheme = pkgs.writeText "autumn-light-tmux-theme.sh" ''
+    declare -A THEME=(
+      [background]="${colors.background}"
+      [foreground]="${colors.foreground}"
+      [black]="${colors.color8}"
+      [red]="${colors.color1}"
+      [green]="${colors.color2}"
+      [yellow]="${colors.color3}"
+      [blue]="${colors.color4}"
+      [magenta]="${colors.color5}"
+      [cyan]="${colors.color6}"
+      [white]="${colors.color7}"
+      [bblack]="${colors.inactive_tab_background}"
+      [bred]="${colors.color9}"
+      [bgreen]="${colors.color10}"
+      [byellow]="${colors.color11}"
+      [bblue]="${colors.color12}"
+      [bmagenta]="${colors.color13}"
+      [bcyan]="${colors.color14}"
+      [bwhite]="${colors.color15}"
+      [ghgreen]="${colors.color2}"
+      [ghmagenta]="${colors.color5}"
+      [ghred]="${colors.color1}"
+      [ghyellow]="${colors.color3}"
+    )
+
+    if [ "$(tmux show-option -gv @tokyo-night-tmux_transparent)" = 1 ]; then
+      THEME[background]="default"
+    fi
+
+    RESET="#[fg=''${THEME[foreground]},bg=''${THEME[background]},nobold,noitalics,nounderscore,nodim]"
+  '';
+  autumnTmux = pkgs.tmuxPlugins.tokyo-night-tmux.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      cp ${autumnTheme} src/themes.sh
+      substituteInPlace src/hostname-widget.sh \
+        --replace-fail 'THEME[black]' 'THEME[bblack]'
+      substituteInPlace tokyo-night.tmux \
+        --replace-fail '#[nobold,dim]' '#[nobold,nodim]' \
+        --replace-fail '#[dim]' '#[nodim]'
+    '';
+  });
+in
 {
   programs.tmux = {
     enable = true;
@@ -33,7 +79,6 @@
       set -g status-position bottom
       set -g status-justify left
       set -g status-left ''
-      set -g status-right
 
       set -g  mouse on
 
@@ -78,7 +123,7 @@
         sidebar
         extrakto
         {
-          plugin = tokyo-night-tmux;
+          plugin = autumnTmux;
           extraConfig = ''
             set -g @tokyo-night-tmux_transparent 1  # 1 or 0
             set -g @tokyo-night-tmux_pane_id_style hide
