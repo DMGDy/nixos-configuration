@@ -6,7 +6,7 @@
     enable = true;
 
     settings = {
-      font_family = "IosevkaTerm NF";
+      font_family = "family=\"IosevkaTermSlab NF\" style=Medium";
       font_size = 16;
       background_opacity = "0.80";
       inactive_text_alpha = "1.0";

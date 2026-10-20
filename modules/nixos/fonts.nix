@@ -8,6 +8,7 @@
     nerd-fonts.ubuntu-mono
     nerd-fonts.iosevka
     nerd-fonts.iosevka-term
+    nerd-fonts.iosevka-term-slab
     ubuntu-classic
     noto-fonts
     noto-fonts-cjk-sans
@@ -22,4 +23,3 @@
     vista-fonts
   ];
 }
-
