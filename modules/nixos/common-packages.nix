@@ -8,6 +8,7 @@
     grub2_efi
     kitty
     git
+    jq
     tree
     home-manager
     xdg-desktop-portal-hyprland
