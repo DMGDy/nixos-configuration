@@ -129,6 +129,10 @@ permitted (`gradle-7.6.6`).
 
 ## Working in This Repo
 
+- Nixvim lives in `modules/home-manager/nixvim/`. Its `hmts` package override
+  adapts query captures to Neovim 0.12's node-list API; retain it until the
+  pinned plugin supports that API. `.log` and `.txt` extensions use Neovim's
+  built-in `log` syntax (timestamps, severity levels, addresses, and values).
 - Prefer editing a shared `modules/` file over duplicating logic across
   `hosts/*/configuration.nix` when a change should apply to multiple hosts.
 - Before adding a new module option, check whether an existing module

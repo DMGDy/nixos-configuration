@@ -1,6 +1,11 @@
 {pkgs, ... }:
 {
 
+  programs.nixvim.filetype.extension = {
+    log = "log";
+    txt = "log";
+  };
+
   programs.nixvim.plugins = {
 
     lualine = {
@@ -65,7 +70,20 @@
         ];
       };
     };
-    hmts.enable = true;
+    hmts = {
+      enable = true;
+      # Neovim 0.12 always passes lists of nodes to Tree-sitter query handlers.
+      package = pkgs.vimPlugins.hmts-nvim.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace plugin/hmts.lua \
+            --replace-fail 'local node = match[predicate[2]]:parent()' \
+              'local node = match[predicate[2]][1]:parent()' \
+            --replace-fail 'local path_node = match[predicate[2]]' \
+              'local path_node = match[predicate[2]][1]' \
+            --replace-fail 'all = false' 'all = true'
+        '';
+      });
+    };
 
     clangd-extensions.enable = true;
     nix.enable = true;
