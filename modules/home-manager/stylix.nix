@@ -36,7 +36,7 @@
     };
 
     targets.hyprland.enable = false;
-    targets.tofi.enable = false;
+    targets.fuzzel.enable = false;
     targets.bat.enable = true;
     targets.firefox.enable = true;
     targets.kitty.enable = false;
@@ -44,7 +44,7 @@
     targets.gtk.enable = true;
     targets.nixvim.enable = false;
     targets.tmux.enable = false;
-    targets.dunst.enable = true;
+    targets.dunst.enable = false;
     targets.zathura.enable = true;
   };
 
@@ -63,32 +63,50 @@
     };
   };
 
-  # Dunst notification styling (colors handled by Stylix)
+  # Explicit Autumn colors keep notifications aligned with Kitty and Epic Bar.
   services.dunst = {
     enable = true;
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Light";
+    };
     settings = {
       global = {
+        font = "Segoe UI Variable, Segoe UI, sans-serif 12";
         width = 350;
         height = 150;
         offset = "20x50";
         origin = "top-right";
         monitor = "DP-4";
         follow = "none";
-        transparency = 15;
+        transparency = 0;
         frame_width = 2;
         corner_radius = 10;
         padding = 15;
         horizontal_padding = 15;
         icon_position = "left";
         max_icon_size = 64;
+        separator_color = "#d9c5b9";
       };
       urgency_low = {
+        background = "#fffaf7";
+        foreground = "#634034";
+        frame_color = "#d9c5b9";
+        highlight = "#634034";
         timeout = 5;
       };
       urgency_normal = {
+        background = "#fffaf7";
+        foreground = "#38231e";
+        frame_color = "#c57339";
+        highlight = "#8c1612";
         timeout = 10;
       };
       urgency_critical = {
+        background = "#f4d3c7";
+        foreground = "#38231e";
+        frame_color = "#dc2626";
+        highlight = "#dc2626";
         timeout = 0;
       };
     };

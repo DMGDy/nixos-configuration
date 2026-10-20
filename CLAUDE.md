@@ -66,6 +66,11 @@ All 4 hosts import `inputs.home-manager.nixosModules.default` and
 - Rebuild/switch alias: `nix-reflake <hostname>` → `sudo nixos-rebuild switch --flake .#<hostname>`.
 - `system.stateVersion` / `home.stateVersion` = `24.05` — do not bump without
   a deliberate decision (this is NOT the NixOS release version to track).
+- **Status-bar styling**: `modules/home-manager/tmux.nix` uses native tmux styles
+  derived from Kitty's Autumn Light palette. Active windows have peach fill
+  and red underlined text; inactive entries use full-contrast secondary brown.
+  The right side retains directory, hostname, and prefix/zoom indicators,
+  without duplicate desktop clocks or system metrics.
 
 ## framework_desktop Host Specifics
 

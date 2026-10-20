@@ -17,13 +17,16 @@ in
     settings = {
       config = {
         general = {
-          gaps_in = 0;
-          gaps_out = 0;
+          gaps_in = 4;
+          gaps_out = 8;
           layout = "master";
           border_size = 2;
           col = {
-            active_border = "rgb(2d539e)";
-            inactive_border = "rgb(c6c8d1)";
+            active_border = {
+              colors = [ "rgb(8c1612)" "rgb(c57339)" ];
+              angle = 45;
+            };
+            inactive_border = "rgb(d9c5b9)";
           };
         };
         master = {
@@ -33,6 +36,15 @@ in
           orientation = "top";
         };
         decoration = {
+          rounding = 10;
+          shadow = {
+            enabled = true;
+            range = 16;
+            render_power = 3;
+            color = "rgba(38231e30)";
+            color_inactive = "rgba(38231e1a)";
+            offset = [ 0 3 ];
+          };
           blur = {
             enabled = true;
             size = 10;
@@ -96,21 +108,32 @@ in
             monitor = "DP-1";
             default = true;
           }
+          {
+            workspace = "w[tv1] f[-1]";
+            gaps_in = 0;
+            gaps_out = 0;
+          }
         ];
 
       window_rule = [
         {
-          name = "no-border-single-tiled";
+          name = "flush-single-tiled";
           match = {
             workspace = "w[tv1] f[-1]";
             float = false;
           };
           border_size = 0;
+          rounding = 0;
+        }
+        {
+          name = "no-shadow-tiled";
+          match.float = false;
+          no_shadow = true;
         }
         {
           name = "opacity-terminal";
-          match.class = "^(kitty|ghostty)$";
-          opacity = "0.9 0.85";
+          match.class = "^(kitty|ghostty|com[.]mitchellh[.]ghostty)$";
+          opacity = "1.0 1.0";
         }
         {
           name = "opacity-firefox";
@@ -127,9 +150,21 @@ in
       layer_rule = [
         {
           name = "epic-bar-blur";
-          match.namespace = "^(epic-bar)$";
+          # Epic Bar currently uses GTK layer-shell's default namespace.
+          match.namespace = "^(epic-bar|gtk4-layer-shell)$";
           blur = true;
           ignore_alpha = 0.05;
+          no_anim = true;
+        }
+        {
+          name = "launcher-fade";
+          match.namespace = "^(desktop-launcher)$";
+          animation = "fade";
+        }
+        {
+          name = "notification-slide";
+          match.namespace = "^(notifications)$";
+          animation = "slide top";
         }
       ];
     };
@@ -137,9 +172,14 @@ in
     extraConfig = ''
       hl.curve("easeOutQuint", { type = "bezier", points = { {0.23, 1.0}, {0.32, 1.0} } })
 
-      hl.animation({ leaf = "workspaces", enabled = true, speed = 8, bezier = "easeOutQuint", style = "slidefade 30%" })
-      hl.animation({ leaf = "windows",    enabled = true, speed = 8, bezier = "easeOutQuint", style = "popin 90%" })
+      -- Speeds are deciseconds, matching the bar's 200 ms motion.
+      hl.animation({ leaf = "workspaces", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidefade 20%" })
+      hl.animation({ leaf = "windows", enabled = true, speed = 2, bezier = "easeOutQuint", style = "popin 95%" })
+      hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.5, bezier = "easeOutQuint", style = "popin 97%" })
+      hl.animation({ leaf = "border", enabled = true, speed = 2, bezier = "easeOutQuint" })
       hl.animation({ leaf = "fade",       enabled = false })
+      hl.animation({ leaf = "layers", enabled = true, speed = 1.8, bezier = "easeOutQuint", style = "fade" })
+      hl.animation({ leaf = "fadeLayers", enabled = true, speed = 1.5, bezier = "easeOutQuint" })
 
       local mod = "SUPER"
 
@@ -204,8 +244,8 @@ in
       hl.bind(mod .. " + SHIFT + K", hl.dsp.window.resize({ x = 0,   y = 15,  relative = true }))
       hl.bind(mod .. " + SHIFT + J", hl.dsp.window.resize({ x = 0,   y = -15, relative = true }))
 
-      -- launch tofi, application launcher
-      hl.bind(mod .. " + P", hl.dsp.exec_cmd("tofi-run | sh"))
+      -- launch applications and PATH commands
+      hl.bind(mod .. " + P", hl.dsp.exec_cmd("fuzzel"))
 
       -- move/resize windows with mod + LMB/RMB
       hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
