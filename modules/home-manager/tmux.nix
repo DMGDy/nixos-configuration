@@ -2,49 +2,6 @@
 
 let
   colors = config.programs.kitty.settings;
-  # Keep the existing theme's layout and widgets, but share Kitty's palette.
-  autumnTheme = pkgs.writeText "autumn-light-tmux-theme.sh" ''
-    declare -A THEME=(
-      [background]="${colors.background}"
-      [foreground]="${colors.foreground}"
-      [black]="${colors.color8}"
-      [red]="${colors.color1}"
-      [green]="${colors.color2}"
-      [yellow]="${colors.color3}"
-      [blue]="${colors.color4}"
-      [magenta]="${colors.color5}"
-      [cyan]="${colors.color6}"
-      [white]="${colors.color7}"
-      [bblack]="${colors.inactive_tab_background}"
-      [bred]="${colors.color9}"
-      [bgreen]="${colors.color10}"
-      [byellow]="${colors.color11}"
-      [bblue]="${colors.color12}"
-      [bmagenta]="${colors.color13}"
-      [bcyan]="${colors.color14}"
-      [bwhite]="${colors.color15}"
-      [ghgreen]="${colors.color2}"
-      [ghmagenta]="${colors.color5}"
-      [ghred]="${colors.color1}"
-      [ghyellow]="${colors.color3}"
-    )
-
-    if [ "$(tmux show-option -gv @tokyo-night-tmux_transparent)" = 1 ]; then
-      THEME[background]="default"
-    fi
-
-    RESET="#[fg=''${THEME[foreground]},bg=''${THEME[background]},nobold,noitalics,nounderscore,nodim]"
-  '';
-  autumnTmux = pkgs.tmuxPlugins.tokyo-night-tmux.overrideAttrs (old: {
-    postPatch = (old.postPatch or "") + ''
-      cp ${autumnTheme} src/themes.sh
-      substituteInPlace src/hostname-widget.sh \
-        --replace-fail 'THEME[black]' 'THEME[bblack]'
-      substituteInPlace tokyo-night.tmux \
-        --replace-fail '#[nobold,dim]' '#[nobold,nodim]' \
-        --replace-fail '#[dim]' '#[nodim]'
-    '';
-  });
 in
 {
   programs.tmux = {
@@ -79,6 +36,26 @@ in
       set -g status-position bottom
       set -g status-justify left
       set -g status-left ''
+      set -g status-interval 5
+      set -g status-right-length 70
+      set -g status-style 'fg=${colors.foreground},bg=default'
+      set -g status-right '#[bg=default,nobold,nounderscore,fg=${colors.color8}]#{=24:#{b:pane_current_path}}  #[fg=${colors.foreground}]#H#{?client_prefix,  #[fg=${colors.color1}]PREFIX,}#{?window_zoomed_flag,  #[fg=${colors.color1}]ZOOM,} '
+
+      setw -g window-status-separator '  '
+      setw -g window-status-style 'fg=${colors.color8},bg=default,nobold,nounderscore,nodim'
+      setw -g window-status-current-style 'fg=${colors.color1},bg=${colors.selection_background},bold,underscore,nodim'
+      setw -g window-status-format ' #I:#W#{?window_activity_flag, +,}#{?window_bell_flag, !,}#{?window_zoomed_flag, Z,} '
+      setw -g window-status-current-format ' #I:#W#{?window_zoomed_flag, Z,} '
+      setw -g window-status-activity-style 'fg=${colors.color3},bg=default,bold'
+      setw -g window-status-bell-style 'fg=${colors.color1},bg=${colors.selection_background},bold'
+
+      set -g pane-border-style 'fg=${colors.inactive_border_color}'
+      set -g pane-active-border-style 'fg=${colors.active_border_color}'
+      set -g message-style 'fg=${colors.foreground},bg=${colors.inactive_tab_background}'
+      set -g message-command-style 'fg=${colors.foreground},bg=${colors.inactive_tab_background}'
+      setw -g mode-style 'fg=${colors.selection_foreground},bg=${colors.selection_background}'
+      set -g display-panes-colour '${colors.color8}'
+      set -g display-panes-active-colour '${colors.color1}'
 
       set -g  mouse on
 
@@ -122,25 +99,6 @@ in
         yank
         sidebar
         extrakto
-        {
-          plugin = autumnTmux;
-          extraConfig = ''
-            set -g @tokyo-night-tmux_transparent 1  # 1 or 0
-            set -g @tokyo-night-tmux_pane_id_style hide
-            set -g @tokyo-night-tmux_window_id_style hsquare
-            set -g @tokyo-night-tmux_zoom_id_style hide
-            # Icon styles
-            set -g @tokyo-night-tmux_terminal_icon 
-            set -g @tokyo-night-tmux_active_terminal_icon 
-
-            set -g @tokyo-night-tmux_time_format 24H
-            set -g @tokyo-night-tmux_date_format MYD
-            set -g @tokyo-night-tmux_show_path 1
-            set -g @tokyo-night-tmux_path_format relative # 'relative' or 'full'
-            set -g @tokyo-night-tmux_show_battery_widget 0
-            set -g @tokyo-night-tmux_show_hostname 1
-          '';
-        }
      #{
 
      # plugin = rose-pine;
