@@ -21,6 +21,14 @@
       set -g @resurrect-capture-pane-contents 'on'
       set -g @resurrect-strategy-nvim 'session'
 
+      # tmux-floax creates a hardcoded 'scratch' session that resurrect then
+      # persists and restores, interfering with other sessions. Unbind its
+      # trigger keys (prefix p / P) so it is not spawned, and kill any leftover
+      # 'scratch' session whenever a client attaches so restores cannot revive it.
+      unbind p
+      unbind P
+      set-hook -g client-attached 'run-shell \"tmux kill-session -t scratch 2>/dev/null || true\"'
+
       unbind-key -T copy-mode-vi MouseDragEnd1Pane
       set -g status-position bottom
       set -g status-justify left
