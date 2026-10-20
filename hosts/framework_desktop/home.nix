@@ -12,6 +12,7 @@
 #    ../../modules/home-manager/eww.nix
     ../../modules/home-manager/tmux.nix
     ../../modules/home-manager/ghostty.nix
+    ../../modules/home-manager/fzf-tab.nix
   ];
 
   stylix.enable = true;
@@ -67,7 +68,7 @@
     dotDir = "${config.home.homeDirectory}/.zshdir/";
     autosuggestion.enable = true;
     enableCompletion = true;
-    syntaxHighlighting.enable = false;
+    syntaxHighlighting.enable = true;
 
     shellAliases = {
       ipa="ip -brief -4 a";
@@ -100,11 +101,7 @@
           "jeffreytse/zsh-vi-mode"
           "zpm-zsh/colors"
           "zpm-zsh/figures"
-          "zsh-users/zsh-autosuggestions"
-          "zsh-users/zsh-syntax-highlighting"
           "unixorn/fzf-zsh-plugin"
-          "Aloxaf/fzf-tab"
-          "zsh-users/zsh-history-substring-search"
       ];
     };
 
