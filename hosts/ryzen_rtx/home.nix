@@ -5,7 +5,7 @@
   imports = [
     inputs.nixvim.homeModules.nixvim
     inputs.stylix.homeModules.stylix
-    ../../modules/home-manager/tofi.nix
+    ../../modules/home-manager/fuzzel.nix
     ../../modules/home-manager/hyprland.nix
     ../../modules/home-manager/nixvim.nix
     ../../modules/home-manager/stylix.nix

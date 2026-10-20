@@ -4,7 +4,7 @@
 {
   imports = [
     inputs.stylix.homeManagerModules.stylix
-    ./../../modules/home-manager/tofi.nix
+    ./../../modules/home-manager/fuzzel.nix
     ./../../modules/home-manager/hyprland.nix
     ../../modules/home-manager/stylix.nix
 #    ../../modules/home-manager/eww.nix

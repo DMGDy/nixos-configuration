@@ -46,7 +46,6 @@
     brightnessctl
     coreutils-full
     file
-    tofi
     catppuccin-sddm-corners
     cargo
     unicode-paracode
