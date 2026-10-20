@@ -11,6 +11,7 @@
     ../../modules/home-manager/stylix.nix
     ../../modules/home-manager/tmux.nix
     ../../modules/home-manager/ghostty.nix
+    ../../modules/home-manager/kitty.nix
   ];
 
   stylix.enable = true;

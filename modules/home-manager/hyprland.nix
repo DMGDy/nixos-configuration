@@ -108,8 +108,8 @@ in
           border_size = 0;
         }
         {
-          name = "opacity-ghostty";
-          match.class = "^(ghostty)$";
+          name = "opacity-terminal";
+          match.class = "^(kitty|ghostty)$";
           opacity = "0.9 0.85";
         }
         {
@@ -143,8 +143,8 @@ in
 
       local mod = "SUPER"
 
-      -- open ghostty
-      hl.bind(mod .. " + SHIFT + Return", hl.dsp.exec_cmd("ghostty"))
+      -- open primary terminal
+      hl.bind(mod .. " + SHIFT + Return", hl.dsp.exec_cmd("kitty"))
 
       -- close focused client
       hl.bind(mod .. " + SHIFT + C", hl.dsp.window.close())

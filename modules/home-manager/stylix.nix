@@ -39,7 +39,7 @@
     targets.tofi.enable = false;
     targets.bat.enable = true;
     targets.firefox.enable = true;
-    targets.kitty.enable = true;
+    targets.kitty.enable = false;
     targets.yazi.enable = true;
     targets.gtk.enable = true;
     targets.nixvim.enable = false;
