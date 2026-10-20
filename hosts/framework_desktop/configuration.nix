@@ -312,6 +312,7 @@ environment.systemPackages = with pkgs; [
   jdk21
   p4
   universal-ctags
+  acli
 ];
 
 programs.hyprland = {
