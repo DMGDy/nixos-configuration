@@ -108,11 +108,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1779990956,
-        "narHash": "sha256-m7uubIuXdNLx1JGBVY7qRN6paLmEw+GMDt47jrJPn/k=",
+        "lastModified": 1792637877,
+        "narHash": "sha256-VTo8pO8KmokjP+muqa0LixtHLpKIUVl0A75IggTW8V8=",
         "owner": "DMGDy",
         "repo": "epic-bar-rs",
-        "rev": "364068348d5fd840a763c96ac0118385c874fb63",
+        "rev": "a2015d9ca5a1e350a6b9f1ed23c72849eac34738",
         "type": "github"
       },
       "original": {
