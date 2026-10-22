@@ -11,6 +11,7 @@
     inputs.home-manager.nixosModules.home-manager
     ../../modules/nixos/display-manager.nix
     ../../modules/nixos/package-config/openssh.nix
+    ../../modules/nixos/tailscale.nix
     ../../modules/nixos/common-packages.nix
     ../../modules/nixos/fonts.nix
     ../../modules/nixos/environment.nix
@@ -345,4 +346,3 @@ services.udev.enable =true;
 system.stateVersion = "24.05"; # Did you read the comment?
 
 }
-

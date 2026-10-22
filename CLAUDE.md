@@ -113,6 +113,13 @@ it's used on a corporate network):
   these `interfaces.<name>.ipv4.routes` blocks will silently stop applying**
   — check `ip link` after hardware changes.
 - NFS mount at `/mnt/shared` (`10.10.101.31:/srv/nfs/shared`, automount).
+- Tailscale is enabled through `modules/nixos/tailscale.nix`, with Tailscale
+  SSH and `--accept-dns=false` to preserve corporate split DNS. It is enrolled
+  as `dylangarza1909@gmail.com` at `100.121.118.113`, with incoming connections
+  enabled and the tailnet's default access policy retained at the user's
+  request. Connect from another device on that tailnet with
+  `ssh dylandy@100.121.118.113`. It does not advertise subnet routes or act as an
+  exit node. Existing LAN OpenSSH is unchanged.
 
 **Services/software unique to this host** (imported in `configuration.nix`):
 `display-manager.nix`, `package-config/openssh.nix`, `common-packages.nix`,
