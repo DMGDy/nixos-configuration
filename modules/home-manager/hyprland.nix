@@ -1,12 +1,26 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
+  monitors = config.hyprland.monitors;
   startupScript = pkgs.writeShellScriptBin "start" ''
     awww-daemon &
   '';
 in
 {
-  wayland.windowManager.hyprland = {
+  options.hyprland.monitors = {
+    primary = lib.mkOption {
+      type = lib.types.str;
+      default = "DP-4";
+      description = "Output that holds every workspace except 4-6.";
+    };
+    secondary = lib.mkOption {
+      type = lib.types.str;
+      default = "DP-1";
+      description = "Output dedicated to workspaces 4-6.";
+    };
+  };
+
+  config.wayland.windowManager.hyprland = {
     enable = true;
     # Hyprland 0.56+ reads ~/.config/hypr/hyprland.lua; each settings
     # attribute becomes an hl.<name>(...) call.
@@ -83,29 +97,31 @@ in
           position = "0x0";
           scale = 1.0;
         }
+        # Any other display runs at its highest refresh rate.
         {
           output = "";
-          mode = "preferred";
+          mode = "highrr";
           position = "auto";
           scale = "auto";
           bitdepth = 8;
         }
       ];
 
-      # Every workspace lives on the primary display (DP-4) except workspace 4,
-      # which stays on the secondary (DP-1).
+      # Workspaces stop at 10. Workspaces 4-6 live on the secondary display and
+      # the rest on the primary; each display opens on its first workspace, so
+      # Hyprland never has to invent a workspace beyond 10 for it.
       workspace_rule =
         map (ws: {
           workspace = toString ws;
-          monitor = "DP-4";
+          monitor = monitors.primary;
           default = ws == 1;
-        }) [ 1 2 3 5 6 7 8 9 ]
+        }) [ 1 2 3 7 8 9 10 ]
+        ++ map (ws: {
+          workspace = toString ws;
+          monitor = monitors.secondary;
+          default = ws == 4;
+        }) [ 4 5 6 ]
         ++ [
-          {
-            workspace = "4";
-            monitor = "DP-1";
-            default = true;
-          }
           {
             workspace = "w[tv1] f[-1]";
             gaps_in = 0;
@@ -197,9 +213,11 @@ in
       hl.bind(mod .. " + L", hl.dsp.focus({ direction = "right" }))
 
       -- switch workspaces / move focused client to workspace
-      for i = 1, 9 do
-        hl.bind(mod .. " + " .. i,             hl.dsp.focus({ workspace = i }))
-        hl.bind(mod .. " + SHIFT + " .. i,     hl.dsp.window.move({ workspace = i }))
+      -- (keys 1-9 and 0 map to workspaces 1-10)
+      for i = 1, 10 do
+        local key = i % 10
+        hl.bind(mod .. " + " .. key,           hl.dsp.focus({ workspace = i }))
+        hl.bind(mod .. " + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i }))
       end
 
       -- take screenshot and copy to clipboard

@@ -74,15 +74,11 @@
     base0F = "a8553c"; # brown
   };
 
-  # Run the 1080p monitor at its 144Hz mode instead of the 60Hz default.
-  wayland.windowManager.hyprland.settings.monitor = lib.mkBefore [
-    {
-      output = "DP-1";
-      mode = "1920x1080@143.85";
-      position = "auto";
-      scale = 1.0;
-    }
-  ];
+  # DP-1 is the main display here; HDMI-A-1 holds workspaces 4-6.
+  hyprland.monitors = {
+    primary = "DP-1";
+    secondary = "HDMI-A-1";
+  };
 
   home.username = username;
   home.homeDirectory = "/home/${username}";
