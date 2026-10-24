@@ -7,26 +7,26 @@
     image = ../../assets/nix.png;
     imageScalingMode = "fill";
 
-    polarity = "light";
+    polarity = "dark";
 
-    # Iceberg Light color palette
+    # Iceberg Dark color palette
     base16Scheme = {
-      base00 = "e8e9ec"; # background
-      base01 = "dcdfe7"; # lighter background
-      base02 = "c6c8d1"; # selection
+      base00 = "161821"; # background
+      base01 = "1e2132"; # lighter background
+      base02 = "2a2f47"; # selection
       base03 = "6b7089"; # comments
-      base04 = "33374c"; # dark foreground
-      base05 = "33374c"; # foreground
-      base06 = "1e2132"; # light foreground
-      base07 = "17171b"; # lightest foreground
-      base08 = "cc517a"; # red
-      base09 = "c57339"; # orange
-      base0A = "c18401"; # yellow
-      base0B = "668e3d"; # green
-      base0C = "3f83a6"; # cyan
-      base0D = "2d539e"; # blue
-      base0E = "7759b4"; # purple
-      base0F = "cc3768"; # magenta
+      base04 = "818596"; # dark foreground
+      base05 = "c6c8d1"; # foreground
+      base06 = "cdd1e6"; # light foreground
+      base07 = "e8e9ec"; # lightest foreground
+      base08 = "e27878"; # red
+      base09 = "e2a478"; # orange
+      base0A = "e2d478"; # yellow
+      base0B = "b4be82"; # green
+      base0C = "89b8c2"; # cyan
+      base0D = "84a0c6"; # blue
+      base0E = "a093c7"; # purple
+      base0F = "e98989"; # magenta
     };
 
     cursor = {
@@ -53,13 +53,13 @@
     enable = true;
     iconTheme = {
       package = pkgs.papirus-icon-theme;
-      name = "Papirus-Light";
+      name = "Papirus-Dark";
     };
     gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = false;
+      gtk-application-prefer-dark-theme = true;
     };
     gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = false;
+      gtk-application-prefer-dark-theme = true;
     };
   };
 

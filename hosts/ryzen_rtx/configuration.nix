@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+      ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
       ../../modules/nixos/display-manager.nix
       ../../modules/nixos/package-config/openssh.nix
@@ -17,7 +17,11 @@
       ../../modules/nixos/python.nix
       ../../modules/nixos/docker.nix
       ../../modules/nixos/nginx.nix
+      ../../modules/nixos/nvidia.nix
     ];
+
+  # RTX 2060 Super (Turing) uses stable driver, not legacy_470
+  hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.stable;
   swapDevices = [ {
       device = "/swapfile";
       size = 64 * 1024;
@@ -27,13 +31,6 @@
       size = 128 * 1024;
     }
   ];
-  zramSwap= {
-    enable = true;
-    memoryMax = 65536;
-    memoryPercent = 50;
-    writebackDevice = "/dev/zvol/tank/swap";
-  };
-
   programs.nix-ld.enable = true;
 
   programs.steam = {
@@ -63,8 +60,8 @@
       };
     };
 
-    kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
-    kernelPackages = pkgs.linuxPackages_6_12;
+    kernelParams = [ "nvme_core.default_ps_max_latency_us=0" "nvidia-drm.fbdev=1" ];
+    kernelPackages = pkgs.linuxPackages_6_18;
   };
 
 
@@ -113,7 +110,7 @@
       wget
       swww
       python314
-      linuxKernel.packages.linux_6_6.perf
+      linuxKernel.packages.linux_6_18.perf
       vscode
       jdk
       ant
@@ -122,6 +119,7 @@
       android-tools
       pwvucontrol
       discord
+      prismlauncher
   ];
 
   programs.hyprland = {
@@ -152,6 +150,8 @@
   };
 
   services.udev.enable =true;
+
+  networking.firewall.allowedTCPPorts = [ 25565 ];
 
   system.stateVersion = "24.05"; # Did you read the comment?
 

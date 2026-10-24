@@ -9,7 +9,7 @@
       background-blur-radius = 20;
       unfocused-split-opacity = 0.9;
       confirm-close-surface = false;
-      theme = "Iceberg Light";
+      theme = "Iceberg Dark";
       title = "ghostty";
       font-size = 16;
       font-family = "IosevkaTerm NF";

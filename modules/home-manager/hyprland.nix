@@ -1,10 +1,8 @@
 { pkgs, ... }:
 
 let
-  startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+  startupScript = pkgs.writeShellScriptBin "start" ''
     awww-daemon &
-    awww img /home/dylandy/Pictures/wps/nix.png &
-    awww clear-cache &
   '';
 in
 {
@@ -181,7 +179,7 @@ in
       hl.animation({ leaf = "layers", enabled = true, speed = 1.8, bezier = "easeOutQuint", style = "fade" })
       hl.animation({ leaf = "fadeLayers", enabled = true, speed = 1.5, bezier = "easeOutQuint" })
 
-      local mod = "SUPER"
+      local mod = "ALT"
 
       -- open primary terminal
       hl.bind(mod .. " + SHIFT + Return", hl.dsp.exec_cmd("kitty"))
@@ -212,8 +210,7 @@ in
       hl.bind(mod .. " + SHIFT + J", hl.dsp.exec_cmd("brightnessctl s 5%-"))
 
       -- switch between previous workspace
-      hl.bind("ALT + Tab",       hl.dsp.focus({ workspace = "previous" }))
-      hl.bind(mod .. " + Tab",   hl.dsp.focus({ last = true }))
+      hl.bind(mod .. " + Tab",   hl.dsp.focus({ workspace = "previous" }))
 
       -- toggle floating client
       hl.bind(mod .. " + F", hl.dsp.window.float({ action = "toggle" }))
