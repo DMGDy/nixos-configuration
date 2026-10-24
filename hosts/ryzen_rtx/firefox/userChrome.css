@@ -1,0 +1,79 @@
+/* Autumn Dark for Firefox's browser UI, matching the Kitty/GTK override in
+   ../home.nix. Overrides both the default and lightweight (lwtheme) themes. */
+:root,
+:root:-moz-lwtheme,
+:root[lwtheme] {
+  --autumn-bg: #1d1411;
+  --autumn-surface: #2a1d18;
+  --autumn-raised: #3a2820;
+  --autumn-selection: #5a3426;
+  --autumn-border: #4a3128;
+  --autumn-fg: #ecdcd2;
+  --autumn-secondary: #b89a8c;
+  --autumn-accent: #e0675a;
+  --autumn-accent-hover: #f08070;
+  --autumn-link: #e5845e;
+
+  /* tab strip / window frame */
+  --lwt-accent-color: var(--autumn-bg) !important;
+  --lwt-accent-color-inactive: var(--autumn-bg) !important;
+  --lwt-text-color: var(--autumn-fg) !important;
+  --toolbox-bgcolor: var(--autumn-bg) !important;
+  --toolbox-bgcolor-inactive: var(--autumn-bg) !important;
+  --toolbox-textcolor: var(--autumn-fg) !important;
+  --toolbox-textcolor-inactive: var(--autumn-secondary) !important;
+
+  /* tabs */
+  --tab-selected-bgcolor: var(--autumn-surface) !important;
+  --tab-selected-textcolor: var(--autumn-fg) !important;
+  --tab-hover-background-color: rgba(236, 220, 210, 0.08) !important;
+  --tab-loading-fill: var(--autumn-accent) !important;
+  --tab-attention-icon-color: var(--autumn-accent) !important;
+
+  /* navigation toolbar and buttons */
+  --toolbar-bgcolor: var(--autumn-surface) !important;
+  --toolbar-color: var(--autumn-fg) !important;
+  --toolbarbutton-hover-background: rgba(236, 220, 210, 0.10) !important;
+  --toolbarbutton-active-background: rgba(236, 220, 210, 0.16) !important;
+  --toolbarseparator-color: var(--autumn-border) !important;
+  --chrome-content-separator-color: var(--autumn-border) !important;
+
+  /* address bar and its dropdown */
+  --toolbar-field-background-color: var(--autumn-bg) !important;
+  --toolbar-field-color: var(--autumn-fg) !important;
+  --toolbar-field-border-color: var(--autumn-border) !important;
+  --toolbar-field-focus-background-color: var(--autumn-bg) !important;
+  --toolbar-field-focus-color: var(--autumn-fg) !important;
+  --toolbar-field-focus-border-color: var(--autumn-accent) !important;
+  --urlbar-box-bgcolor: var(--autumn-surface) !important;
+  --urlbar-box-hover-bgcolor: var(--autumn-raised) !important;
+  --urlbarView-highlight-background: var(--autumn-selection) !important;
+  --urlbarView-highlight-color: var(--autumn-fg) !important;
+  --urlbarView-hover-background: var(--autumn-raised) !important;
+  --focus-outline-color: var(--autumn-accent) !important;
+
+  /* popups, panels, menus, sidebar */
+  --arrowpanel-background: var(--autumn-surface) !important;
+  --arrowpanel-color: var(--autumn-fg) !important;
+  --arrowpanel-border-color: var(--autumn-border) !important;
+  --panel-separator-color: var(--autumn-border) !important;
+  --menu-background-color: var(--autumn-surface) !important;
+  --menu-color: var(--autumn-fg) !important;
+  --menu-border-color: var(--autumn-border) !important;
+  --menuitem-hover-background-color: var(--autumn-raised) !important;
+  --sidebar-background-color: var(--autumn-bg) !important;
+  --sidebar-text-color: var(--autumn-fg) !important;
+  --sidebar-border-color: var(--autumn-border) !important;
+
+  /* accent used by buttons, checkboxes and highlights */
+  --color-accent-primary: var(--autumn-accent) !important;
+  --color-accent-primary-hover: var(--autumn-accent-hover) !important;
+  --color-accent-primary-active: var(--autumn-link) !important;
+  --button-text-color-primary: var(--autumn-bg) !important;
+}
+
+/* Empty-tab flash before a page paints. */
+#tabbrowser-tabpanels,
+#browser {
+  background-color: var(--autumn-bg) !important;
+}

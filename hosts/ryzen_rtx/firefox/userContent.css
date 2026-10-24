@@ -1,0 +1,37 @@
+/* Autumn Dark for Firefox's own pages (new tab, settings, about:*). */
+@-moz-document url-prefix("about:"), url-prefix("chrome://browser/") {
+  :root {
+    --in-content-page-background: #1d1411 !important;
+    --in-content-page-color: #ecdcd2 !important;
+    --in-content-deemphasized-text: #b89a8c !important;
+    --in-content-box-background: #2a1d18 !important;
+    --in-content-box-border-color: #4a3128 !important;
+    --in-content-item-hover: #3a2820 !important;
+    --in-content-item-selected: #5a3426 !important;
+    --in-content-accent-color: #e0675a !important;
+    --in-content-link-color: #e5845e !important;
+    --in-content-link-color-hover: #f29a74 !important;
+    --in-content-primary-button-background: #e0675a !important;
+    --in-content-primary-button-background-hover: #f08070 !important;
+    --in-content-primary-button-text-color: #1d1411 !important;
+    --color-accent-primary: #e0675a !important;
+    --color-accent-primary-hover: #f08070 !important;
+    --background-color-canvas: #1d1411 !important;
+    --background-color-box: #2a1d18 !important;
+    --border-color: #4a3128 !important;
+    --text-color: #ecdcd2 !important;
+    --text-color-deemphasized: #b89a8c !important;
+    --link-color: #e5845e !important;
+    --newtab-background-color: #1d1411 !important;
+    --newtab-background-color-secondary: #2a1d18 !important;
+    --newtab-text-primary-color: #ecdcd2 !important;
+    --newtab-text-secondary-color: #b89a8c !important;
+    --newtab-primary-action-background: #e0675a !important;
+  }
+}
+
+@-moz-document url("about:blank") {
+  html {
+    background-color: #1d1411 !important;
+  }
+}

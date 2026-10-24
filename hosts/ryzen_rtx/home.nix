@@ -74,6 +74,24 @@
     base0F = "a8553c"; # brown
   };
 
+  # Autumn Dark for Firefox. Firefox comes from the system package set, so the
+  # theme is dropped into the existing profile instead of letting
+  # programs.firefox take over profiles.ini.
+  home.file = let
+    profile = ".mozilla/firefox/qbr7fyjw.default";
+  in {
+    "${profile}/chrome/userChrome.css".source = ./firefox/userChrome.css;
+    "${profile}/chrome/userContent.css".source = ./firefox/userContent.css;
+    "${profile}/user.js".text = ''
+      user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+      // Dark UI and dark pages (prefers-color-scheme: dark) for websites.
+      user_pref("browser.theme.toolbar-theme", 0);
+      user_pref("browser.theme.content-theme", 0);
+      user_pref("layout.css.prefers-color-scheme.content-override", 0);
+      user_pref("browser.display.background_color.dark", "#1d1411");
+    '';
+  };
+
   # DP-1 is the main display here; HDMI-A-1 holds workspaces 4-6.
   hyprland.monitors = {
     primary = "DP-1";
@@ -165,12 +183,6 @@
 
   };
   home.stateVersion = "24.05"; # Please read the comment before changing.
-
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-
-   };
 
   programs.home-manager.enable = true;
 }
