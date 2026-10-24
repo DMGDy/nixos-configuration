@@ -3,7 +3,7 @@
 
 {
   imports = [
-    inputs.stylix.homeManagerModules.stylix
+    inputs.stylix.homeModules.stylix
     ./../../modules/home-manager/fuzzel.nix
     ./../../modules/home-manager/hyprland.nix
     ../../modules/home-manager/stylix.nix
@@ -55,7 +55,7 @@
   programs.zsh = {
     enable = true;
 
-    dotDir = ".zshdir/";
+    dotDir = "${config.home.homeDirectory}/.zshdir/";
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = false;
@@ -74,17 +74,18 @@
     };
     historySubstringSearch.enable = true;
 
-    initExtra= ''
-      VI_MODE_SET_CURSOR=true
-      bindkey '^[[A' history-substring-search-up # or '\eOA'
-      bindkey '^[[B' history-substring-search-down # or '\eOB'
-      HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
-      '';
-
-    initExtraFirst = ''
-      pfetch
-      eval "$(starship init zsh)"
-      '';
+    initContent = lib.mkMerge [
+      (lib.mkBefore ''
+        pfetch
+        eval "$(starship init zsh)"
+      '')
+      ''
+        VI_MODE_SET_CURSOR=true
+        bindkey '^[[A' history-substring-search-up # or '\eOA'
+        bindkey '^[[B' history-substring-search-down # or '\eOB'
+        HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+      ''
+    ];
 
     antidote = {
       enable = true;

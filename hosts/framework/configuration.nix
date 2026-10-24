@@ -31,18 +31,13 @@
       efiSupport = true;
       device = "nodev";
     };
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   boot.kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
-  services.logind = {
-    lidSwitch = "hibernate";
-    extraConfig =''
-    HandleLidSwitch=hibernate
-    '';
-  };
+  services.logind.settings.Login.HandleLidSwitch = "hibernate";
 
   services.gnome.gnome-keyring.enable = true;
   nix.settings = {
@@ -105,9 +100,9 @@
      powerline-fonts
      oh-my-zsh
      awww
-     python3Full
+     python3
      gccgo
-     whatsapp-for-linux
+     karere
      whatsapp-emoji-font
      stm32cubemx
      stm32flash
@@ -118,12 +113,10 @@
      jdk
      ant
      noisetorch
-     zsh-git-prompt
-     jmtpfs
      android-tools
      tor-browser
      raylib
-     wineWowPackages.waylandFull
+     wineWow64Packages.waylandFull
      openshot-qt
      python312Packages.anyqt
      calibre
@@ -132,7 +125,7 @@
 
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    package = inputs.hyprland.packages."${pkgs.stdenv.hostPlatform.system}".hyprland;
     xwayland.enable = true;
   };
 
