@@ -6,6 +6,7 @@
     inputs.stylix.homeModules.stylix
     ./../../modules/home-manager/fuzzel.nix
     ./../../modules/home-manager/hyprland.nix
+    ./../../modules/home-manager/epic-bar.nix
     ../../modules/home-manager/stylix.nix
 #    ../../modules/home-manager/eww.nix
     ../../modules/home-manager/tmux.nix

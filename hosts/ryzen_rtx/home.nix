@@ -7,6 +7,7 @@
     inputs.stylix.homeModules.stylix
     ../../modules/home-manager/fuzzel.nix
     ../../modules/home-manager/hyprland.nix
+    ../../modules/home-manager/epic-bar.nix
     ../../modules/home-manager/nixvim.nix
     ../../modules/home-manager/stylix.nix
     ../../modules/home-manager/tmux.nix
@@ -91,6 +92,9 @@
       user_pref("browser.display.background_color.dark", "#1d1411");
     '';
   };
+
+  # The bar follows the Autumn Dark palette above.
+  programs.epic-bar.theme = "autumn-dark";
 
   # DP-1 is the main display here; HDMI-A-1 holds workspaces 4-6.
   hyprland.monitors = {
