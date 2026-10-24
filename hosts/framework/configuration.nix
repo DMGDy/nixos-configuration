@@ -104,7 +104,7 @@
      powerline
      powerline-fonts
      oh-my-zsh
-     swww
+     awww
      python3Full
      gccgo
      whatsapp-for-linux
@@ -113,7 +113,7 @@
      stm32flash
      linuxKernel.packages.linux_6_6.virtualbox
      libusb1
-     linuxKernel.packages.linux_6_6.perf
+     perf
      vscode
      jdk
      ant

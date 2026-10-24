@@ -113,7 +113,7 @@
     ganttproject-bin
     dtc
     projectlibre
-    libreoffice-fresh
+    libreoffice
     ffmpeg_7-headless
     mpv
     google-cursor
