@@ -7,6 +7,7 @@
     inputs.stylix.homeModules.stylix
     ./../../modules/home-manager/fuzzel.nix
     ./../../modules/home-manager/hyprland.nix
+    ./../../modules/home-manager/xdg-apps.nix
     ../../modules/home-manager/nixvim.nix
     ../../modules/home-manager/stylix.nix
 #    ../../modules/home-manager/eww.nix
