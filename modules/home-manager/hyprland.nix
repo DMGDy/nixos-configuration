@@ -4,9 +4,30 @@ let
   monitors = config.hyprland.monitors;
   startupScript = pkgs.writeShellScriptBin "start" ''
     awww-daemon &
+    # The daemon only restores wallpapers it has cached for an output; any
+    # output still showing a plain color (e.g. a newly used display) gets
+    # the default wallpaper.
+    for _ in $(seq 50); do
+      awww query >/dev/null 2>&1 && break
+      sleep 0.1
+    done
+    wallpaper=${lib.escapeShellArg config.hyprland.wallpaper}
+    if [ -f "$wallpaper" ]; then
+      awww query | grep -v "currently displaying: image:" \
+        | sed -n 's/^: \([^:]*\):.*/\1/p' \
+        | while read -r output; do
+            awww img --outputs "$output" "$wallpaper"
+          done
+    fi
   '';
 in
 {
+  options.hyprland.wallpaper = lib.mkOption {
+    type = lib.types.str;
+    default = "${config.home.homeDirectory}/Pictures/wp.png";
+    description = "Wallpaper for outputs awww has no cached image for.";
+  };
+
   options.hyprland.monitors = {
     primary = lib.mkOption {
       type = lib.types.str;
