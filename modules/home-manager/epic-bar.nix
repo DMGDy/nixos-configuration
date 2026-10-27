@@ -11,8 +11,8 @@
     # Matches Kitty's Autumn Light palette; hosts can pick "autumn-dark".
     theme = lib.mkDefault "autumn-light";
     settings = {
-      # hyprland.nix binds workspaces 1-10 (ALT+0 is 10).
-      workspaces = 10;
+      # hyprland.nix binds workspaces 1-9; ALT+0 is the scratchpad.
+      workspaces = 9;
     };
   };
 }

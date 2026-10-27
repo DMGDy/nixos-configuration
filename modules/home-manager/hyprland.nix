@@ -2,6 +2,26 @@
 
 let
   monitors = config.hyprland.monitors;
+  # The ALT+0 scratchpad: one terminal showing the date and a three-month
+  # calendar above an interactive shell.
+  scratchpad = pkgs.writeShellScript "scratchpad" ''
+    clear
+    printf '\033[1m%s\033[0m\n\n' "$(date '+%A, %-d %B %Y')"
+    cal -3
+    echo
+    exec "''${SHELL:-zsh}"
+  '';
+  # Small utility windows float centered instead of tiling into odd splits.
+  floating = [
+    { name = "float-volume"; match.class = "^(com[.]saivert[.]pwvucontrol|org[.]pulseaudio[.]pavucontrol)$"; size = "monitor_w*0.4 monitor_h*0.55"; }
+    { name = "float-bluetooth"; match.class = "^(blueman-manager|[.]blueman-manager-wrapped)$"; size = "monitor_w*0.4 monitor_h*0.55"; }
+    { name = "float-network"; match.class = "^(nm-connection-editor)$"; size = "monitor_w*0.4 monitor_h*0.55"; }
+    { name = "float-file-dialogs"; match.class = "^(xdg-desktop-portal-gtk)$"; size = "monitor_w*0.55 monitor_h*0.65"; }
+    { name = "float-firefox-library"; match = { class = "^(firefox)$"; title = "^(Library)$"; }; size = "monitor_w*0.5 monitor_h*0.6"; }
+    { name = "float-steam-popups"; match = { class = "^(steam)$"; title = "^(Special Offers|Steam Settings|Friends List)$"; }; }
+    { name = "float-imv"; match.class = "^(imv)$"; size = "monitor_w*0.6 monitor_h*0.7"; }
+    { name = "float-dialogs"; match.modal = true; }
+  ];
   startupScript = pkgs.writeShellScriptBin "start" ''
     awww-daemon &
     # The daemon only restores wallpapers it has cached for an output; any
@@ -128,7 +148,7 @@ in
         }
       ];
 
-      # Workspaces stop at 10. Workspaces 4-6 live on the secondary display and
+      # Workspaces stop at 9 (0 is the scratchpad). 4-6 live on the secondary display and
       # the rest on the primary; each display opens on its first workspace, so
       # Hyprland never has to invent a workspace beyond 10 for it.
       workspace_rule =
@@ -136,7 +156,7 @@ in
           workspace = toString ws;
           monitor = monitors.primary;
           default = ws == 1;
-        }) [ 1 2 3 7 8 9 10 ]
+        }) [ 1 2 3 7 8 9 ]
         ++ map (ws: {
           workspace = toString ws;
           monitor = monitors.secondary;
@@ -144,13 +164,26 @@ in
         }) [ 4 5 6 ]
         ++ [
           {
+            # Opening the scratchpad starts its terminal if it is not running.
+            workspace = "special:scratch";
+            on_created_empty = "kitty --class scratchpad -e ${scratchpad}";
+          }
+          {
             workspace = "w[tv1] f[-1]";
             gaps_in = 0;
             gaps_out = 0;
           }
         ];
 
-      window_rule = [
+      window_rule = map (rule: { float = true; center = true; } // rule) floating ++ [
+        {
+          name = "scratchpad";
+          match.class = "^(scratchpad)$";
+          workspace = "special:scratch";
+          float = true;
+          center = true;
+          size = "monitor_w*0.6 monitor_h*0.6";
+        }
         {
           name = "flush-single-tiled";
           match = {
@@ -215,6 +248,7 @@ in
       hl.animation({ leaf = "fade",       enabled = false })
       hl.animation({ leaf = "layers", enabled = true, speed = 1.8, bezier = "easeOutQuint", style = "fade" })
       hl.animation({ leaf = "fadeLayers", enabled = true, speed = 1.5, bezier = "easeOutQuint" })
+      hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidefadevert 20%" })
 
       local mod = "ALT"
 
@@ -234,12 +268,13 @@ in
       hl.bind(mod .. " + L", hl.dsp.focus({ direction = "right" }))
 
       -- switch workspaces / move focused client to workspace
-      -- (keys 1-9 and 0 map to workspaces 1-10)
-      for i = 1, 10 do
-        local key = i % 10
-        hl.bind(mod .. " + " .. key,           hl.dsp.focus({ workspace = i }))
-        hl.bind(mod .. " + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i }))
+      for i = 1, 9 do
+        hl.bind(mod .. " + " .. i,             hl.dsp.focus({ workspace = i }))
+        hl.bind(mod .. " + SHIFT + " .. i,     hl.dsp.window.move({ workspace = i }))
       end
+
+      -- show/hide the scratchpad terminal (special workspace) on 0
+      hl.bind(mod .. " + 0", hl.dsp.workspace.toggle_special("scratch"))
 
       -- take screenshot and copy to clipboard
       hl.bind(mod .. " + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | swappy -f -"))
