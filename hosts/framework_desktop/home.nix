@@ -1,6 +1,9 @@
 { username ? "dylandy" }:
 { config, pkgs, inputs, lib, ... }:
 
+let
+  colors = config.programs.kitty.settings;
+in
 {
   imports = [
     inputs.nixvim.homeModules.nixvim
@@ -18,7 +21,39 @@
     ../../modules/home-manager/fzf-tab.nix
   ];
 
+  hyprland = {
+    modifier = "SUPER";
+    monitors.fallbackMode = "highres";
+    scratchpadCommand = lib.escapeShellArgs [
+      "${config.programs.tmux.package}/bin/tmux"
+      "new-session" "-A" "-s" "jira-scratchpad"
+      "-c" "${config.home.homeDirectory}/Other/jira-tui"
+      "./target/release/jira-tui"
+    ];
+  };
+
   stylix.enable = true;
+  stylix.polarity = lib.mkForce "light";
+  stylix.base16Scheme = lib.mkForce (lib.mapAttrs (_: lib.removePrefix "#") {
+    base00 = colors.background;
+    base01 = colors.inactive_tab_background;
+    base02 = colors.selection_background;
+    base03 = colors.inactive_border_color;
+    base04 = colors.color8;
+    base05 = colors.foreground;
+    base06 = colors.color7;
+    base07 = colors.color15;
+    base08 = colors.color1;
+    base09 = "#c57339";
+    base0A = colors.color3;
+    base0B = colors.color2;
+    base0C = colors.color6;
+    base0D = colors.url_color;
+    base0E = colors.color5;
+    base0F = colors.inactive_tab_foreground;
+  });
+  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-light";
+
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.preferXdgDirectories = true;

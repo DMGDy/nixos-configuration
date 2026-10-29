@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
+let
+  darkTheme = config.stylix.polarity == "dark";
+in
 {
   stylix = {
     enable = true;
@@ -53,13 +56,13 @@
     enable = true;
     iconTheme = {
       package = pkgs.papirus-icon-theme;
-      name = "Papirus-Dark";
+      name = if darkTheme then "Papirus-Dark" else "Papirus-Light";
     };
     gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+      gtk-application-prefer-dark-theme = darkTheme;
     };
     gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+      gtk-application-prefer-dark-theme = darkTheme;
     };
   };
 

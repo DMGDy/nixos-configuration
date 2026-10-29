@@ -134,6 +134,18 @@ port 9090).
 **Desktop**: Hyprland (Wayland) built from the `hyprland` flake input,
 `xwayland.enable = true`; pipewire audio stack; `xdg.portal.enable`;
 `WLR_NO_HARDWARE_CURSORS=1` and `NIXOS_OZONE_WL=1` session vars.
+This host's `home.nix` overrides `hyprland.modifier` to `SUPER` and
+`hyprland.monitors.fallbackMode` to `highres`; other hosts keep the shared
+`ALT`/`highrr` defaults. The explicit primary DP-4 rule stays at 2560x1440/120 Hz.
+Automatic display selection prioritizes resolution here, so the secondary DP-1
+uses its full 1920x1080 at 60 Hz instead of a lower-resolution 75 Hz mode.
+`Super+0` opens a Kitty scratchpad attached to the persistent `jira-scratchpad`
+tmux session, starting `./target/release/jira-tui` in `~/Other/jira-tui` on first
+use. Other hosts retain the calendar-and-shell scratchpad.
+GTK uses Stylix's `adw-gtk3` theme with this host's Autumn Light palette derived
+from Kitty, `Papirus-Light` icons, and a `prefer-light` system appearance.
+GTK 3/4 dark-mode preferences follow each host's Stylix polarity; the home
+desktop's explicit Autumn Dark override remains unchanged.
 
 **Misc**: `nix-ld` enabled (run unpatched dynamic binaries), `nofile` ulimit
 raised to 65536, Bluetooth enabled with `powerOnBoot`, one insecure package

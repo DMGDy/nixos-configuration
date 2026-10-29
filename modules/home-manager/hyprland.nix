@@ -2,7 +2,7 @@
 
 let
   monitors = config.hyprland.monitors;
-  # The ALT+0 scratchpad: one terminal showing the date and a three-month
+  # The scratchpad: one terminal showing the date and a three-month
   # calendar above an interactive shell.
   scratchpad = pkgs.writeShellScript "scratchpad" ''
     clear
@@ -42,6 +42,18 @@ let
   '';
 in
 {
+  options.hyprland.modifier = lib.mkOption {
+    type = lib.types.str;
+    default = "ALT";
+    description = "Main modifier for Hyprland key and mouse bindings.";
+  };
+
+  options.hyprland.scratchpadCommand = lib.mkOption {
+    type = lib.types.str;
+    default = toString scratchpad;
+    description = "Command launched inside the Kitty scratchpad terminal.";
+  };
+
   options.hyprland.wallpaper = lib.mkOption {
     type = lib.types.str;
     default = "${config.home.homeDirectory}/Pictures/wp.png";
@@ -49,6 +61,11 @@ in
   };
 
   options.hyprland.monitors = {
+    fallbackMode = lib.mkOption {
+      type = lib.types.str;
+      default = "highrr";
+      description = "Mode selection for displays without an explicit monitor rule.";
+    };
     primary = lib.mkOption {
       type = lib.types.str;
       default = "DP-4";
@@ -138,10 +155,10 @@ in
           position = "0x0";
           scale = 1.0;
         }
-        # Any other display runs at its highest refresh rate.
+        # Other displays follow the host's automatic mode-selection policy.
         {
           output = "";
-          mode = "highrr";
+          mode = monitors.fallbackMode;
           position = "auto";
           scale = "auto";
           bitdepth = 8;
@@ -166,7 +183,7 @@ in
           {
             # Opening the scratchpad starts its terminal if it is not running.
             workspace = "special:scratch";
-            on_created_empty = "kitty --class scratchpad -e ${scratchpad}";
+            on_created_empty = "kitty --class scratchpad -e ${config.hyprland.scratchpadCommand}";
           }
           {
             workspace = "w[tv1] f[-1]";
@@ -250,7 +267,7 @@ in
       hl.animation({ leaf = "fadeLayers", enabled = true, speed = 1.5, bezier = "easeOutQuint" })
       hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 2.5, bezier = "easeOutQuint", style = "slidefadevert 20%" })
 
-      local mod = "ALT"
+      local mod = ${builtins.toJSON config.hyprland.modifier}
 
       -- open primary terminal
       hl.bind(mod .. " + SHIFT + Return", hl.dsp.exec_cmd("kitty"))
