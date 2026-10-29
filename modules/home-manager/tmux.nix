@@ -15,6 +15,8 @@ in
     baseIndex = 1;
 
     extraConfig = "
+      set -g allow-passthrough on
+
       set -g @plugin 'tmux-plugins/tmux-resurrect'
       set -g @plugin 'omerxx/tmux-floax'
       set -g @plugin 'tmux-plugins/tmux-yank'
