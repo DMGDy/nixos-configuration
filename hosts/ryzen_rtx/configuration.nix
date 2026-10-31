@@ -68,8 +68,14 @@
         enable = true;
         efiSupport = true;
         device = "nodev";
+        # /boot is only 1GiB; each generation's kernel+initrd is ~30MB+.
+        configurationLimit = 8;
       };
     };
+
+    # Keep NVIDIA out of the initrd: its modules and GSP firmware add ~100MB
+    # per generation on the 1GiB /boot. They load from the root fs instead.
+    initrd.kernelModules = lib.mkForce [ "dm_mod" ];
 
     # amd_pstate needs CPPC enabled in the BIOS (AMD CBS); without it the
     # kernel falls back to acpi-cpufreq.
