@@ -141,6 +141,15 @@
     wireplumber.enable = true;
   };
 
+  # The onboard ALCS1200A (Matisse HD Audio, 1022:1487) boots with its
+  # hardware 'Master' muted at 0%. WirePlumber's Pro Audio profile never
+  # touches the mixer (only Analog profiles do), so it stays silent until an
+  # Analog profile is selected once. Unmute it at 0 dB whenever the card
+  # appears; PipeWire's software volume handles the actual level.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="sound", KERNEL=="controlC*", ATTRS{vendor}=="0x1022", ATTRS{device}=="0x1487", RUN+="${pkgs.alsa-utils}/bin/amixer -q -c %n sset Master 100%% unmute"
+  '';
+
 
   xdg.portal.enable = true;
 
