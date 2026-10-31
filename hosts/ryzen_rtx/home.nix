@@ -104,6 +104,10 @@
     secondary = "HDMI-A-1";
   };
 
+  # DP-1 supports VRR (G-Sync Compatible); enable it for fullscreen apps only
+  # so the desktop doesn't flicker at low refresh.
+  hyprland.vrr = 2;
+
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.preferXdgDirectories = true;

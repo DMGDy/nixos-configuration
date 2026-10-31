@@ -18,17 +18,27 @@
       ../../modules/nixos/docker.nix
       ../../modules/nixos/nginx.nix
       ../../modules/nixos/nvidia.nix
+      ../../modules/nixos/steam.nix
     ];
 
-  # RTX 2060 Super (Turing) uses stable driver, not legacy_470
+  # RTX 2070 Super (Turing) uses the stable driver, not legacy_470, with
+  # NVIDIA's open kernel module (recommended for Turing and newer).
   hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia.open = lib.mkForce true;
+  boot.extraModprobeConfig = ''
+    options nvidia NVreg_UsePageAttributeTable=1
+  '';
+
+  # Compressed RAM swap first, disk swapfile as a backstop. No writebackDevice:
+  # the t7910 zvol doesn't exist here and systemd waited 90s for it at boot.
+  zramSwap = {
+    enable = true;
+    memoryPercent = 50;
+  };
+  boot.kernel.sysctl."vm.swappiness" = 10;
   swapDevices = [ {
       device = "/swapfile";
       size = 64 * 1024;
-    }
-    {
-      device = "/swapfile2";
-      size = 128 * 1024;
     }
   ];
   programs.nix-ld.enable = true;
@@ -38,6 +48,7 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
+    extraCompatPackages = [ pkgs.proton-ge-bin ];
   };
 
 
@@ -60,7 +71,9 @@
       };
     };
 
-    kernelParams = [ "nvme_core.default_ps_max_latency_us=0" "nvidia-drm.fbdev=1" ];
+    # amd_pstate needs CPPC enabled in the BIOS (AMD CBS); without it the
+    # kernel falls back to acpi-cpufreq.
+    kernelParams = [ "nvme_core.default_ps_max_latency_us=0" "nvidia-drm.fbdev=1" "amd_pstate=active" ];
     kernelPackages = pkgs.linuxPackages_6_18;
   };
 

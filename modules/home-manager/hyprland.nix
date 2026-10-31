@@ -60,6 +60,12 @@ in
     description = "Wallpaper for outputs awww has no cached image for.";
   };
 
+  options.hyprland.vrr = lib.mkOption {
+    type = lib.types.enum [ 0 1 2 3 ];
+    default = 0;
+    description = "Hyprland misc:vrr (0 off, 1 on, 2 fullscreen only, 3 fullscreen games/video).";
+  };
+
   options.hyprland.monitors = {
     fallbackMode = lib.mkOption {
       type = lib.types.str;
@@ -126,6 +132,7 @@ in
         misc = {
           disable_splash_rendering = true;
           disable_hyprland_logo = true;
+          vrr = config.hyprland.vrr;
           mouse_move_enables_dpms = true;
           enable_swallow = true;
           swallow_regex = "^(sunshine)$";
