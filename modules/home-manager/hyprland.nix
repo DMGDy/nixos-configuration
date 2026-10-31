@@ -217,7 +217,7 @@ in
         }
         {
           name = "opacity-terminal";
-          match.class = "^(kitty|ghostty|com[.]mitchellh[.]ghostty)$";
+          match.class = "^(kitty|herdr|ghostty|com[.]mitchellh[.]ghostty)$";
           opacity = "1.0 1.0";
         }
         {

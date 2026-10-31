@@ -16,6 +16,7 @@ in
     ../../modules/home-manager/stylix.nix
 #    ../../modules/home-manager/eww.nix
     ../../modules/home-manager/tmux.nix
+    ../../modules/home-manager/herdr.nix
     ../../modules/home-manager/ghostty.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/fzf-tab.nix
