@@ -103,6 +103,11 @@
   hyprland.monitors = {
     primary = "DP-1";
     secondary = "HDMI-A-1";
+    # HDMI-A-1 sits physically to the right of DP-1.
+    positions = {
+      "DP-1" = "0x0";
+      "HDMI-A-1" = "1920x0";
+    };
   };
 
   # DP-1 supports VRR (G-Sync Compatible); enable it for fullscreen apps only

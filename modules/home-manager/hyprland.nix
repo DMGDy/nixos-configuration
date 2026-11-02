@@ -77,6 +77,12 @@ in
       default = "DP-4";
       description = "Output that holds every workspace except 4-6.";
     };
+    positions = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      default = { };
+      example = { "DP-1" = "0x0"; "HDMI-A-1" = "1920x0"; };
+      description = "Explicit layout positions per output; others are placed automatically.";
+    };
     secondary = lib.mkOption {
       type = lib.types.str;
       default = "DP-1";
@@ -162,6 +168,14 @@ in
           position = "0x0";
           scale = 1.0;
         }
+      ]
+      ++ lib.mapAttrsToList (output: position: {
+        inherit output position;
+        mode = monitors.fallbackMode;
+        scale = "auto";
+        bitdepth = 8;
+      }) monitors.positions
+      ++ [
         # Other displays follow the host's automatic mode-selection policy.
         {
           output = "";
