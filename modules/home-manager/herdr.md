@@ -79,3 +79,13 @@ the Herdr 0.9 config reference; check `Prefix ?` if a key does nothing.
 - New panes and tabs open in the focused pane's directory.
 - The tab bar sits at the bottom, with hostname and zoom indicator on the right.
 - Onboarding is turned off.
+
+## Herdr GUI
+
+[`herdr-gui-keys.json`](./herdr-gui-keys.json) becomes the GUI's `keys.json`.
+It keeps the GUI's own defaults and adds the TUI bindings above, with the prefix
+written as a `ctrl-a <key>` sequence. These TUI bindings have no GUI command
+and aren't ported: pane resize (drag the divider), last pane (`Ctrl+S`,
+`Prefix A`), detach, copy mode, cycle pane (`Prefix Tab`), scrollback in
+`$EDITOR`, rename pane, the notification's pane, new worktree and reload config.
+`Prefix G` opens the picker, like `Prefix S` and `Prefix W`.
