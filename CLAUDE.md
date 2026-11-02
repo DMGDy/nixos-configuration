@@ -86,6 +86,12 @@ All 4 hosts import `inputs.home-manager.nixosModules.default` and
   Prefix+Shift+S opens Herdr settings.
   Edit its declarative configuration here rather than through the settings UI.
 
+- **Lock screen / idle**: `modules/home-manager/hyprlock.nix` (imported on
+  ryzen_rtx) styles hyprlock around `~/Pictures/lockscreen.png` and runs
+  hypridle: lock after 10 min, monitors off after 11 min (60 s once locked),
+  never suspend. Mod+Ctrl+L locks. Under the Lua Hyprland config, monitor
+  power is `hyprctl dispatch 'hl.dsp.dpms({ action = "off" })'`, not `dpms off`.
+
 ## framework_desktop Host Specifics
 
 Path: `hosts/framework_desktop/`

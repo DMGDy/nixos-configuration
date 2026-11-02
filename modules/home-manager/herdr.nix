@@ -53,6 +53,26 @@ in
 
   home.packages = [ terminal ];
 
+  # Autumn themes for the Herdr GUI, matching Kitty and epic-bar-rs. The app
+  # owns the rest of ~/.config/herdr-app (settings.json picks the theme), so
+  # only the theme files are managed; force replaces copies made before this.
+  xdg.configFile."herdr-app/themes/autumn-dark.json" = {
+    source = ./herdr-themes/autumn-dark.json;
+    force = true;
+  };
+  xdg.configFile."herdr-app/themes/autumn-light.json" = {
+    source = ./herdr-themes/autumn-light.json;
+    force = true;
+  };
+
+  # GUI keys: Herdr's GUI defaults plus the TUI bindings above, with the
+  # prefix written as a "ctrl-a <key>" sequence. Edit herdr-gui-keys.json
+  # here; the app's copy is a read-only link.
+  xdg.configFile."herdr-app/keys.json" = {
+    source = ./herdr-gui-keys.json;
+    force = true;
+  };
+
   xdg.desktopEntries.herdr = {
     name = "Herdr TUI";
     genericName = "Coding agent workspace";

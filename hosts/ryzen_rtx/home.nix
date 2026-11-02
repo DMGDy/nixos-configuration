@@ -13,6 +13,7 @@
     ../../modules/home-manager/stylix.nix
     ../../modules/home-manager/tmux.nix
     ../../modules/home-manager/herdr.nix
+    ../../modules/home-manager/hyprlock.nix
     ../../modules/home-manager/ghostty.nix
     ../../modules/home-manager/kitty.nix
   ];
