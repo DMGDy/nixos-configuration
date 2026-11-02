@@ -19,6 +19,7 @@
       ../../modules/nixos/nginx.nix
       ../../modules/nixos/nvidia.nix
       ../../modules/nixos/steam.nix
+      ../../modules/nixos/tailscale.nix
     ];
 
   # RTX 2070 Super (Turing) uses the stable driver, not legacy_470, with
