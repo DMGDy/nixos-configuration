@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, options, ... }:
 
 {
   imports =
@@ -42,7 +42,17 @@
       size = 64 * 1024;
     }
   ];
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    # Extra libraries for the prebuilt Herdr desktop app (~/.local/share/herdr-app).
+    libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [
+      libxcb
+      libxkbcommon
+      vulkan-loader
+      wayland
+      libGL
+    ]);
+  };
 
   programs.steam = {
     enable = true;

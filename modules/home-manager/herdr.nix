@@ -54,7 +54,7 @@ in
   home.packages = [ terminal ];
 
   xdg.desktopEntries.herdr = {
-    name = "Herdr";
+    name = "Herdr TUI";
     genericName = "Coding agent workspace";
     comment = "Herdr TUI in Kitty, alongside existing tmux sessions";
     exec = "${terminal}/bin/herdr-terminal";

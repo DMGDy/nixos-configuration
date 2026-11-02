@@ -73,7 +73,7 @@ All 4 hosts import `inputs.home-manager.nixosModules.default` and
   without duplicate desktop clocks or system metrics.
 - **Herdr TUI trial**: `modules/home-manager/herdr.nix` adds Herdr alongside
   tmux on all hosts; it does not migrate running processes or alter the Jira
-  scratchpad. `herdr-terminal`, the Herdr application entry, or
+  scratchpad. `herdr-terminal`, the "Herdr TUI" application entry, or
   main-modifier+Ctrl+Return opens it in a separate Kitty window, avoiding
   interception by an outer tmux. The normal terminal shortcut is unchanged.
   Herdr follows Kitty's palette and uses Ctrl+A as its prefix, direct Ctrl+H/J/K/L

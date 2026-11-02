@@ -115,6 +115,8 @@
     [
       "$HOME/.cargo/bin/"
       "$HOME/Scripts/"
+      # herdr-app, herdr-core and hc from the Herdr app installer.
+      "$HOME/.local/bin"
     ];
 
   xdg = {
