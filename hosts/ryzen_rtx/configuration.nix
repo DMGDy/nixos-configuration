@@ -102,6 +102,9 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "nixos-gaming"; # Define your hostname.
+  # Wake from suspend/off on a magic packet to d4:5d:64:d7:92:ff. Also needs
+  # "Power On By PCI-E" in the BIOS (and ErP off).
+  networking.interfaces.enp6s0.wakeOnLan.enable = true;
 # Pick only one of the below networking options.
 
 
