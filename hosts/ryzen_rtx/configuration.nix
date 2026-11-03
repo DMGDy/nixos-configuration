@@ -26,6 +26,9 @@
   # NVIDIA's open kernel module (recommended for Turing and newer).
   hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia.open = lib.mkForce true;
+  # NVIDIA's suspend/resume services save VRAM across a manual suspend, so
+  # Wayland comes back intact. Nothing here suspends automatically.
+  hardware.nvidia.powerManagement.enable = lib.mkForce true;
   boot.extraModprobeConfig = ''
     options nvidia NVreg_UsePageAttributeTable=1
   '';
