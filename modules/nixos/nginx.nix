@@ -41,6 +41,13 @@
           access_log off;
           log_not_found off;
         '';
+
+        # Not for HTTP: AllProjects symlinks expose every repo in ~; build-diff
+        # reads them from disk. Same for its SQLite DBs and ask logs.
+        # (2026-11-03: access logs showed only local hits on these paths.)
+        locations."^~ /AllProjects".extraConfig = "deny all;";
+        locations."^~ /build-diff_logs".extraConfig = "deny all;";
+        locations."~ \\.db(-wal|-shm|-journal)?$".extraConfig = "deny all;";
       };
     };
   };
