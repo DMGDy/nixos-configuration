@@ -1,0 +1,75 @@
+{
+  "id": "root",
+  "type": "column",
+  "titlebar": "none",
+  "theme": "teams",
+  "ui_font": "Selawik",
+  "background": "canvas",
+  "terminal_padding": [16, 12],
+  "children": [
+    { "id": "top", "type": "block", "size": { "px": 48 }, "window_drag": true, "content": { "mod": "teams-top" } },
+    {
+      "id": "body",
+      "type": "row",
+      "divider": { "width": 1, "color": "border" },
+      "children": [
+        { "id": "rail", "type": "block", "size": { "px": 68 }, "resizable": false, "content": { "mod": "teams-rail" } },
+        { "id": "sidebar", "type": "block", "size": { "px": 320 }, "min": 240, "max": 480, "content": { "mod": "teams-list" } },
+        {
+          "id": "work",
+          "type": "column",
+          "resizable": false,
+          "background": "#ffffff",
+          "children": [
+            { "id": "header", "type": "block", "size": { "px": 62 }, "content": { "mod": "teams-header" } },
+            {
+              "id": "work-body",
+              "type": "row",
+              "padding": [8, 20],
+              "gap": 8,
+              "children": [
+                {
+                  "id": "main",
+                  "type": "block",
+                  "content": {
+                    "tab": "active",
+                    "pane": {
+                      "gap": 8,
+                      "radius": 6,
+                      "background": "background",
+                      "lone": false,
+                      "border": { "width": 1, "color": "border" },
+                      "focus": { "width": 2, "color": "accent" }
+                    }
+                  }
+                },
+                {
+                  "id": "panel",
+                  "type": "column",
+                  "hidden": true,
+                  "size": { "px": 380 },
+                  "min": 280,
+                  "max": 900,
+                  "radius": 6,
+                  "border": { "width": 1, "color": "border" },
+                  "children": [
+                    {
+                      "id": "panel-body",
+                      "type": "stack",
+                      "active": "files",
+                      "children": [
+                        { "id": "files", "type": "block", "content": { "mod": "files" } },
+                        { "id": "changes", "type": "block", "content": { "mod": "changes" } }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "id": "compose", "type": "block", "size": { "px": 76 }, "content": { "mod": "teams-compose" } }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,8 @@ let
   '';
 in
 {
+  imports = [ ./herdr-app.nix ];
+
   programs.herdr = {
     enable = true;
     settings = {
@@ -53,24 +55,28 @@ in
 
   home.packages = [ terminal ];
 
-  # Autumn themes for the Herdr GUI, matching Kitty and epic-bar-rs. The app
-  # owns the rest of ~/.config/herdr-app (settings.json picks the theme), so
-  # only the theme files are managed; force replaces copies made before this.
-  xdg.configFile."herdr-app/themes/autumn-dark.json" = {
-    source = ./herdr-themes/autumn-dark.json;
-    force = true;
-  };
-  xdg.configFile."herdr-app/themes/autumn-light.json" = {
-    source = ./herdr-themes/autumn-light.json;
-    force = true;
-  };
-
-  # GUI keys: Herdr's GUI defaults plus the TUI bindings above, with the
-  # prefix written as a "ctrl-a <key>" sequence. Edit herdr-gui-keys.json
-  # here; the app's copy is a read-only link.
-  xdg.configFile."herdr-app/keys.json" = {
-    source = ./herdr-gui-keys.json;
-    force = true;
+  # The Herdr GUI (herdr-app): Autumn themes matching Kitty and epic-bar-rs,
+  # the custom layouts (dylan, discord, imessage, teams, vs) and their mods,
+  # copied into ~/.config/herdr-app on switch (see herdr-app.nix). After
+  # changing them live, run `herdr-app-save` and commit herdr-app/.
+  programs.herdr-app = {
+    enable = true;
+    source = ./herdr-app/files;
+    # The discord layout's catgirl avatars: fetched and cropped at build time,
+    # not kept in this (public) repo. Credits in herdr-app/avatars.nix.
+    extraFiles = import ./herdr-app/avatars.nix { inherit pkgs; };
+    # GUI keys: Herdr's GUI defaults plus the TUI bindings above, with the
+    # prefix written as a "ctrl-a <key>" sequence. Edit herdr-app/keys.json
+    # here; the app's copy is a read-only link.
+    keys = ./herdr-app/keys.json;
+    settings = {
+      telemetry = false;
+      appearance = "light";
+      theme = { light = "autumn-light"; dark = "autumn-dark"; };
+      font = "Cascadia Mono NF";
+      font_ligatures = false;
+      ui_font = "UbuntuSans Nerd Font";
+    };
   };
 
   xdg.desktopEntries.herdr = {
