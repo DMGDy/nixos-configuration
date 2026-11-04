@@ -23,6 +23,9 @@ in
           { type = "hostname"; }
           { type = "zoom"; }
         ];
+        # Background agent done/needs-input popups through the desktop
+        # notification daemon (dunst).
+        toast.delivery = "system";
       };
       keys = {
         prefix = "ctrl+a";
@@ -43,6 +46,14 @@ in
         rename_tab = [ "prefix+comma" "prefix+shift+t" ];
         close_tab = [ "prefix+ampersand" "prefix+shift+x" ];
         workspace_picker = [ "prefix+s" "prefix+w" ];
+        # Workspaces by sidebar number (1-9 only) and tmux-style ( ) cycling.
+        switch_workspace = "prefix+shift+1..9";
+        next_workspace = "prefix+)";
+        previous_workspace = "prefix+(";
+        # Agents across all workspaces; numbers follow the sidebar agent list.
+        next_agent = "prefix+shift+j";
+        previous_agent = "prefix+shift+k";
+        focus_agent = "prefix+alt+1..9";
         settings = "prefix+shift+s";
         # Herdr's MRU action follows panes, including across tabs/workspaces.
         last_pane = [ "ctrl+s" "prefix+a" ];

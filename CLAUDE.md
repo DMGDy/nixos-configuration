@@ -83,7 +83,13 @@ All 4 hosts import `inputs.home-manager.nixosModules.default` and
   and prefix+[ enters vi-style copy mode. Ctrl+S and prefix+A use Herdr's
   last-focused-pane action (across tabs/workspaces), not tmux's distinct
   previous-session/last-window actions. Double Ctrl+A sends a literal Ctrl+A.
-  Prefix+Shift+S opens Herdr settings.
+  Prefix+Shift+1-9 jumps to workspace 1-9 and prefix+( / ) cycles workspaces;
+  prefix+Shift+J/K cycles agents and prefix+Alt+1-9 focuses agent rows.
+  Background agent toasts go through the system notifier (dunst). Agent-state
+  integrations (pi, claude, codex, copilot) are installed imperatively with
+  `herdr integration install <agent>`, not by Nix.
+  Prefix+Shift+S opens Herdr settings, but config.toml is a read-only Home
+  Manager link, so settings (including the theme) cannot be saved from the UI.
   Edit its declarative configuration here rather than through the settings UI.
 
 - **Herdr GUI (herdr-app)**: `modules/home-manager/herdr-app.nix` defines
