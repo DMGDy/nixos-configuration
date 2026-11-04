@@ -20,6 +20,7 @@ in
     ../../modules/home-manager/ghostty.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/fzf-tab.nix
+    ../../modules/home-manager/pi.nix
   ];
 
   hyprland = {
@@ -58,7 +59,6 @@ in
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.preferXdgDirectories = true;
-  home.packages = [ pkgs.pi-coding-agent ];
   home.sessionPath =
     [
       "$HOME/.cargo/bin/"
