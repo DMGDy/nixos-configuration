@@ -4,10 +4,14 @@
 // Everything from the iMessage output view still works here: keys pass to the
 // agent, click/Shift+click selects, double-click copies, Ctrl+Shift+C copies,
 // Ctrl+F searches, and questions switch to the live terminal by themselves.
+// A sub-agent's chat opens here too (shared "discord.chat"): its prompts came
+// from its parent, so they show under the parent's name. Merged (the header's
+// toggle, per channel) shows the agent and everything it started as one
+// conversation; see merge() for how messages from different terminals are ordered.
 import { View, div } from "gpui-kit";
 import { h_flex, v_flex, InputState, Input } from "gpui-base";
-import { hc, run, spaces, panes, focused, layout, notify, settings, nextCommand, shared, setShared } from "herdr";
-import { C, icon, avatar, picture, dots, peek, ME, ROLES, kittenName, kittenPic } from "./kit.js";
+import { hc, run, spaces, panes, terminals, focused, layout, notify, settings, nextCommand, shared, setShared } from "herdr";
+import { C, icon, avatar, picture, dots, peek, watch, stopWatching, chatSub, openSub, merged, herd, descendants, typing, ME, ROLES, kittenName, kittenPic } from "./kit.js";
 
 const ROW = 20, CHAR = 7.85, FONT = 13, YOU_CHAR = 8.1, YOU_ROW = 21;
 const SAMPLE = "the quick brown fox jumps over the lazy dog, then checks whether the build passed or failed. ";
@@ -139,6 +143,11 @@ export default class Output extends View {
     this.auto = false;      // switched to Live by itself
     this.asking = false;
     this.offset = 0;        // rows scrolled up from the bottom
+    this.subs = {};         // merged: sub-agent address -> { lines, history }
+    this.seenSrc = new Set(); // terminals read at least once this session
+    this.backfill = new Set(); // messages already there on that first read (no time known)
+    try { this.stamps = JSON.parse(localStorage.getItem("discord.stamps") ?? "{}"); } catch (_e) { this.stamps = {}; }
+    this.tickN = 0;
     this.viewH = 400;
     this.charW = CHAR;      // measured from a hidden sample once drawn
     this.youCharW = YOU_CHAR;
@@ -154,42 +163,62 @@ export default class Output extends View {
 
   target() {
     const space = spaces().find((s) => s.active), tab = space?.tabs.find((t) => t.active);
+    // A sub-agent's chat, while it's open and still in this channel.
+    const subAddr = chatSub();
+    const sub = subAddr ? herd(tab?.id).subs.find((m) => m.address === subAddr) : null;
+    if (sub) {
+      const parent = terminals().find((x) => x.address === sub.parent);
+      return { term: sub.address, status: sub.status, name: sub.program?.name ?? "Agent", program: sub.program, tab: tab?.id,
+        sub, label: sub.name, pic: sub.pic, parentLabel: parent ? kittenName(parent.program, parent.parent ? parent.name ?? parent.address : null) : "parent",
+        parentPic: parent ? kittenPic(parent.program, parent.agent) : ME.pic };
+    }
     const ps = panes().filter((p) => p.tab === tab?.id && p.terminal);
     const f = focused()?.terminal;
     const pick = ps.find((p) => p.terminal === f) ?? ps.find((p) => p.program?.agent) ?? ps[0];
-    return { term: pick?.terminal ?? null, status: pick?.status ?? tab?.status ?? null, name: pick?.program?.name ?? "Agent", program: pick?.program ?? null };
+    return { term: pick?.terminal ?? null, status: pick?.status ?? tab?.status ?? null, name: pick?.program?.name ?? "Agent", program: pick?.program ?? null,
+      tab: tab?.id, sub: null, label: kittenName(pick?.program), pic: kittenPic(pick?.program, pick?.app) };
+  }
+
+  // Merged view on, for the channel's own agent (not inside a sub-agent's chat).
+  mergeOn(t = this.target()) { return !t.sub && Boolean(t.tab) && merged(t.tab); }
+
+  // Reads a terminal's transcript body. A busy agent returns only its screen
+  // (complete: false): keep the history we had and replace the overlapping tail.
+  async readBody(term, prev, deep) {
+    const r = await hc(["read", term, "--json", "--lines", deep ? "1500" : "0"]);
+    const d = JSON.parse(r.stdout);
+    const parts = splitPrompt(String(d.text ?? "").split("\n"));
+    let body = parts.body;
+    if (d.complete === false && prev.length) {
+      const first = body.find((l) => l.trim());
+      const at = first ? prev.lastIndexOf(first) : -1;
+      body = at >= 0 ? [...prev.slice(0, at), ...body.slice(body.indexOf(first))] : [...prev, ...body];
+    }
+    return { d, parts, body };
   }
 
   shown() { return (find(layout(), "convo-stack")?.active ?? "output") === "output"; }
 
   tick(cx) {
     const t = this.target();
-    if (t.term !== this.term) { this.term = t.term; this.lines = []; this.sel = null; this.follow = true; }
+    if (t.term !== this.term) { this.term = t.term; this.lines = []; this.sel = null; this.follow = true; this.subs = {}; }
+    this.tickN++;
+    if (this.mergeOn(t) && this.shown() && this.tickN % 2 === 0) this.readSubs(t, cx);
     const needs = t.status === "blocked" || this.asking;
-    // Questions and menus need the live terminal: go there, and come back after.
-    if (needs && this.shown()) { this.auto = true; run("layout.select", { stack: "convo-stack", child: "live" }); }
-    else if (!needs && this.auto && !this.shown()) { this.auto = false; run("layout.select", { stack: "convo-stack", child: "output" }); }
+    // Questions and menus: the agent "goes live" so you can answer in its terminal; back after.
+    if (needs && this.shown()) { this.auto = true; watch(this.term, this.asking ? "asking you something" : "needs your answer"); }
+    else if (!needs && this.auto && !this.shown()) { this.auto = false; stopWatching(); }
     if (!this.term || this.busy) return;
     if (!this.shown() && !this.auto) return;
     this.busy = true;
     const term = this.term, deep = this.history[term] !== false;
     cx.spawn(async (cx) => {
       try {
-        const r = await hc(["read", term, "--json", "--lines", deep ? "1500" : "0"]);
-        const d = JSON.parse(r.stdout);
+        const { d, parts, body } = await this.readBody(term, this.lines, deep);
         if (d.how && d.how !== "history" && d.how !== "screen") this.history[term] = false;
-        const parts = splitPrompt(String(d.text ?? "").split("\n"));
         // An agent asking a question replaces its input box with the menu, so a
         // question on screen only counts when the normal box is gone.
         this.asking = !parts.box && ASK.test(parts.body.slice(-10).join("\n"));
-        let body = parts.body;
-        if (d.complete === false && this.lines.length) {
-          // A busy agent returns only its screen: keep the history we have and
-          // replace the overlapping tail.
-          const first = body.find((l) => l.trim());
-          const at = first ? this.lines.lastIndexOf(first) : -1;
-          body = at >= 0 ? [...this.lines.slice(0, at), ...body.slice(body.indexOf(first))] : [...this.lines, ...body];
-        }
         const changed = body.length !== this.lines.length || body[body.length - 1] !== this.lines[this.lines.length - 1]
           || parts.draft.join() !== this.draft.join() || parts.footer.join() !== this.footer.join();
         this.lines = body; this.draft = parts.draft; this.footer = parts.footer;
@@ -199,15 +228,40 @@ export default class Output extends View {
     });
   }
 
+  // Merged: reads every sub-agent of the channel's agent (at any depth), every
+  // other tick. Plain programs keep only their last lines (they become one post).
+  readSubs(t, cx) {
+    if (this.subBusy) return;
+    const list = descendants(t.term, herd(t.tab).subs);
+    this.subBusy = true;
+    cx.spawn(async (cx) => {
+      let changed = false;
+      const next = {};
+      for (const m of list) {
+        const prev = this.subs[m.address] ?? { lines: [], history: true };
+        try {
+          const { d, body } = await this.readBody(m.address, prev.lines, prev.history);
+          const lines = m.agent ? body : body.filter((l) => l.trim()).slice(-400);
+          if (lines.length !== prev.lines.length || lines[lines.length - 1] !== prev.lines[prev.lines.length - 1]) changed = true;
+          next[m.address] = { lines, history: !(d.how && d.how !== "history" && d.how !== "screen"), m };
+        } catch (_e) { if (this.subs[m.address]) next[m.address] = this.subs[m.address]; }
+      }
+      if (Object.keys(next).length !== Object.keys(this.subs).length) changed = true;
+      this.subs = next;
+      this.subBusy = false;
+      if (changed) cx.notify();
+    });
+  }
+
   // The transcript as a conversation: your prompts (Claude's "❯ " lines, or
   // text matching what you sent from the iMessage box) and the agent's replies
   // between them, plus Claude's "done 3:47 PM" lines as timestamps.
-  turns() {
-    const sent = ((shared("imsg.sent") ?? {})[this.term] ?? []).map((m) => norm(m.text)).filter((x) => x.length >= 4);
+  // L/term: another terminal's transcript (merged view); main: the shown one.
+  turns(L = this.lines, term = this.term, main = true) {
+    const sent = ((shared("imsg.sent") ?? {})[term] ?? []).map((m) => norm(m.text)).filter((x) => x.length >= 4);
     const out = [];
     let agent = null;
     const push = (t) => { out.push(t); agent = null; };
-    const L = this.lines;
     for (let i = 0; i < L.length; i++) {
       const line = L[i];
       const claude = line.match(CLAUDE_YOU);
@@ -234,6 +288,10 @@ export default class Output extends View {
     }
     // Messages you sent that the transcript doesn't show (an agent can drop a
     // prompt line): place each after the last timestamp before it was sent.
+    if (!main) {
+      for (const t of out) if (t.who === "agent") t.reply = finalReply(t.lines, t.idx);
+      return out.filter((t) => t.who !== "agent" || t.reply.lines.length);
+    }
     const shownYou = out.filter((t) => t.who === "you").map((t) => t.text);
     const mins = (txt) => { const m = txt.match(/(\d{1,2}):(\d{2})\s?([AP])M/); return m ? (Number(m[1]) % 12 + (m[3] === "P" ? 12 : 0)) * 60 + Number(m[2]) : null; };
     for (const m of ((shared("imsg.sent") ?? {})[this.term] ?? [])) {
@@ -259,34 +317,110 @@ export default class Output extends View {
     return out.filter((t) => t.who !== "agent" || t.reply.lines.length);
   }
 
+  // Merged: the agent's messages and its sub-agents' as one conversation, in
+  // time order. A transcript has no times, so each message gets one: when this
+  // view first saw it (kept in localStorage, so it survives restarts), or, for
+  // history already there on the first read, a place from where it sits. The
+  // agent's old messages keep their order; a sub-agent's old messages go right
+  // after the agent's message that started it (the first one naming it or its
+  // address), else at the time it was created. A plain program (tio, a shell)
+  // is a single post with its last lines, kept where it started.
+  merge(main, t) {
+    const now = Date.now(), all = terminals();
+    const created = (a) => all.find((x) => x.address === a)?.created_ms ?? 0;
+    const textOf = (tu) => tu.who === "you" ? tu.text : (tu.lines ?? []).join("\n");
+    let dirty = false;
+    const stamp = (addr, turns, base, step) => {
+      const first = !this.seenSrc.has(addr), count = {};
+      this.seenSrc.add(addr);
+      turns.forEach((tu, i) => {
+        const k0 = `${tu.who}|${norm(tu.who === "you" ? tu.text : tu.lines?.[0] ?? "").slice(0, 80)}`;
+        count[k0] = (count[k0] ?? 0) + 1;
+        const k = `${addr}|${k0}|${count[k0]}`;
+        if (this.stamps[k]) { tu.at = this.stamps[k]; tu.live = true; }
+        else if (first || this.backfill.has(k)) { this.backfill.add(k); tu.at = base + i * step; }
+        else { this.stamps[k] = now; tu.at = now + i * 0.001; tu.live = true; dirty = true; }
+      });
+    };
+    stamp(t.term, main, created(t.term), 1);
+    const out = [...main];
+    for (const [addr, s] of Object.entries(this.subs)) {
+      const m = s.m, word = new RegExp(`(^|[^\\w-])(${[m.label, addr].filter(Boolean).map((x) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})([^\\w-]|$)`);
+      const anchor = main.find((tu) => tu.who !== "time" && word.test(textOf(tu)));
+      const base = anchor ? anchor.at + 0.01 : created(addr);
+      const src = { address: addr, m };
+      if (!m.agent) {
+        out.push({ who: "post", src, at: base, lines: s.lines.slice(-4), count: s.lines.length });
+        continue;
+      }
+      const turns = this.turns(s.lines, addr, false).filter((x) => x.who !== "time");
+      stamp(addr, turns, base, 0.001);
+      for (const tu of turns) out.push({ ...tu, src });
+    }
+    if (dirty) {
+      const keys = Object.keys(this.stamps);
+      if (keys.length > 3000) for (const k of keys.slice(0, keys.length - 3000)) delete this.stamps[k];
+      try { localStorage.setItem("discord.stamps", JSON.stringify(this.stamps)); } catch (_e) { /* no storage: times last this session */ }
+    }
+    return out.sort((a, b) => a.at - b.at);
+  }
+
   // Discord rows: a header (avatar, name, BOT tag, time) and the message's lines.
   rows() {
     const q = this.query.trim().toLowerCase();
     const textW = Math.max(240, this.width - 72 - 24);
     const per = Math.max(20, Math.floor(textW / this.youCharW)), perMono = Math.max(20, Math.floor((textW - 24) / this.charW));
     const t = this.target(), me = ME.name;
-    const turns = this.turns();
+    const mergeOn = this.mergeOn(t);
+    const turns = mergeOn ? this.merge(this.turns(), t) : this.turns();
+    // Who says a message: you, the agent, or (merged) a sub-agent. A prompt in a
+    // sub-agent's transcript you didn't send came from the agent that started it.
+    const allSubs = mergeOn || t.sub ? herd(t.tab).subs : [];
+    const labelOf = (addr) => addr === t.term && !t.sub ? { name: t.label, pic: t.pic, color: ROLES.head.color }
+      : (() => { const m = allSubs.find((x) => x.address === addr); return m ? { name: m.name, pic: m.pic, color: ROLES.kitten.color } : { name: t.parentLabel ?? "agent", pic: t.parentPic ?? ME.pic, color: ROLES.head.color }; })();
+    const speaker = (turn) => {
+      const src = turn.src?.m ?? t.sub;
+      if (turn.who === "you") {
+        if (!src || sentAt.has((turn.text ?? "").slice(0, 40))) return { name: me, pic: ME.pic, color: ROLES.owner.color, you: true };
+        const from = labelOf(src.parent);
+        return { name: `${from.name} → ${src.name}`, pic: from.pic, color: from.color, bot: true, key: `p-${src.address}` };
+      }
+      if (turn.src) return { name: turn.src.m.name, pic: turn.src.m.pic, color: ROLES.kitten.color, bot: true, thread: turn.src.address, key: turn.src.address };
+      return { name: t.label, pic: t.pic, color: t.sub ? ROLES.kitten.color : ROLES.head.color, bot: true, key: "main" };
+    };
     const out = [];
     const sentAt = new Map(((shared("imsg.sent") ?? {})[this.term] ?? []).map((m) => [norm(m.text).slice(0, 40), m.at]));
     const clockOf = (ms) => { const d = new Date(ms), h = d.getHours() % 12 || 12; return `Today at ${h}:${String(d.getMinutes()).padStart(2, "0")} ${d.getHours() < 12 ? "AM" : "PM"}`; };
     const code = (l) => /^\s{4,}\S/.test(l) || /^\s*\$\s/.test(l) || /[─│┌└├]/.test(l);
     turns.forEach((turn, k) => {
       if (turn.who === "time") return;
-      const lines = turn.who === "you" ? [{ l: turn.text, i: turn.idx[0] }]
-        : reflow(turn.reply.lines.map((l, j) => ({ l, i: turn.reply.idx[j] })));
+      // A plain program's post: its name, its last lines, a way to its screen.
+      if (turn.who === "post") {
+        const m = turn.src.m, open = () => watch(m.address);
+        out.push({ kind: "gap", h: 17 });
+        out.push({ kind: "head", h: 22, who: "agent", name: m.name, pic: m.pic, color: ROLES.kitten.color, bot: true, thread: m.address, time: "", open });
+        for (const l of turn.lines) out.push({ kind: "code", text: l.slice(0, perMono), h: 20, open });
+        out.push({ kind: "text", text: `${turn.count} lines · click to watch its screen`, h: 22, s: { color: "#8e8e93", italic: true }, open });
+        return;
+      }
+      const own = !turn.src;
+      const lines = turn.who === "you" ? [{ l: turn.text, i: own ? turn.idx[0] : undefined }]
+        : reflow(turn.reply.lines.map((l, j) => ({ l, i: own ? turn.reply.idx[j] : undefined })));
       const hits = lines.filter((x) => !q || x.l.toLowerCase().includes(q));
       if (!hits.length) return;
       const next = turns[k + 1];
-      const time = turn.who === "agent" ? (next?.who === "time" ? next.text.replace("Today", "Today at") : "")
+      const time = turn.live ? clockOf(turn.at)
+        : turn.who === "agent" ? (next?.who === "time" ? next.text.replace("Today", "Today at") : "")
         : sentAt.has(turn.text.slice(0, 40)) ? clockOf(sentAt.get(turn.text.slice(0, 40))) : "";
+      const who = speaker(turn);
       // Same author as the message just before, with no timestamp between: Discord
       // continues the group without repeating the avatar and name.
-      const prevTurn = turns.slice(0, k).reverse().find((x) => x.who !== "agent" || x.reply.lines.length);
-      const grouped = prevTurn && prevTurn.who === turn.who && turn.who === "you";
+      const prevTurn = turns.slice(0, k).reverse().find((x) => x.who !== "time" && (x.who !== "agent" || x.reply.lines.length));
+      const grouped = prevTurn && prevTurn.who === turn.who && prevTurn.who !== "post" && speaker(prevTurn).name === who.name;
       if (grouped) out.push({ kind: "gap", h: 4 });
       else {
         out.push({ kind: "gap", h: 17 });
-        out.push({ kind: "head", h: 22, who: turn.who, name: turn.who === "you" ? me : kittenName(t.program), pic: turn.who === "you" ? ME.pic : kittenPic(t.program, t.name), time, i: hits[0].i });
+        out.push({ kind: "head", h: 22, who: turn.who, name: who.name, pic: who.pic, color: who.color, bot: who.bot, thread: who.thread, time, i: hits[0].i });
       }
       for (const { l, i } of hits) {
         if (!l.trim()) { out.push({ kind: "text", text: "", h: 10, i }); continue; }
@@ -344,6 +478,8 @@ export default class Output extends View {
     if (r.kind === "gap") return div().id(`r-${n}`).h(r.h).flex_none();
     const on = r.i !== undefined && r.i >= sa && r.i <= sb;
     const select = (e, cx) => {
+      if (r.open) { r.open(); return; }
+      if (r.i === undefined) return;
       if (this.query) {
         const target = r.i; this.query = ""; this.search.set_value(""); this.sel = [target, target];
         const all = this.rows(), idx = all.findIndex((x) => x.i === target);
@@ -357,9 +493,15 @@ export default class Output extends View {
       .bg(on ? "#5865f21f" : "#00000000").hover((s) => s.bg(on ? "#5865f22e" : "#00000014"));
     if (r.kind === "head") {
       const you = r.who === "you";
+      const sub = r.thread ? herd().subs.find((m) => m.address === r.thread) : null;
       return row.child(h_flex().gap(6).items_center()
-          .child(div().text_size(16).font_medium().text_color(you ? ROLES.owner.color : ROLES.head.color).child(r.name))
-          .when(!you, (el) => el.child(div().px(4).h(15).rounded(3).bg(C.blurple).flex().items_center().text_size(10).font_bold().text_color("#ffffff").child("✓ BOT")))
+          .child(div().text_size(16).font_medium().text_color(r.color ?? (you ? ROLES.owner.color : ROLES.head.color)).child(r.name))
+          .when(r.bot ?? !you, (el) => el.child(div().px(4).h(15).rounded(3).bg(C.blurple).flex().items_center().text_size(10).font_bold().text_color("#ffffff").child("✓ BOT")))
+          // Merged: a sub-agent's message links to its own chat (or screen).
+          .when(Boolean(sub), (el) => el.child(h_flex().id(`thr-${n}`).gap(3).px(5).h(17).rounded(3).bg("#ffffff0f").items_center().cursor_pointer()
+            .hover((s) => s.bg("#ffffff1f"))
+            .on_click((_e, cx) => { cx.stop_propagation(); openSub(sub); })
+            .child(icon("thread", 11, C.link)).child(div().text_size(11).text_color(C.link).child("thread"))))
           .when(Boolean(r.time), (el) => el.child(div().text_size(12).text_color(C.muted).child(r.time))))
         .child(div().absolute().left(16).top(2).child(picture(r.pic, 40)));
     }
@@ -379,6 +521,11 @@ export default class Output extends View {
     const [sa, sb] = this.sel ? (this.sel[0] <= this.sel[1] ? this.sel : [this.sel[1], this.sel[0]]) : [-1, -2];
     const spin = [...this.lines].reverse().slice(0, 6).find((l) => SPIN.test(l));
     const busy = t.status === "working" || Boolean(spin) || this.footer.some((l) => /esc to interrupt/i.test(l)) || Boolean(peek(t.term).typing);
+    // Who's typing: the agent, and (merged) its sub-agents, as Discord words it.
+    const typers = [...(busy ? [t.label] : []),
+      ...(this.mergeOn(t) ? Object.values(this.subs).map((s) => s.m).filter((m) => m.agent && typing(m)).map((m) => m.name) : [])];
+    const typingText = typers.length > 2 ? "Several kittens are typing…"
+      : typers.length === 2 ? `${typers[0]} and ${typers[1]} are typing…` : `${typers[0]} is typing…`;
     if (this.follow) this.offset = 0;
     this.offset = Math.max(0, Math.min(this.offset, Math.max(0, rows.length - 1)));
     const end = rows.length - this.offset;
@@ -424,10 +571,10 @@ export default class Output extends View {
       .child(h_flex().h(24).px(16).gap(6).items_center()
         // Mid-turn: a spinner, "esc to interrupt" in the footer, or the shared peek.
         // Not the status alone: Claude Code started from a shell says idle while it works.
-        .when(busy, (el) => el
+        .when(typers.length > 0, (el) => el
           .child(dots(6, C.text))
-          .child(div().text_size(12.5).text_color(C.text).child(h_flex().gap(4).child(div().font_bold().child(kittenName(t.program))).child(div().child("is typing…"))))
-          .when(Boolean(spin), (x) => x.child(div().truncate().max_w(360).text_size(12).text_color(C.dim).child(spin?.trim() ?? ""))))
+          .child(div().text_size(12.5).font_semibold().text_color(C.text).child(typingText))
+          .when(busy && Boolean(spin), (x) => x.child(div().truncate().max_w(360).text_size(12).text_color(C.dim).child(spin?.trim() ?? ""))))
         .child(div().flex_1())
         .child(div().truncate().max_w(560).text_size(11.5).text_color(C.dim).child(this.footer.map((l) => l.trim()).filter(Boolean).join("  ·  ")))
         .child(tbtn("copy-reply", "Copy last reply", (_e, cx) => this.copy(cx, this.lastReply(), "Last reply")))

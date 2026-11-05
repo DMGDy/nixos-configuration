@@ -6,7 +6,7 @@
 import { View, div } from "gpui-kit";
 import { h_flex, TextareaState, Textarea } from "gpui-base";
 import { focused, hc, notify, run, shared, setShared, openOverlay, spaces, panes } from "herdr";
-import { C, icon, channel } from "./kit.js";
+import { C, icon, channel, chatSub, herd } from "./kit.js";
 
 export default class Compose extends View {
   init(_props, cx) {
@@ -30,6 +30,9 @@ export default class Compose extends View {
 
   target() {
     const tab = spaces().find((s) => s.active)?.tabs.find((t) => t.active);
+    // A sub-agent's chat is open: talk to it.
+    const sub = chatSub();
+    if (sub && herd(tab?.id).subs.some((m) => m.address === sub)) return sub;
     const ps = panes().filter((p) => p.tab === tab?.id && p.terminal);
     const f = focused()?.terminal;
     return ps.find((p) => p.terminal === f)?.terminal ?? ps.find((p) => p.program?.agent)?.terminal ?? ps[0]?.terminal ?? f;
@@ -56,7 +59,8 @@ export default class Compose extends View {
 
   render() {
     const tab = spaces().find((s) => s.active)?.tabs.find((t) => t.active);
-    const name = tab ? channel(tab).name : "general";
+    const sub = chatSub() ? herd(tab?.id).subs.find((m) => m.address === chatSub()) : null;
+    const name = sub ? sub.name : tab ? `#${channel(tab).name}` : "#general";
     const tool = (id, ic) => div().id(id).size(32).flex_none().flex().items_center().justify_center().child(icon(ic, 22, C.muted));
     return h_flex().id("root").size_full().bg(C.chat).px(16).pb(22).items_end()
       .on_key_down((e) => { this.shift = Boolean(e.modifiers?.shift); })
@@ -68,7 +72,10 @@ export default class Compose extends View {
           .child(div().size(22).rounded_full().bg(C.muted).flex().items_center().justify_center().child(icon("plus", 15, C.input))))
         .child(div().flex_1().min_w(0).py(7).relative()
           .child(Textarea.new(this.input).w_full().text_size(16).text_color(C.text))
-          .when(!this.text, (el) => el.child(div().id("ph").absolute().top(7).left(0).text_size(16).text_color(C.dim).on_click(() => this.input.focus()).child(`Message #${name}`))))
-        .child(h_flex().mt(2).gap(2).child(tool("gift", "gift")).child(tool("sticker", "sticker")).child(tool("emoji", "smile"))));
+          .when(!this.text, (el) => el.child(div().id("ph").absolute().top(7).left(0).text_size(16).text_color(C.dim).on_click(() => this.input.focus()).child(`Message ${name}`))))
+        .child(h_flex().mt(2).gap(2)
+          .child(div().id("rocket").cursor_pointer().on_click(() => openOverlay({ mod: "discord-activities", kind: "popup", frame: "none", width: 320, height: 420 }))
+            .child(tool("rocket-i", "rocket")))
+          .child(tool("gift", "gift")).child(tool("sticker", "sticker")).child(tool("emoji", "smile"))));
   }
 }

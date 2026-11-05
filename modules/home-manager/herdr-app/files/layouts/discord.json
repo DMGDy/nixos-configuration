@@ -1,92 +1,106 @@
 {
-  "id": "rc0ee8bc1501a448d307b99e96037f96d",
-  "type": "row",
+  "id": "root",
+  "type": "column",
   "children": [
     {
-      "id": "root",
-      "type": "column",
+      "id": "titlebar",
+      "type": "block",
+      "content": {
+        "mod": "discord-titlebar"
+      },
+      "size": {
+        "px": 24
+      },
+      "window_drag": true
+    },
+    {
+      "id": "body",
+      "type": "row",
       "children": [
         {
-          "id": "titlebar",
+          "id": "rail",
           "type": "block",
           "content": {
-            "mod": "discord-titlebar"
+            "mod": "discord-rail"
           },
           "size": {
-            "px": 24
+            "px": 72
           },
-          "window_drag": true
+          "resizable": false
         },
         {
-          "id": "body",
-          "type": "row",
+          "id": "sidebar",
+          "type": "block",
+          "content": {
+            "mod": "discord-channels"
+          },
+          "size": {
+            "px": 240
+          },
+          "min": 200,
+          "max": 400
+        },
+        {
+          "id": "convo",
+          "type": "column",
           "children": [
             {
-              "id": "rail",
+              "id": "header",
               "type": "block",
               "content": {
-                "mod": "discord-rail"
+                "mod": "discord-header"
               },
               "size": {
-                "px": 72
-              },
-              "resizable": false
+                "px": 48
+              }
             },
             {
-              "id": "sidebar",
-              "type": "block",
-              "content": {
-                "mod": "discord-channels"
-              },
-              "size": {
-                "px": 240
-              },
-              "min": 200,
-              "max": 400
-            },
-            {
-              "id": "convo",
-              "type": "column",
+              "id": "chat-row",
+              "type": "row",
               "children": [
                 {
-                  "id": "header",
-                  "type": "block",
-                  "content": {
-                    "mod": "discord-header"
-                  },
-                  "size": {
-                    "px": 48
-                  }
-                },
-                {
-                  "id": "chat-row",
-                  "type": "row",
+                  "id": "chat-col",
+                  "type": "column",
                   "children": [
                     {
-                      "id": "chat-col",
-                      "type": "column",
+                      "id": "convo-stack",
+                      "type": "stack",
                       "children": [
                         {
-                          "id": "convo-stack",
-                          "type": "stack",
+                          "id": "output",
+                          "type": "block",
+                          "content": {
+                            "mod": "discord-chat"
+                          }
+                        },
+                        {
+                          "id": "forum",
+                          "type": "block",
+                          "content": {
+                            "mod": "discord-forum"
+                          }
+                        },
+                        {
+                          "id": "live",
+                          "type": "column",
                           "children": [
                             {
-                              "id": "output",
+                              "id": "stream-bar",
                               "type": "block",
+                              "size": {
+                                "px": 48
+                              },
                               "content": {
-                                "mod": "discord-chat"
+                                "mod": "discord-stream"
                               }
                             },
                             {
-                              "id": "forum",
-                              "type": "block",
-                              "content": {
-                                "mod": "discord-forum"
-                              }
-                            },
-                            {
-                              "id": "live",
+                              "id": "stream-body",
                               "type": "column",
+                              "padding": [
+                                8,
+                                16
+                              ],
                               "children": [
                                 {
                                   "id": "main",
@@ -109,70 +123,91 @@
                                     }
                                   }
                                 }
-                              ],
-                              "padding": [
-                                8,
-                                16
                               ]
                             }
-                          ],
-                          "active": "output"
-                        },
+                          ]
+                        }
+                      ],
+                      "active": "output"
+                    },
+                    {
+                      "id": "compose",
+                      "type": "block",
+                      "content": {
+                        "mod": "discord-compose"
+                      },
+                      "size": {
+                        "px": 68
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "thread",
+                  "type": "column",
+                  "hidden": true,
+                  "size": {
+                    "px": 560
+                  },
+                  "min": 360,
+                  "max": 1000,
+                  "children": [
+                    {
+                      "id": "thread-head",
+                      "type": "block",
+                      "size": {
+                        "px": 48
+                      },
+                      "content": {
+                        "mod": "discord-thread"
+                      }
+                    },
+                    {
+                      "id": "thread-term",
+                      "type": "column",
+                      "padding": [
+                        8,
+                        8
+                      ],
+                      "background": "#2b2d31",
+                      "children": [
                         {
-                          "id": "compose",
+                          "id": "thread-agent",
                           "type": "block",
                           "content": {
-                            "mod": "discord-compose"
-                          },
-                          "size": {
-                            "px": 68
+                            "agent": "focused"
                           }
                         }
                       ]
-                    },
-                    {
-                      "id": "members",
-                      "type": "block",
-                      "content": {
-                        "mod": "discord-members"
-                      },
-                      "size": {
-                        "px": 240
-                      },
-                      "min": 200,
-                      "max": 400
                     }
                   ]
+                },
+                {
+                  "id": "members",
+                  "type": "block",
+                  "content": {
+                    "mod": "discord-members"
+                  },
+                  "size": {
+                    "px": 240
+                  },
+                  "min": 200,
+                  "max": 400
                 }
-              ],
-              "background": "#313338"
+              ]
             }
-          ]
+          ],
+          "background": "#313338"
         }
-      ],
-      "background": "#1e1f22",
-      "theme": "discord",
-      "ui_font": "Noto Sans",
-      "terminal_padding": [
-        16,
-        12
-      ],
-      "titlebar": "none"
-    },
-    {
-      "id": "b5154d71113d17a6a48333705308101ef",
-      "type": "block",
-      "content": {
-        "mod": "discord-forum"
-      },
-      "size": {
-        "px": 320
-      }
+      ]
     }
   ],
+  "background": "#1e1f22",
   "theme": "discord",
-  "divider": {
-    "width": 1,
-    "color": "border"
-  }
+  "ui_font": "Noto Sans",
+  "terminal_padding": [
+    16,
+    12
+  ],
+  "titlebar": "none"
 }

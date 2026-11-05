@@ -8,7 +8,7 @@
 import { View, div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
 import { run, spaces, layout, hc, shared, setShared, openOverlay, closeOverlay } from "herdr";
-import { C, icon, picture, presence, channel, herd, typing, dots, SPIN, ME, ROLES } from "./kit.js";
+import { C, icon, picture, presence, channel, herd, typing, dots, smooth, slide, livePill, streaming, watch, openSub, closeSub, SPIN, ME, ROLES } from "./kit.js";
 
 function find(n, id) { if (n?.id === id) return n; for (const c of n?.children ?? []) { const f = find(c, id); if (f) return f; } return null; }
 
@@ -94,20 +94,26 @@ export default class Members extends View {
       const p = presence(m.status), role = ROLES[m.role], busy = typing(m);
       const activity = m.activity ?? (p.activity ? `${p.activity}${m.what ? ` · ${m.what}` : ""}` : null);
       const key = `mem-${m.address ?? "me"}`;
-      return h_flex().id(key).mx(8).h(44).px(8).gap(12).items_center().rounded(4).cursor_pointer()
-        .opacity(dim ? 0.35 : 1).hover((x) => x.bg(C.hover).opacity(1))
+      // Fades its hover color in, brightens if offline, and eases its content right.
+      const hot = this.hot === key;
+      return smooth(this, h_flex().id(key).mx(8).h(44).px(8).items_center().rounded(4).cursor_pointer()
+        .opacity(dim && !hot ? 0.35 : 1).transition("opacity", { duration: 140, easing: "ease-out" }),
+        key, C.hover, { onHover: (hovered, cx) => { if (!hovered) this.hoverEnd(key, cx); } })
         .on_mouse_move((e, cx) => this.hoverMove(m, key, e, cx))
-        .on_hover((hovered, cx) => { if (!hovered) this.hoverEnd(key, cx); })
-        .on_click(() => { this.hide(); m.address ? run("agent.focus", { terminal: m.address }) : run("app.settings"); })
+        // A sub-agent has no channel of its own: watch its terminal instead.
+        .on_click(() => { this.hide(); !m.address ? run("app.settings") : m.parent ? openSub(m) : (closeSub(), run("agent.focus", { terminal: m.address })); })
+        .child(slide(this, key, h_flex().flex_1().min_w(0).gap(12).items_center())
         .child(picture(m.pic, 32, busy ? "working" : m.status ?? null))
         .child(v_flex().flex_1().min_w(0)
           .child(h_flex().gap(4).items_center()
             .child(div().truncate().text_size(15).font_medium().text_color(dim ? C.muted : role.color).child(m.name))
             .when(Boolean(m.owner), (el) => el.child(icon("crown", 14, "#f1c40f")))
-            .when(!m.owner, (el) => el.child(div().px(4).h(15).rounded(3).bg(C.blurple).flex().items_center().text_size(10).font_bold().text_color("#ffffff").child("BOT"))))
+            .when(!m.owner, (el) => el.child(div().px(4).h(15).rounded(3).bg(C.blurple).flex().items_center().text_size(10).font_bold().text_color("#ffffff").child("BOT")))
+            .when(!dim && streaming(m), (el) => el.child(div().id(`${key}-live`).cursor_pointer()
+              .on_click((_e, cx) => { cx.stop_propagation(); this.hide(); watch(m.address); }).child(livePill(9)))))
           .when(busy && !dim, (el) => el.child(h_flex().gap(6).items_center().child(dots(4, C.muted))
             .child(div().truncate().text_size(12).text_color(C.muted).child("typing…"))))
-          .when(!busy && Boolean(activity) && !dim, (el) => el.child(div().truncate().text_size(12).text_color(C.muted).child(activity))));
+          .when(!busy && Boolean(activity) && !dim, (el) => el.child(div().truncate().text_size(12).text_color(C.muted).child(activity)))));
     };
     const group = (label, list, dim) => list.length
       ? [div().px(16).pt(20).pb(4).text_size(12).font_semibold().text_color(C.muted).child(`${label.toUpperCase()} — ${list.length}`), ...list.map((m) => row(m, dim))] : [];

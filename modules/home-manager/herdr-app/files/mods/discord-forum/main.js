@@ -7,9 +7,9 @@
 import { View, div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
 import { run, home } from "herdr";
-import { C, icon, picture, herd, typing, peek, dots, TAGS, tagOf, ROLES } from "./kit.js";
+import { C, icon, picture, herd, typing, peek, dots, watch, openSub, closeSub, TAGS, tagOf, ROLES } from "./kit.js";
 
-const open = (address) => { run("agent.focus", { terminal: address }); run("layout.select", { stack: "convo-stack", child: "output" }); };
+const open = (address) => { closeSub(); run("agent.focus", { terminal: address }); run("layout.select", { stack: "convo-stack", child: "output" }); };
 
 export default class Forum extends View {
   init() {
@@ -57,7 +57,7 @@ export default class Forum extends View {
   threadRow(k) {
     const key = tagOf(k), busy = typing(k);
     return h_flex().id(`reply-${k.address}`).gap(8).items_center().h(28).px(6).rounded(4).hover((x) => x.bg(C.selected))
-      .on_click((_e, cx) => { cx.stop_propagation(); open(k.address); })
+      .on_click((_e, cx) => { cx.stop_propagation(); openSub(k); })
       .child(icon("thread", 14, C.dim))
       .child(picture(k.pic, 18, busy ? "working" : k.status, C.side))
       .child(div().flex_none().text_size(13).font_medium().text_color(ROLES.kitten.color).child(k.name))

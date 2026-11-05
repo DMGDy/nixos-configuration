@@ -2,7 +2,7 @@
 // across folders, so each discord-* mod has a copy as kit.js: edit here, then copy.
 import { View, div, svg, image } from "gpui-kit";
 import { h_flex } from "gpui-base";
-import { panes, terminals, agents, shared } from "herdr";
+import { panes, terminals, agents, shared, setShared, run, openOverlay } from "herdr";
 
 export const C = {
   rail: "#1e1f22", side: "#2b2d31", chat: "#313338", input: "#383a40", hover: "#35373c", selected: "#404249",
@@ -117,7 +117,9 @@ export function herd(tab) {
   }
   const sub = (t) => ({ address: t.address, name: kittenName(t.program, t.name ?? t.address), pic: kittenPic(t.program, t.agent),
     status: ENDED.has(t.state) ? null : t.status ?? "online", role: "kitten", parent: t.parent, what: `started by ${t.parent}`,
-    title: t.name ?? t.argv?.join(" ") ?? t.agent, cwd: t.cwd, turn: t.turn ?? 0, ended: ENDED.has(t.state), exit: t.exit_code });
+    title: t.name ?? t.argv?.join(" ") ?? t.agent, cwd: t.cwd, turn: t.turn ?? 0, ended: ENDED.has(t.state), exit: t.exit_code,
+    // An agent (it reports a status) has a conversation; a plain program (tio, a shell) only a screen.
+    agent: Boolean(t.status) || Boolean(t.program?.agent), created: t.created_ms ?? null, program: t.program, label: t.name });
   const tabOf = new Map(top.map((m) => [m.address, m.tab]));
   const rootTab = (t) => { let x = t; for (let i = 0; x?.parent && i < 20; i++) { if (tabOf.has(x.parent)) return tabOf.get(x.parent); x = all.find((y) => y.address === x.parent); } return paneOf.get(t.address)?.tab; };
   let subs = [...live.values()].filter((t) => t.parent && !seen.has(t.address)).map((t) => ({ ...sub(t), tab: rootTab(t) }));
@@ -150,6 +152,143 @@ export const TAGS = {
   idle: { name: "Napping", color: C.yellow, icon: "yarn" },
 };
 export const tagOf = (m) => m.ended ? null : typing(m) ? "working" : m.status === "blocked" ? "blocked" : m.status === "done" ? "done" : "idle";
+
+// Smooth hover. GPUI can't animate colors, only opacity/size/position, so the
+// hover color is a layer under the content that fades in and out. Call it on
+// the bare element, before adding children, so the layer stays underneath:
+//   smooth(this, h_flex().id("x")..., "x", C.hover).child(...)
+// `view.hot` holds the hovered id (one per mod; render reads it). Options:
+// radius (match the element's), ms, onHover (another handler; GPUI keeps one),
+// slide (px the content's `inner` wrapper moves right while hovered, see slide()).
+export function smooth(view, el, id, color, { radius = 4, ms = 140, onHover } = {}) {
+  const on = view.hot === id;
+  return el.relative()
+    .on_hover((hovered, cx) => {
+      if (hovered) view.hot = id; else if (view.hot === id) view.hot = null;
+      onHover?.(hovered, cx);
+      cx.notify();
+    })
+    .child(div().id(`${id}-hl`).absolute().top(0).left(0).right(0).bottom(0).rounded(radius).bg(color)
+      .opacity(on ? 1 : 0).transition("opacity", { duration: ms, easing: "ease-out" }));
+}
+
+// Content that eases a few px right while its row is hovered (rows, posts).
+export const slide = (view, id, el, px = 3) => el.relative().left(view.hot === id ? px : 0)
+  .transition("left", { duration: 160, easing: "ease-out" });
+
+// Go Live: a working (or asking) agent "streams" its terminal. Watching opens
+// the stream (the convo-stack's live view); Pop Out floats it in a window.
+export const streaming = (m) => !m?.ended && (typing(m) || m?.status === "blocked");
+
+// Shows the stream in the live view, with no thread panel (one terminal
+// can't show in two places). A terminal without a pane (a sub-agent or helper
+// an agent started) borrows its parent's pane for now (terminal.show), so the
+// parent's tab shows it; unshow() gives the pane back. why: a line the stream bar shows.
+export function watch(address, why = null) {
+  unshow();
+  closeThread();
+  const ps = panes();
+  let pane = null;
+  if (address && !ps.some((p) => p.terminal === address)) {
+    const all = terminals();
+    let up = all.find((t) => t.address === address)?.parent;
+    for (let i = 0; up && i < 20 && !pane; i++) {
+      pane = ps.find((p) => p.terminal === up)?.pane ?? null;
+      if (!pane) up = all.find((t) => t.address === up)?.parent;
+    }
+    if (pane) {
+      run("agent.focus", { terminal: up });
+      run("terminal.show", { terminal: address, pane });
+    }
+  } else if (address) run("agent.focus", { terminal: address });
+  setShared("discord.stream", { address, why, pane });
+  run("layout.select", { stack: "convo-stack", child: "live" });
+}
+
+// Gives a borrowed pane back to its own terminal.
+export function unshow() {
+  const s = shared("discord.stream");
+  if (s?.pane) { run("terminal.show", { pane: s.pane }); setShared("discord.stream", { ...s, pane: null }); }
+}
+
+// Watching a stream right now.
+export const watching = (active) => active === "live";
+// The sub-agent being watched in a borrowed pane, if any.
+export const borrowed = () => shared("discord.stream")?.pane ? shared("discord.stream").address : null;
+
+// Gives a sub-agent its own channel (a tab with its terminal), and shows it.
+export function keepAsChannel(address) {
+  unshow();
+  setShared("discord.stream", null);
+  run("terminal.keep", { terminal: address, place: "tab" });
+  run("layout.select", { stack: "convo-stack", child: "live" });
+}
+
+export function stopWatching() {
+  unshow();
+  setShared("discord.stream", null);
+  run("layout.select", { stack: "convo-stack", child: "output" });
+}
+
+// The stream in its own window (remembers where you drop it).
+export function popOut(address, name) {
+  openOverlay({ kind: "window", key: `stream-${address}`, width: 900, height: 560, layout: { type: "column", children: [
+    { type: "block", size: { px: 40 }, content: { mod: "discord-stream", props: { terminal: address, name, popout: true } } },
+    { type: "block", content: { terminal: address } },
+  ] } });
+}
+
+// The thread side panel: the agent's terminal beside the chat, in the member
+// list's place (Discord opens threads there).
+export function openThread(address) {
+  run("agent.focus", { terminal: address });
+  run("layout.hide", { id: "members" });
+  run("layout.show", { id: "thread" });
+}
+export function closeThread() {
+  run("layout.hide", { id: "thread" });
+  run("layout.show", { id: "members" });
+}
+
+// A tab with no agent in it is a shell channel: it opens straight into its terminal.
+export const isShell = (tab) => !channel(tab).panes.some((p) => p.program?.agent);
+
+// A sub-agent's own chat: shared "discord.chat" = { address } while it's open
+// in the chat view (the message box sends to it too); null = the channel's agent.
+export const chatSub = () => shared("discord.chat")?.address ?? null;
+
+// Opens a sub-agent: an agent's chat, or a plain program's screen (it has no
+// conversation). Its parent's channel is shown first.
+export function openSub(m) {
+  if (!m?.address) return;
+  if (!m.agent) return watch(m.address);
+  unshow();
+  setShared("discord.stream", null);
+  closeThread();
+  const all = terminals();
+  let up = m.parent;
+  for (let i = 0; up && i < 20 && !panes().some((p) => p.terminal === up); i++) up = all.find((t) => t.address === up)?.parent;
+  if (up) run("agent.focus", { terminal: up });
+  setShared("discord.chat", { address: m.address });
+  run("layout.select", { stack: "convo-stack", child: "output" });
+}
+export const closeSub = () => setShared("discord.chat", null);
+
+// Merged chat: a channel's agent and its sub-agents as one conversation.
+// shared "discord.merge" = { [tab id]: true }.
+export const merged = (tab) => Boolean((shared("discord.merge") ?? {})[tab]);
+export const setMerged = (tab, on) => setShared("discord.merge", { ...(shared("discord.merge") ?? {}), [tab]: on });
+
+// Everything an agent started, at any depth.
+export function descendants(address, list) {
+  const out = [], walk = (a) => { for (const m of list.filter((x) => x.parent === a)) { out.push(m); walk(m.address); } };
+  walk(address);
+  return out;
+}
+
+// Discord's red LIVE pill.
+export const livePill = (size = 10) => div().flex_none().px(4).h(size + 6).rounded(4).bg(C.red).flex().items_center()
+  .text_size(size).font_bold().text_color("#ffffff").child("LIVE");
 
 export default class Kit extends View {
   render() { return div(); }
