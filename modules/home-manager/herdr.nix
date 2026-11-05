@@ -53,13 +53,16 @@ in
         # Agents across all workspaces; numbers follow the sidebar agent list.
         next_agent = "prefix+shift+j";
         previous_agent = "prefix+shift+k";
-        focus_agent = "prefix+alt+1..9";
         settings = "prefix+shift+s";
         # Herdr's MRU action follows panes, including across tabs/workspaces.
         last_pane = [ "ctrl+s" "prefix+a" ];
         detach = [ "prefix+d" "prefix+q" ];
         zoom = "prefix+z";
         copy_mode = "prefix+[";
+      } // lib.optionalAttrs ((config.hyprland.modifier or "ALT") != "ALT") {
+        # Alt+1..9 is only free when Hyprland's modifier isn't ALT; on ALT
+        # hosts Hyprland grabs it for workspace switching before Herdr sees it.
+        focus_agent = "prefix+alt+1..9";
       };
     };
   };

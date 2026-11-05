@@ -84,7 +84,10 @@ All 4 hosts import `inputs.home-manager.nixosModules.default` and
   last-focused-pane action (across tabs/workspaces), not tmux's distinct
   previous-session/last-window actions. Double Ctrl+A sends a literal Ctrl+A.
   Prefix+Shift+1-9 jumps to workspace 1-9 and prefix+( / ) cycles workspaces;
-  prefix+Shift+J/K cycles agents and prefix+Alt+1-9 focuses agent rows.
+  prefix+Shift+J/K cycles agents. Prefix+Alt+1-9 focuses agent rows only on
+  hosts whose Hyprland modifier isn't ALT (framework_desktop); elsewhere
+  Hyprland owns Alt+1-9. Brightness is on the XF86MonBrightness keys, not
+  mod+Shift+J/K (those resize windows).
   Background agent toasts go through the system notifier (dunst). Agent-state
   integrations (pi, claude, codex, copilot) are installed imperatively with
   `herdr integration install <agent>`, not by Nix.
