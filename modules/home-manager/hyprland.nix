@@ -317,9 +317,9 @@ in
       -- take screenshot and copy to clipboard
       hl.bind(mod .. " + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | swappy -f -"))
 
-      -- change brightness
-      hl.bind(mod .. " + SHIFT + K", hl.dsp.exec_cmd("brightnessctl s +5%"))
-      hl.bind(mod .. " + SHIFT + J", hl.dsp.exec_cmd("brightnessctl s 5%-"))
+      -- change brightness with the laptop brightness keys (also on the lock screen)
+      hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl s +5%"), { locked = true, repeating = true })
+      hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 5%-"), { locked = true, repeating = true })
 
       -- switch between previous workspace
       hl.bind(mod .. " + Tab",   hl.dsp.focus({ workspace = "previous" }))
