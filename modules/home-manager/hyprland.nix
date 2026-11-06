@@ -202,11 +202,6 @@ in
         }) [ 4 5 6 ]
         ++ [
           {
-            # Opening the scratchpad starts its terminal if it is not running.
-            workspace = "special:scratch";
-            on_created_empty = "kitty --class scratchpad -e ${config.hyprland.scratchpadCommand}";
-          }
-          {
             workspace = "w[tv1] f[-1]";
             gaps_in = 0;
             gaps_out = 0;
@@ -359,6 +354,14 @@ in
       -- move/resize windows with mod + LMB/RMB
       hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
       hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+      -- Opening the scratchpad starts its terminal if it is not running.
+      -- (Replaces the on_created_empty workspace rule, deprecated in 0.57.)
+      hl.on("workspace.created", function(ws)
+        if ws.addressable_name == "special:scratch" and ws.is_empty then
+          hl.exec_cmd(${builtins.toJSON "kitty --class scratchpad -e ${config.hyprland.scratchpadCommand}"})
+        end
+      end)
 
       hl.on("hyprland.start", function()
         hl.exec_cmd("${startupScript}/bin/start")
