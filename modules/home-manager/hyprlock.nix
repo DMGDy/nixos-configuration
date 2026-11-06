@@ -4,6 +4,7 @@
 # blanks the monitors; nothing here suspends the machine.
 let
   cfg = config.hyprlock;
+  lain = import ./hyprlock/lain.nix { inherit config lib pkgs; };
   hyprctl = "${config.wayland.windowManager.hyprland.package}/bin/hyprctl";
   hyprlock = "${config.programs.hyprlock.package}/bin/hyprlock";
   loginctl = "${pkgs.systemd}/bin/loginctl";
@@ -28,6 +29,14 @@ let
 in
 {
   options.hyprlock = {
+    style = lib.mkOption {
+      type = lib.types.enum [ "image" "lain" ];
+      default = "image";
+      description = ''
+        "image": clock and password field over `image`. "lain": an animated
+        Copland OS screen after Serial Experiments Lain (hyprlock/lain.nix).
+      '';
+    };
     image = lib.mkOption {
       type = lib.types.str;
       default = "${config.home.homeDirectory}/Pictures/lockscreen.png";
@@ -51,7 +60,7 @@ in
 
     programs.hyprlock = {
       enable = true;
-      settings = {
+      settings = if cfg.style == "lain" then lain.settings else {
         general = {
           hide_cursor = true;
           ignore_empty_input = true;
@@ -186,6 +195,10 @@ in
         } // shadow)];
       };
     };
+
+    home.packages = lib.optionals (cfg.style == "lain") lain.packages;
+    # Lets hyprlock find the VT323 font from home.packages by name.
+    fonts.fontconfig.enable = lib.mkIf (cfg.style == "lain") true;
 
     services.hypridle = {
       enable = true;

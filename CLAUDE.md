@@ -113,6 +113,13 @@ All 4 hosts import `inputs.home-manager.nixosModules.default` and
   hypridle: lock after 10 min, monitors off after 11 min (60 s once locked),
   never suspend. Mod+Ctrl+L locks. Under the Lua Hyprland config, monitor
   power is `hyprctl dispatch 'hl.dsp.dpms({ action = "off" })'`, not `dpms off`.
+  `hyprlock.style = "lain"` (set on ryzen_rtx) swaps the image screen for an
+  animated Copland OS one after Serial Experiments Lain (`hyprlock/lain.nix`):
+  backgrounds are generated with ImageMagick at build time (no show artwork,
+  the repo is public), and motion comes from labels re-running
+  `hyprlock/lain-lock.sh` every 100-300 ms, since hyprlock reloads images at
+  most once a second. Heavy labels run on the primary display only;
+  `LAIN_T=<ms> lain-lock.sh <mode>` previews a frame.
 
 ## framework_desktop Host Specifics
 

@@ -114,6 +114,9 @@
   # so the desktop doesn't flicker at low refresh.
   hyprland.vrr = 2;
 
+  # Animated Copland OS lock screen (Serial Experiments Lain).
+  hyprlock.style = "lain";
+
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.preferXdgDirectories = true;
