@@ -42,6 +42,14 @@ in
       default = "${config.home.homeDirectory}/Pictures/lockscreen.png";
       description = "Lock screen background image.";
     };
+    lainAssets = lib.mkOption {
+      type = lib.types.str;
+      default = "${config.home.homeDirectory}/nixos/modules/home-manager/hyprlock/assets";
+      description = ''
+        Where hyprlock/lain-assets.sh put the show's frames (gitignored, read
+        at lock time). Without them the lain style uses generated frames.
+      '';
+    };
     lockAfter = lib.mkOption {
       type = lib.types.int;
       default = 600;

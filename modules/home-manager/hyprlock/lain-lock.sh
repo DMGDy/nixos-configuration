@@ -1,10 +1,12 @@
 # Text frames for the Copland OS (Serial Experiments Lain) lock screen.
 # hyprlock re-runs each label's command every ~100 ms; every frame is a pure
 # function of the time since hyprlock started, so all labels stay in step.
-# LAIN_T=<ms> overrides that time for previews. Hot paths stay in bash
+# Usage: lain-lock.sh <mode> [assets-dir]. LAIN_T=<ms> overrides the time
+# for previews. Hot paths stay in bash
 # builtins: this runs dozens of times a second while locked.
 
 mode=${1:-boot}
+assets=${2:-}
 cache="${XDG_RUNTIME_DIR:-/tmp}/lain-lock"
 [ -d "$cache" ] || mkdir -p "$cache"
 
@@ -49,7 +51,7 @@ dots() { # label, value: pad with dots to a fixed column
 }
 
 glitch() { # corrupt a few characters of $1, roughly once a second
-  local s=$1 out i c pool='▓▒░█#%&@/<>_'
+  local s=$1 out i c pool='▓▒░█#%@/_'       # no < > &: labels are Pango markup
   out=$s
   if (( RANDOM % 11 == 0 )); then
     for _ in 1 2 3; do
@@ -81,16 +83,15 @@ case "$mode" in
       printf '%s' "$log"
     fi
     ;;
-  logo|ghost) glitch "COPLAND OS" ;;       # white logo and its red copy glitch independently
-  sub) printf '<span letter_spacing="14000">%s</span>' "$(glitch ENTERPRISE)" ;;
-  login)
-    (( t < 2600 )) || printf 'login: %s' "$USER"   # appears once the log has typed
+  fallback)                                 # text logo when the show's frame is missing
+    [ -r "$assets/frame0.jpg" ] && exit 0
+    printf '<b><i>Copland OS Enterprise</i></b>\n<span size="45%%"><b><i>Produced By Tachibana Lab</i></b></span>'
     ;;
   clock)
     printf -v day '%(%Y.%m.%d)T' -1
     printf -v now '%(%H:%M:%S)T' -1
     frac=${EPOCHREALTIME#*.}
-    printf 'PRESENT DAY   %s\nPRESENT TIME  %s.%s' "$day" "$now" "${frac:0:1}"
+    printf '<b><i>Present day   %s\nPresent time  %s.%s</i></b>' "$day" "$now" "${frac:0:1}"
     ;;
   tagline)
     (( t < 3200 )) && exit 0
@@ -98,8 +99,10 @@ case "$mode" in
     if (( RANDOM % 23 == 0 )); then        # the occasional mirrored frame
       rev=; for (( i = ${#msg} - 1; i >= 0; i-- )); do rev+=${msg:i:1}; done
       msg=$rev
+    else
+      msg=$(glitch "$msg")
     fi
-    printf '%s%s' "$msg" "$cursor"
+    printf '<b><i>%s</i></b>%s' "$msg" "$cursor"
     ;;
   wired)
     if (( (t / 650) % 2 == 0 )); then dot="●"; else dot="○"; fi
