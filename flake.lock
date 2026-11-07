@@ -969,11 +969,11 @@
     "herdr-layouts": {
       "flake": false,
       "locked": {
-        "lastModified": 1794018800,
-        "narHash": "sha256-EYEOs8RNAFdB8DVekBiUb2Z5FVHLg8Br896Iw6V6hxk=",
+        "lastModified": 1794019152,
+        "narHash": "sha256-SgleiXQ/Rdbk9Z/9VdosahJAXyVeUw/IZNDq0hZ/8BM=",
         "owner": "DMGDy",
         "repo": "herdr-layouts",
-        "rev": "da62295bf41d4cd246f855b74fba51e5f797634d",
+        "rev": "a73840220ef98d659f29210ea1ee64a5e0adbd82",
         "type": "github"
       },
       "original": {
