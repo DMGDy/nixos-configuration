@@ -96,17 +96,24 @@ All 4 hosts import `inputs.home-manager.nixosModules.default` and
   Edit its declarative configuration here rather than through the settings UI.
 
 - **Herdr GUI (herdr-app)**: `modules/home-manager/herdr-app.nix` defines
-  `programs.herdr-app` (enabled in `herdr.nix`). `herdr-app/files/` holds the
-  custom layouts (dylan, discord, imessage, teams, vs), their mods and themes;
-  a switch *copies* them into `~/.config/herdr-app` (the app and agents edit
-  them live, so no read-only links), only when they changed, backing up any
-  replaced live file to `~/.config/herdr-app-saves/pre-switch-<time>/`.
-  `settings` is merged into the app's settings.json (zoom etc. stay the app's);
-  `keys.json` is a read-only link. After live changes run `herdr-app-save`
-  (copies everything the app didn't ship back into `herdr-app/files/`, minus
-  generated `*.d.ts`/`jsconfig.json`), review, commit. The discord avatars are
-  third-party art: `herdr-app/avatars.nix` fetches and crops them at build
-  time via `extraFiles`; never commit the PNGs (this repo is public).
+  `programs.herdr-app` (enabled in `herdr.nix`). The custom layouts (dylan,
+  discord, imessage, teams, vs), their mods and themes live in their own repo,
+  [DMGDy/herdr-layouts](https://github.com/DMGDy/herdr-layouts), the flake
+  input `herdr-layouts` (`flake = false`), checked out at `~/herdr-layouts`.
+  A switch *copies* its `layouts/`, `mods/` and `themes/` into
+  `~/.config/herdr-app` (the app and agents edit them live, so no read-only
+  links), only when they changed, backing up any replaced live file to
+  `~/.config/herdr-app-saves/pre-switch-<time>/`. `settings` is merged into the
+  app's settings.json (zoom etc. stay the app's); `keys.json` is a read-only
+  link. Workflow: change things live, run `herdr-app-save` (copies everything
+  the app didn't ship back into `~/herdr-layouts`, minus generated
+  `*.d.ts`/`jsconfig.json`), review, commit and push there, then
+  `nix flake update herdr-layouts` here and `nix-reflake`. To try unpushed
+  changes, add `--override-input herdr-layouts path:/home/dylandy/herdr-layouts`
+  to the rebuild. Third-party art and icon sets stay in this repo as Nix
+  that fetches them at build time via `extraFiles`, never as files in either
+  repo: `herdr-app/avatars.nix` (catgirl avatars and the profile-card GIFs,
+  split into frames) and `herdr-app/icons.nix` (Lucide and Simple Icons).
 
 - **Lock screen / idle**: `modules/home-manager/hyprlock.nix` (imported on
   ryzen_rtx) styles hyprlock around `~/Pictures/lockscreen.png` and runs

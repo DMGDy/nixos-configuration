@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   terminal = pkgs.writeShellScriptBin "herdr-terminal" ''
@@ -75,7 +75,10 @@ in
   # changing them live, run `herdr-app-save` and commit herdr-app/.
   programs.herdr-app = {
     enable = true;
-    source = ./herdr-app/files;
+    # Layouts, mods and themes live in their own repo (flake input
+    # herdr-layouts); herdr-app-save writes to its checkout.
+    source = inputs.herdr-layouts;
+    checkout = "${config.home.homeDirectory}/herdr-layouts";
     # The discord layout's catgirl avatars and its icons (Lucide, Simple Icons):
     # fetched at build time, not kept in this (public) repo. Credits in
     # herdr-app/avatars.nix and herdr-app/icons.nix.

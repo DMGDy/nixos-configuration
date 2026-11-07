@@ -20,6 +20,11 @@
     nix-environments.url = "github:nix-community/nix-environments";
     # epic status bar i made
     epic-bar-rs.url = "github:DMGDy/epic-bar-rs";
+    # herdr-app layouts, mods and themes (deployed by programs.herdr-app)
+    herdr-layouts = {
+      url = "github:DMGDy/herdr-layouts";
+      flake = false;
+    };
   };
   outputs = { self, nixpkgs, ... }@inputs: 
   let 

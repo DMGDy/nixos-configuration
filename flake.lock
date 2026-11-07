@@ -755,7 +755,8 @@
         "nix-environments": "nix-environments",
         "nixpkgs": "nixpkgs_4",
         "nixvim": "nixvim",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "herdr-layouts": "herdr-layouts"
       }
     },
     "rust-overlay": {
@@ -962,6 +963,22 @@
       "original": {
         "owner": "hyprwm",
         "repo": "xdg-desktop-portal-hyprland",
+        "type": "github"
+      }
+    },
+    "herdr-layouts": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794018800,
+        "narHash": "sha256-EYEOs8RNAFdB8DVekBiUb2Z5FVHLg8Br896Iw6V6hxk=",
+        "owner": "DMGDy",
+        "repo": "herdr-layouts",
+        "rev": "da62295bf41d4cd246f855b74fba51e5f797634d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DMGDy",
+        "repo": "herdr-layouts",
         "type": "github"
       }
     }

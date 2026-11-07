@@ -1,8 +1,0 @@
-Kitten avatars: anime catgirl art via nekos.best (SFW neko endpoint), cropped to 256px squares.
-
-kitten-claude.png  Mauve  https://www.pixiv.net/en/artworks/94484742
-kitten-pi.png  おうみやひなり  https://www.pixiv.net/en/artworks/101956332
-kitten-codex.png  球根  https://www.pixiv.net/en/artworks/87136840
-kitten-copilot.png  佐伯ソラ  https://www.pixiv.net/en/artworks/130955927
-kitten-default.png  冴之木瑞穂  https://www.pixiv.net/en/artworks/95839500
-herder.png  甘城なつき  https://www.pixiv.net/en/artworks/73263547

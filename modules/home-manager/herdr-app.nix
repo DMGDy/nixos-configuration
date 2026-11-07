@@ -21,12 +21,17 @@ let
   rsync = "${pkgs.rsync}/bin/rsync";
   jq = "${pkgs.jq}/bin/jq";
 
-  # source plus extraFiles, as one tree to copy.
+  # source's layouts/, mods/ and themes/ (not the rest of its repo: README,
+  # .gitignore) plus extraFiles, as one tree to copy.
   tree =
-    if cfg.extraFiles == { } then cfg.source
+    if cfg.source == null && cfg.extraFiles == { } then null
     else pkgs.runCommand "herdr-app-files" { } (''
-      ${lib.optionalString (cfg.source != null) "cp -r --no-preserve=mode ${cfg.source} $out"}
       mkdir -p $out
+      ${lib.optionalString (cfg.source != null) ''
+        for d in layouts mods themes; do
+          if [ -d ${cfg.source}/$d ]; then cp -r --no-preserve=mode ${cfg.source}/$d $out/; fi
+        done
+      ''}
     '' + lib.concatStrings (lib.mapAttrsToList (rel: file: ''
       mkdir -p "$out/$(dirname ${lib.escapeShellArg rel})"
       cp -r --no-preserve=mode ${file} $out/${lib.escapeShellArg rel}
@@ -87,7 +92,7 @@ in
 
     checkout = lib.mkOption {
       type = lib.types.str;
-      default = "${config.home.homeDirectory}/nixos/modules/home-manager/herdr-app/files";
+      default = "${config.home.homeDirectory}/herdr-layouts";
       description = "Where `herdr-app-save` writes: the working-tree copy of `source`.";
     };
 
