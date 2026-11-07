@@ -6,7 +6,7 @@
 import { View, div } from "gpui-kit";
 import { h_flex } from "gpui-base";
 import { props, spaces, shared, closeOverlay } from "herdr";
-import { C, icon, picture, channel, herd, typing, smooth, livePill, streaming, watch, stopWatching, popOut, keepAsChannel, borrowed, ROLES } from "./kit.js";
+import { C, icon, picture, channel, herd, typing, smooth, livePill, streaming, watch, stopWatching, popOut, keepAsChannel, borrowed, streamChatOn, toggleStreamChat, ROLES } from "./kit.js";
 
 export default class Stream extends View {
   // What's on screen: the popped-out terminal, else the shown tab's agent (or shell).
@@ -34,11 +34,11 @@ export default class Stream extends View {
       .on_click(action)
       .child(icon(ic, 15, color)).child(div().text_size(13).font_medium().text_color(color).child(text));
 
-    return h_flex().id("root").size_full().px(12).gap(10).items_center().bg(pr.popout ? C.rail : C.chat)
+    return h_flex().id("root").size_full().px(12).gap(10).items_center().bg(pr.popout ? C.card : C.chat)
       .when(!pr.popout, (el) => el.border_b(1).border_color(C.border))
       .child(shell
         ? div().size(26).flex_none().rounded_full().bg(C.selected).flex().items_center().justify_center().child(icon("terminal", 15, C.muted))
-        : m ? picture(m.pic, 26, typing(m) ? "working" : m.status, pr.popout ? C.rail : C.chat)
+        : m ? picture(m.pic, 26, typing(m) ? "working" : m.status, pr.popout ? C.card : C.chat)
         : div().size(26).flex_none().rounded_full().bg(C.selected))
       .child(div().flex_none().text_size(15).font_semibold().text_color(shell || !m ? C.header : ROLES[m.role]?.color ?? C.header)
         .child(shell ? label : `${label}'s screen`))
@@ -56,6 +56,9 @@ export default class Stream extends View {
       .when(!pr.popout && Boolean(address), (el) => el
         // A sub-agent lives in no channel: offer it one.
         .when(Boolean(!pr.popout && m?.parent), (x) => x.child(btn("keep", "hash", "Keep as channel", () => keepAsChannel(address))))
+        // Discord's Show Chat: the conversation docked beside the stream.
+        .when(!shell, (x) => x.child(btn("chat", "forum", streamChatOn() ? "Hide Chat" : "Show Chat", () => toggleStreamChat(),
+          streamChatOn() ? "#ffffff" : C.text, streamChatOn() ? C.blurple : "#ffffff0f")))
         .child(btn("pop-out", "popout", "Pop Out", () => { popOut(address, label); stopWatching(); }))
         .child(btn("stop", "x", shell ? "Back to chat" : "Stop Watching", () => stopWatching(), "#ffffff", C.red)));
   }

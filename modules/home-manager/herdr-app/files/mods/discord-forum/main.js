@@ -32,7 +32,7 @@ export default class Forum extends View {
     const where = (m.cwd ?? "").replace(home(), "~");
     return v_flex().id(`post-${m.address}`).flex_none().mx(16).p(14).gap(8).rounded(8).bg(C.side).cursor_pointer()
       .border(1).border_color(key === "blocked" ? "#f23f4366" : C.side)
-      .hover((x) => x.bg("#2e3035").border_color(key === "blocked" ? C.red : "#3f4147"))
+      .hover((x) => x.bg(C.hover).border_color(key === "blocked" ? C.red : "#ffffff26"))
       .on_click(() => open(m.address))
       .child(h_flex().gap(8).items_center()
         .child(this.tag(key, true))
@@ -112,7 +112,7 @@ export default class Forum extends View {
             .child(div().h(1).flex_1().bg(C.selected))
             .child(div().text_size(12).text_color(C.link).child(this.archived ? "Hide" : "Show")))
           .when(this.archived, (el) => el.children(archived.map((m) => h_flex().flex_none().mx(16).px(14).h(40).gap(10).items_center()
-            .rounded(8).bg("#2b2d3180").opacity(0.7)
+            .rounded(8).bg(C.side).opacity(0.7)
             .child(icon("archive", 14, C.dim))
             .child(picture(m.pic, 20))
             .child(div().flex_1().min_w(0).truncate().text_size(14).text_color(C.muted).child(m.title || m.name))

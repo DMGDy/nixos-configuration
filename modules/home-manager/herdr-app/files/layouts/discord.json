@@ -95,33 +95,74 @@
                               }
                             },
                             {
-                              "id": "stream-body",
-                              "type": "column",
-                              "padding": [
-                                8,
-                                16
-                              ],
+                              "id": "stream-row",
+                              "type": "row",
                               "children": [
                                 {
-                                  "id": "main",
-                                  "type": "block",
-                                  "content": {
-                                    "tab": "active",
-                                    "pane": {
-                                      "background": "#2b2d31",
-                                      "border": {
-                                        "width": 1,
-                                        "color": "#1e1f22"
-                                      },
-                                      "focus": {
-                                        "width": 1,
-                                        "color": "#5865f2"
-                                      },
-                                      "radius": 8,
-                                      "gap": 8,
-                                      "lone": true
+                                  "id": "stream-body",
+                                  "type": "column",
+                                  "padding": [
+                                    8,
+                                    16
+                                  ],
+                                  "children": [
+                                    {
+                                      "id": "main",
+                                      "type": "block",
+                                      "content": {
+                                        "tab": "active",
+                                        "pane": {
+                                          "background": "#00000059",
+                                          "border": {
+                                            "width": 1,
+                                            "color": "#00000066"
+                                          },
+                                          "focus": {
+                                            "width": 1,
+                                            "color": "#5865f2"
+                                          },
+                                          "radius": 8,
+                                          "gap": 8,
+                                          "lone": true
+                                        }
+                                      }
                                     }
-                                  }
+                                  ]
+                                },
+                                {
+                                  "id": "stream-chat",
+                                  "type": "column",
+                                  "hidden": true,
+                                  "size": {
+                                    "px": 380
+                                  },
+                                  "min": 300,
+                                  "max": 720,
+                                  "children": [
+                                    {
+                                      "id": "stream-output",
+                                      "type": "block",
+                                      "content": {
+                                        "mod": "discord-chat",
+                                        "props": {
+                                          "side": true
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "id": "stream-compose",
+                                      "type": "block",
+                                      "content": {
+                                        "mod": "discord-compose",
+                                        "props": {
+                                          "block": "stream-compose"
+                                        }
+                                      },
+                                      "size": {
+                                        "px": 68
+                                      }
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -147,10 +188,10 @@
                   "type": "column",
                   "hidden": true,
                   "size": {
-                    "px": 560
+                    "px": 640
                   },
                   "min": 360,
-                  "max": 1000,
+                  "max": 1200,
                   "children": [
                     {
                       "id": "thread-head",
@@ -169,13 +210,27 @@
                         8,
                         8
                       ],
-                      "background": "#2b2d31",
+                      "background": "#00000038",
                       "children": [
                         {
                           "id": "thread-agent",
                           "type": "block",
                           "content": {
-                            "agent": "focused"
+                            "tab": "active",
+                            "pane": {
+                              "background": "#00000059",
+                              "border": {
+                                "width": 1,
+                                "color": "#00000066"
+                              },
+                              "focus": {
+                                "width": 1,
+                                "color": "#5865f2"
+                              },
+                              "radius": 8,
+                              "gap": 8,
+                              "lone": true
+                            }
                           }
                         }
                       ]
@@ -197,17 +252,21 @@
               ]
             }
           ],
-          "background": "#313338"
+          "background": "#00000012"
         }
       ]
     }
   ],
-  "background": "#1e1f22",
+  "background": {
+    "image": "mods/discord-kit/backgrounds/dusk.png",
+    "fit": "cover"
+  },
   "theme": "discord",
   "ui_font": "Noto Sans",
   "terminal_padding": [
     16,
     12
   ],
-  "titlebar": "none"
+  "titlebar": "none",
+  "terminal_opacity": 0.6
 }

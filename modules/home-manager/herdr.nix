@@ -76,9 +76,10 @@ in
   programs.herdr-app = {
     enable = true;
     source = ./herdr-app/files;
-    # The discord layout's catgirl avatars: fetched and cropped at build time,
-    # not kept in this (public) repo. Credits in herdr-app/avatars.nix.
-    extraFiles = import ./herdr-app/avatars.nix { inherit pkgs; };
+    # The discord layout's catgirl avatars and its icons (Lucide, Simple Icons):
+    # fetched at build time, not kept in this (public) repo. Credits in
+    # herdr-app/avatars.nix and herdr-app/icons.nix.
+    extraFiles = import ./herdr-app/avatars.nix { inherit pkgs; } // import ./herdr-app/icons.nix { inherit pkgs; };
     # GUI keys: Herdr's GUI defaults plus the TUI bindings above, with the
     # prefix written as a "ctrl-a <key>" sequence. Edit herdr-app/keys.json
     # here; the app's copy is a read-only link.

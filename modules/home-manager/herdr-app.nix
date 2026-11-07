@@ -29,7 +29,7 @@ let
       mkdir -p $out
     '' + lib.concatStrings (lib.mapAttrsToList (rel: file: ''
       mkdir -p "$out/$(dirname ${lib.escapeShellArg rel})"
-      cp --no-preserve=mode ${file} $out/${lib.escapeShellArg rel}
+      cp -r --no-preserve=mode ${file} $out/${lib.escapeShellArg rel}
     '') cfg.extraFiles));
 
   settingsFile = pkgs.writeText "herdr-app-settings.json" (builtins.toJSON cfg.settings);
@@ -101,7 +101,7 @@ in
       type = lib.types.attrsOf lib.types.path;
       default = { };
       example = lib.literalExpression ''{ "mods/my-mod/logo.png" = pkgs.fetchurl { ... }; }'';
-      description = "Files built by Nix, added to `source` at these paths (relative to ~/.config/herdr-app); `herdr-app-save` skips them.";
+      description = "Files (or folders) built by Nix, added to `source` at these paths (relative to ~/.config/herdr-app); `herdr-app-save` skips them.";
     };
 
     keys = lib.mkOption {

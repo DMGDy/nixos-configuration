@@ -3,13 +3,17 @@
 // LIVE while it works, and Watch fullscreen / Pop Out / close.
 import { View, div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
-import { focused, agents } from "herdr";
-import { C, icon, picture, herd, typing, smooth, livePill, streaming, watch, popOut, closeThread, ROLES } from "./kit.js";
+import { focused, agents, spaces, panes } from "herdr";
+import { C, icon, picture, herd, typing, smooth, livePill, streaming, watch, popOut, closeThread, setSplit, channelShell, openShell, ROLES } from "./kit.js";
 
 export default class Thread extends View {
   render() {
-    // The block below shows { agent: "focused" }: the agent chosen with agent.focus.
-    const address = focused()?.agent ?? agents().find((a) => a.focused)?.address ?? agents()[0]?.address;
+    // The block below shows the channel's terminals (its tab): its agent, and
+    // its shell when it has one.
+    const tab = spaces().find((s) => s.active)?.tabs.find((x) => x.active)?.id;
+    const lead = panes().find((p) => p.tab === tab && p.program?.agent);
+    const address = lead?.terminal ?? focused()?.agent ?? agents().find((a) => a.focused)?.address;
+    const shell = channelShell(tab);
     const { top, subs } = herd();
     const m = [...top, ...subs].find((x) => x.address === address);
     const tool = (id, ic, action, hover = "#ffffff1a") => smooth(this,
@@ -20,14 +24,15 @@ export default class Thread extends View {
       .child(icon("thread", 18, C.dim))
       .child(v_flex().flex_1().min_w(0)
         .child(h_flex().gap(6).items_center()
-          .child(div().truncate().text_size(15).font_semibold().text_color(C.header).child(m ? `${m.name}'s terminal` : "Terminal"))
+          .child(div().truncate().text_size(15).font_semibold().text_color(C.header).child(m ? `${m.name}'s terminal${shell ? " + your shell" : ""}` : "Terminal"))
           .when(Boolean(m && streaming(m)), (el) => el.child(livePill(10))))
         .when(Boolean(m), (el) => el.child(h_flex().gap(4).items_center()
           .child(picture(m.pic, 14))
           .child(div().truncate().text_size(12).text_color(ROLES[m.role]?.color ?? C.muted).child(typing(m) ? "typing…" : m.title ?? "")))))
+      .child(tool("t-shell", "terminal", () => openShell(tab)))
       .when(Boolean(address), (el) => el
         .child(tool("t-watch", "screen", () => watch(address)))
-        .child(tool("t-pop", "popout", () => { popOut(address, m?.name ?? "Terminal"); closeThread(); })))
-      .child(tool("t-close", "x", () => closeThread(), "#f23f4366"));
+        .child(tool("t-pop", "popout", () => { popOut(address, m?.name ?? "Terminal"); setSplit(false); })))
+      .child(tool("t-close", "x", () => setSplit(false), "#f23f4366"));
   }
 }

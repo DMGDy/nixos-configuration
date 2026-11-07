@@ -2,11 +2,17 @@
 // across folders, so each discord-* mod has a copy as kit.js: edit here, then copy.
 import { View, div, svg, image } from "gpui-kit";
 import { h_flex } from "gpui-base";
-import { panes, terminals, agents, shared, setShared, run, openOverlay } from "herdr";
+import { panes, terminals, agents, shared, setShared, run, openOverlay, layout, spaces } from "herdr";
 
+// Discord's dusk gradient theme: the window is the gradient (the layout's
+// background, backgrounds/dusk.png from dusk.svg) and the panels are dark
+// tints over it, darkest on the server rail. Tints add up, so a row inside a
+// panel is clear (not the panel's color again). Popups sit over everything, so
+// theirs are solid: card, cardInner. icon: a server icon's resting circle.
 export const C = {
-  rail: "#1e1f22", side: "#2b2d31", chat: "#313338", input: "#383a40", hover: "#35373c", selected: "#404249",
-  text: "#dbdee1", header: "#f2f3f5", muted: "#949ba4", dim: "#6d6f78", border: "#1f2023",
+  rail: "#0000005c", side: "#00000038", chat: "#00000012", input: "#00000040", hover: "#ffffff0d", selected: "#ffffff17",
+  panel: "#0000004d", clear: "#00000000", icon: "#ffffff17", card: "#1c1030", cardInner: "#120a20", cardRaised: "#2a1f3d",
+  text: "#dbdee1", header: "#f2f3f5", muted: "#a8a4b8", dim: "#7d7891", border: "#ffffff12",
   blurple: "#5865f2", green: "#23a55a", red: "#f23f43", yellow: "#f0b232", gray: "#80848e", link: "#00a8fc",
 };
 const AVATAR = ["#5865f2", "#3ba55c", "#faa61a", "#ed4245", "#eb459e", "#747f8d"];
@@ -18,16 +24,25 @@ export function initials(name) {
   return ((w[0]?.[0] ?? "?") + (w[1]?.[0] ?? "")).toUpperCase();
 }
 
-// Discord presence from agent status: online, idle, do not disturb, offline.
+// Discord presence from agent status: online, idle (moon), do not disturb,
+// streaming (watched live), offline (ring). shape: its dot, status/<shape>.svg.
 export function presence(status) {
-  if (status === "working") return { color: C.green, word: "Online", activity: "Working" };
-  if (status === "blocked") return { color: C.red, word: "Do Not Disturb", activity: "Needs you" };
-  if (status === "done") return { color: C.green, word: "Online", activity: "Finished" };
-  if (status === "idle") return { color: C.yellow, word: "Idle", activity: null };
+  if (status === "streaming") return { color: "#593695", word: "Streaming", activity: "Live", shape: "streaming" };
+  if (status === "working") return { color: C.green, word: "Online", activity: "Working", shape: "online" };
+  if (status === "blocked") return { color: C.red, word: "Do Not Disturb", activity: "Needs you", shape: "dnd" };
+  if (status === "done") return { color: C.green, word: "Online", activity: "Finished", shape: "online" };
+  if (status === "idle") return { color: C.yellow, word: "Idle", activity: null, shape: "idle" };
   // Running, but its program reports no status (Claude Code started from a shell).
-  if (status === "online") return { color: C.green, word: "Online", activity: null };
-  return { color: C.gray, word: "Offline", activity: null };
+  if (status === "online") return { color: C.green, word: "Online", activity: null, shape: "online" };
+  return { color: C.gray, word: "Offline", activity: null, shape: "offline" };
 }
+
+// The status dot on an avatar's corner, cut out of what's behind it (ring).
+const statusDot = (status, size, ring) => {
+  const d = Math.max(10, Math.round(size * 0.375));
+  return div().absolute().right(-2).bottom(-2).size(d + 2).rounded_full().bg(ring).flex().items_center().justify_center()
+    .child(image(`mods/discord-kit/status/${presence(status).shape}.svg`).size(d - 2));
+};
 
 // Round avatar: the program's icon on its tile, else colored initials; with an
 // optional status dot cut out of the background around it.
@@ -42,8 +57,7 @@ export function avatar(name, size, program, status, ring = C.side) {
       .child(program.tint ? svg(program.icon).size(g).text_color(program.color ?? C.text) : image(program.icon).w(g).h(g));
   } else el = base.bg(AVATAR[h % AVATAR.length]).text_color("#ffffff").text_size(size * 0.4).font_semibold().child(initials(name));
   if (status === undefined) return el;
-  const p = presence(status), d = Math.max(10, Math.round(size * 0.375));
-  return el.child(div().absolute().right(-2).bottom(-2).size(d).rounded_full().border(3).border_color(ring).bg(p.color));
+  return el.child(statusDot(status, size, ring));
 }
 
 export function channel(tab) {
@@ -62,9 +76,9 @@ export function subAgents(parents) {
   return out;
 }
 
-// The server's people. Agents are kittens: each gets an anime kitten of its
-// agent's picture (mods/discord-kit/avatars/kitten-<agent>.png, anime catgirl art,
-// credits in avatars/CREDITS.txt) and a kitten name.
+// The server's people. Agents are kittens: each gets a catgirl of its own
+// (portrait(), below) and a kitten name; kittenPic() is its kind's picture
+// (avatars/kitten-<agent>.png), for agents not started yet. Credits in avatars.nix.
 // You're the Kitten Herder (avatars/herder.png, the captain).
 export const ME = { name: "dylandy", pic: "mods/discord-kit/avatars/herder.png" };
 export const ROLES = {
@@ -85,14 +99,52 @@ export function kittenName(program, subName) {
   return `${KITTENS[key] ?? program?.name ?? "Stray"} Kitten`;
 }
 
+// Each agent's own name, bio, pronouns and treat, made up from what its
+// session is about (discord-members asks a small model, see its lore.js):
+// shared "discord.lore" = { "<address>[@<created_ms>]": { name, bio, pronouns, treat, turn } }.
+// A terminal's turn count starts over with it, so lore made at a later turn
+// than the terminal has belongs to an earlier terminal at that address.
+export const loreKey = (t) => t?.address ? (t.created_ms ? `${t.address}@${t.created_ms}` : t.address) : null;
+export const loreFor = (t, L = shared("discord.lore") ?? {}) => {
+  const x = L[loreKey(t)];
+  return x && (x.turn ?? 0) <= (t.turn ?? 0) && !/herder/i.test(x.name) ? x : null; // "Kitten Herder" is you
+};
+export const lore = (address) => loreFor(terminals().find((x) => x.address === address));
+
 export const kittenPic = (program, fallback) => `mods/discord-kit/avatars/kitten-${kittenKey(program, fallback)}.png`;
+
+// Nitro, purely for looks: each kitten's animated portrait (gifs/<name>/, its
+// frames and frames.json, built by Nix from avatars.nix; frame 00 is its
+// picture everywhere), avatar decoration (drawn by discord-profile), profile effect and
+// theme colors, picked from its address so they stay put through renames. You
+// (the owner) get the crown. discord-members gives each kitten a GIF of its
+// own while there are enough: shared "discord.looks" = { <loreKey>: "058" }.
+export const GIFS = ["004", "018", "021", "049", "057", "058", "061", "064", "081", "083", "090", "091", "095", "109"];
+const DECOS = ["ears", "halo", "flowers", "hearts"];
+const EFFECTS = [{ icon: "sparkle", color: "#ffe08a" }, { icon: "heart", color: "#ff73fa" }, { icon: "paw", color: "#ffffff" }, { icon: "fish", color: "#5dade2" }];
+const THEMES = [["#5865f2", "#eb459e"], ["#57f287", "#5865f2"], ["#f0b232", "#eb459e"], ["#00a8fc", "#57f287"], ["#eb459e", "#9b84ee"]];
+export const hashOf = (s) => { let h = 0; for (const c of String(s ?? "")) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; };
+export function nitro(address, owner = false) {
+  const h = hashOf(address);
+  const pick = (list, salt) => list[(h >>> salt) % list.length];
+  const mine = owner ? null : (shared("discord.looks") ?? {})[loreKey(terminals().find((x) => x.address === address))];
+  return {
+    gif: owner ? null : `mods/discord-kit/gifs/kitten-${mine ?? pick(GIFS, 0)}`,
+    deco: owner ? "crown" : pick(DECOS, 4),
+    effect: owner ? EFFECTS[0] : pick(EFFECTS, 8),
+    theme: owner ? ["#f1c40f", "#ff73fa"] : pick(THEMES, 12),
+  };
+}
+
+// A kitten's picture: its portrait GIF's first frame, the same in every list,
+// the chat and its profile card (which plays the rest).
+export const portrait = (address) => `${nitro(address).gif}/00.png`;
 
 // A round picture from a file, with the same status dot as avatar().
 export function picture(path, size, status, ring = C.side) {
   const el = div().relative().size(size).flex_none().child(image(path).size(size).rounded_full());
   if (status === undefined) return el;
-  const p = presence(status), d = Math.max(10, Math.round(size * 0.375));
-  return el.child(div().absolute().right(-2).bottom(-2).size(d).rounded_full().border(3).border_color(ring).bg(p.color));
+  return el.child(statusDot(status, size, ring));
 }
 
 // Everyone in the server, as the member list, forum and voice channel see them:
@@ -102,20 +154,22 @@ export function picture(path, size, status, ring = C.side) {
 export function herd(tab) {
   const all = terminals();
   const live = new Map(all.filter((t) => !ENDED.has(t.state)).map((t) => [t.address, t]));
+  const L = shared("discord.lore") ?? {}, byAddr = new Map(all.map((t) => [t.address, t]));
+  const loreOf = (address) => byAddr.has(address) ? loreFor(byAddr.get(address), L) : null;
   const seen = new Set(), top = [];
   const paneOf = new Map(panes().filter((p) => p.terminal).map((p) => [p.terminal, p]));
   for (const a of agents()) {
     seen.add(a.address);
-    top.push({ address: a.address, name: kittenName(a.program), pic: kittenPic(a.program, a.app), status: a.status ?? "online", role: "head",
+    top.push({ address: a.address, name: loreOf(a.address)?.name ?? kittenName(a.program), lore: loreOf(a.address), pic: portrait(a.address), status: a.status ?? "online", role: "head",
       what: a.title, title: a.title, tab: a.tab, seq: a.seq ?? 0, cwd: paneOf.get(a.address)?.cwd, turn: live.get(a.address)?.turn ?? 0 });
   }
   for (const p of panes()) {
     if (!p.terminal || seen.has(p.terminal) || !p.program?.agent || !live.has(p.terminal) || live.get(p.terminal).parent) continue;
     seen.add(p.terminal);
-    top.push({ address: p.terminal, name: kittenName(p.program), pic: kittenPic(p.program, p.app), status: p.status ?? "online", role: "head",
+    top.push({ address: p.terminal, name: loreOf(p.terminal)?.name ?? kittenName(p.program), lore: loreOf(p.terminal), pic: portrait(p.terminal), status: p.status ?? "online", role: "head",
       what: p.title, title: p.title, tab: p.tab, seq: 0, cwd: p.cwd, turn: live.get(p.terminal)?.turn ?? 0 });
   }
-  const sub = (t) => ({ address: t.address, name: kittenName(t.program, t.name ?? t.address), pic: kittenPic(t.program, t.agent),
+  const sub = (t) => ({ address: t.address, name: loreOf(t.address)?.name ?? kittenName(t.program, t.name ?? t.address), lore: loreOf(t.address), pic: portrait(t.address),
     status: ENDED.has(t.state) ? null : t.status ?? "online", role: "kitten", parent: t.parent, what: `started by ${t.parent}`,
     title: t.name ?? t.argv?.join(" ") ?? t.agent, cwd: t.cwd, turn: t.turn ?? 0, ended: ENDED.has(t.state), exit: t.exit_code,
     // An agent (it reports a status) has a conversation; a plain program (tio, a shell) only a screen.
@@ -138,7 +192,10 @@ export function herd(tab) {
 // "discord.peek": { [address]: { typing, line } }.
 export const peek = (address) => (shared("discord.peek") ?? {})[address] ?? {};
 export const typing = (m) => m?.status === "working" || Boolean(peek(m?.address).typing);
-export const SPIN = /^\s*[✻✽✶✳✢·*⏺◐◑◒◓]\s+\S.*(…|\.\.\.)/;
+// A spinner line: "✢ Enchanting… (2m 9s · ↓ 11.9k tokens)". A short phrase that
+// ends in the ellipsis (and its timer), so a reply's "* item..." or "⏺ text…"
+// doesn't count.
+export const SPIN = /^\s*[✻✽✶✳✢·*◐◑◒◓]\s+[A-Z][^.!?…\n]{0,60}?(…|\.\.\.)(\s*\(.*\))?\s*$/;
 
 // Discord's three bouncing typing dots.
 export const dots = (size = 6, color = C.text) => h_flex().gap(2).items_center().flex_none()
@@ -203,6 +260,26 @@ export function watch(address, why = null) {
   } else if (address) run("agent.focus", { terminal: address });
   setShared("discord.stream", { address, why, pane });
   run("layout.select", { stack: "convo-stack", child: "live" });
+  syncCompose(true);
+}
+
+// A node of the shown layout, by id.
+export function node(id, n = layout()) {
+  if (n?.id === id) return n;
+  for (const c of n?.children ?? []) { const f = node(id, c); if (f) return f; }
+  return null;
+}
+
+// Watch Stream with chat: the stream's own chat column (stream-chat, with its
+// own message box) docks on the right, as Discord's "Show Chat" does; the
+// message box under the channel's chat steps aside while it's open.
+export const streamChatOn = () => node("stream-chat") ? !node("stream-chat").hidden : false;
+export function syncCompose(live = node("convo-stack")?.active === "live") {
+  run(live && streamChatOn() ? "layout.hide" : "layout.show", { id: "compose" });
+}
+export function toggleStreamChat(on = !streamChatOn()) {
+  run(on ? "layout.show" : "layout.hide", { id: "stream-chat" });
+  run(on ? "layout.hide" : "layout.show", { id: "compose" });
 }
 
 // Gives a borrowed pane back to its own terminal.
@@ -222,12 +299,15 @@ export function keepAsChannel(address) {
   setShared("discord.stream", null);
   run("terminal.keep", { terminal: address, place: "tab" });
   run("layout.select", { stack: "convo-stack", child: "live" });
+  syncCompose(true);
 }
 
 export function stopWatching() {
   unshow();
   setShared("discord.stream", null);
   run("layout.select", { stack: "convo-stack", child: "output" });
+  syncCompose(false);
+  restoreSplit();
 }
 
 // The stream in its own window (remembers where you drop it).
@@ -240,14 +320,51 @@ export function popOut(address, name) {
 
 // The thread side panel: the agent's terminal beside the chat, in the member
 // list's place (Discord opens threads there).
+// The thread panel shows the channel's terminals (its tab's panes): the
+// agent, and its shell when it has one (openShell).
 export function openThread(address) {
-  run("agent.focus", { terminal: address });
+  if (address) run("agent.focus", { terminal: address });
   run("layout.hide", { id: "members" });
   run("layout.show", { id: "thread" });
 }
 export function closeThread() {
   run("layout.hide", { id: "thread" });
   run("layout.show", { id: "members" });
+}
+
+// Split view: the thread panel (the channel's agent's terminal beside its
+// chat), remembered per channel in shared "discord.split" = { <tab id>: true };
+// its width is the layout's own (dragging the divider sticks).
+const activeTab = () => spaces().find((s) => s.active)?.tabs.find((t) => t.active)?.id ?? null;
+export const splitOn = (tab = activeTab()) => Boolean((shared("discord.split") ?? {})[tab]);
+export function setSplit(on, tab = activeTab()) {
+  if (!tab) return;
+  setShared("discord.split", { ...(shared("discord.split") ?? {}), [tab]: on });
+  restoreSplit(tab);
+}
+// A channel's shell: a pane split under its agent (same folder, same
+// machine), in the split view beside the chat. It stays with the channel
+// (it's the tab's pane); exit it (Ctrl+D) to close it.
+export const channelShell = (tab = activeTab()) => panes().find((p) => p.tab === tab && p.terminal && !p.program?.agent) ?? null;
+export function openShell(tab = activeTab()) {
+  if (!tab) return;
+  const sh = channelShell(tab);
+  if (sh) run("pane.focus", { pane: sh.pane });
+  else {
+    const agent = panes().find((p) => p.tab === tab && p.program?.agent);
+    run("pane.split", { direction: "down", ...(agent ? { pane: agent.pane } : {}) });
+  }
+  setShared("discord.split", { ...(shared("discord.split") ?? {}), [tab]: true });
+  openThread(null);
+}
+
+// Opens or closes the panel as the channel had it.
+export function restoreSplit(tab = activeTab()) {
+  const open = node("thread") ? !node("thread").hidden : false;
+  if (splitOn(tab)) {
+    const { top, subs } = herd(tab), agent = top[0] ?? subs[0];
+    if (agent) openThread(agent.address); else if (open) closeThread();
+  } else if (open) closeThread();
 }
 
 // A tab with no agent in it is a shell channel: it opens straight into its terminal.

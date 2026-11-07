@@ -3,7 +3,7 @@
 // app knows how to start (installed ones), each in a new channel.
 import { View, div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
-import { props, run, hc, home, knownAgents, closeOverlay, openOverlay } from "herdr";
+import { props, run, hc, home, knownAgents, closeOverlay, openOverlay, notify } from "herdr";
 import { C, icon, picture, smooth, kittenName, kittenPic } from "./kit.js";
 
 export default class Activities extends View {
@@ -20,10 +20,13 @@ export default class Activities extends View {
   // A shell with no parent or tab, floating in a window you can drag around.
   scratch(cx) {
     cx.spawn(async () => {
-      const r = await hc(["run", "--bg", "--json", "--no-parent", "--cwd", home(), "--name", `scratch-${Date.now() % 100000}`]);
-      const t = JSON.parse(r.stdout);
-      const address = t.address ?? t.terminal?.address;
-      if (!address) return;
+      let address = null;
+      try {
+        const r = await hc(["run", "--bg", "--json", "--no-parent", "--cwd", home(), "--name", `scratch-${Date.now() % 100000}`]);
+        const t = JSON.parse(r.stdout);
+        address = t.address ?? t.terminal?.address ?? null;
+      } catch (_e) { /* hc failed or printed no JSON */ }
+      if (!address) { notify({ title: "No scratch terminal", body: "herdr-core couldn't start a shell.", level: "warning" }); return; }
       openOverlay({ kind: "window", key: `scratch-${address}`, width: 760, height: 460, layout: { type: "column", children: [
         { type: "block", size: { px: 40 }, content: { mod: "discord-stream", props: { terminal: address, popout: true } } },
         { type: "block", content: { terminal: address } },
@@ -43,7 +46,7 @@ export default class Activities extends View {
   render() {
     const tile = (ic, bg) => div().size(36).flex_none().rounded(10).bg(bg).flex().items_center().justify_center().child(icon(ic, 20, "#ffffff"));
     const label = (s) => div().px(10).pt(10).pb(4).text_size(11).font_bold().text_color(C.muted).child(s);
-    return v_flex().id("root").size_full().p(8).gap(2).rounded(8).bg("#232428").border(1).border_color("#ffffff10").overflow_y_scrollbar()
+    return v_flex().id("root").size_full().p(8).gap(2).rounded(8).bg(C.card).border(1).border_color("#ffffff10").overflow_y_scrollbar()
       .child(h_flex().px(10).pt(6).pb(4).gap(8).items_center()
         .child(icon("rocket", 18, C.blurple)).child(div().text_size(16).font_bold().text_color(C.header).child("Activities")))
       .child(label("TERMINALS"))

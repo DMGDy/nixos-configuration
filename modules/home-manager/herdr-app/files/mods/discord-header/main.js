@@ -3,11 +3,22 @@
 import { View, div } from "gpui-kit";
 import { h_flex } from "gpui-base";
 import { run, spaces, layout } from "herdr";
-import { C, icon, channel, herd, typing, smooth, livePill, streaming, watch, watching, stopWatching, openThread, closeThread, isShell, chatSub, closeSub, merged, setMerged, descendants } from "./kit.js";
+import { C, icon, channel, herd, typing, smooth, livePill, streaming, watch, watching, stopWatching, isShell, chatSub, closeSub, merged, setMerged, descendants, splitOn, setSplit, restoreSplit, channelShell, openShell } from "./kit.js";
 
 function find(n, id) { if (n?.id === id) return n; for (const c of n?.children ?? []) { const f = find(c, id); if (f) return f; } return null; }
 
 export default class Header extends View {
+  // Each channel keeps its split view: a switch (by click, key or agent)
+  // opens or closes the panel as that channel had it.
+  init(_props, cx) {
+    cx.timer.every(300, () => {
+      const tab = spaces().find((s) => s.active)?.tabs.find((t) => t.active)?.id ?? null;
+      if (tab === this.tab) return;
+      this.tab = tab;
+      if ((find(layout(), "convo-stack")?.active ?? "output") === "output") restoreSplit(tab);
+    });
+  }
+
   // In the forum: its icon, name and a topic counting the runs.
   forum() {
     const { top, subs } = herd(), all = [...top, ...subs];
@@ -56,21 +67,35 @@ export default class Header extends View {
         .on_click(() => closeSub()).child(div().text_size(13).text_color(C.muted).child(`Back to #${c?.name ?? ""}`))))
       // Merge threads: this agent and what it started, as one conversation.
       .when(!live && !sub && kids.length > 0, (el) => el.child(smooth(this, h_flex().id("merge").h(26).px(8).gap(6).items_center().rounded(4).cursor_pointer()
-          .bg(mergeOn ? C.blurple : C.chat), "merge", mergeOn ? "#4752c4" : C.hover)
+          .bg(mergeOn ? C.blurple : C.clear), "merge", mergeOn ? "#4752c4" : C.hover)
         .on_click(() => setMerged(t.id, !mergeOn))
         .child(icon("merge", 16, mergeOn ? "#ffffff" : C.muted))
         .child(div().text_size(13).font_medium().text_color(mergeOn ? "#ffffff" : C.muted).child(mergeOn ? `Merged · ${kids.length + 1}` : "Merge threads"))))
       // Go Live: watch the channel's agent's stream (its terminal), or stop.
       .child(smooth(this, h_flex().id("live").h(26).px(8).gap(6).items_center().rounded(4).cursor_pointer()
-        .bg(live ? C.blurple : C.chat), "live", live ? "#4752c4" : C.hover)
+        .bg(live ? C.blurple : C.clear), "live", live ? "#4752c4" : C.hover)
         .on_click(() => live ? stopWatching() : watch(agent?.address ?? c?.lead?.terminal))
         .child(icon("screen", 16, live ? "#ffffff" : C.muted))
         .child(div().text_size(13).font_medium().text_color(live ? "#ffffff" : C.muted)
           .child(live ? "Watching" : shell ? "Open terminal" : "Watch Stream"))
         .when(!live && Boolean(agent && streaming(agent)), (el) => el.child(livePill(9))))
-      // A thread: the agent's terminal beside the chat.
-      .when(!live && Boolean(agent), (el) => el.child(tool("thread-t", "thread", threadOn,
-        () => threadOn ? closeThread() : openThread(agent.address))))
+      // Split view: the agent's terminal beside the chat (a Discord thread
+      // panel), kept per channel.
+      .when(!live && Boolean(agent), (el) => el.child(smooth(this, h_flex().id("split").h(26).px(8).gap(6).items_center().rounded(4).cursor_pointer()
+          .bg(threadOn ? C.blurple : C.clear), "split", threadOn ? "#4752c4" : C.hover)
+        .on_click(() => setSplit(!threadOn))
+        .child(icon("thread", 16, threadOn ? "#ffffff" : C.muted))
+        .child(div().text_size(13).font_medium().text_color(threadOn ? "#ffffff" : C.muted).child("Split"))))
+      // Shell: a terminal of your own for this channel, docked under the
+      // agent's in the split view while the chat stays open.
+      .when(!live && Boolean(agent), (el) => {
+        const on = threadOn && Boolean(t && channelShell(t.id));
+        return el.child(smooth(this, h_flex().id("shell").h(26).px(8).gap(6).items_center().rounded(4).cursor_pointer()
+            .bg(on ? C.blurple : C.clear), "shell", on ? "#4752c4" : C.hover)
+          .on_click(() => openShell(t.id))
+          .child(icon("terminal", 16, on ? "#ffffff" : C.muted))
+          .child(div().text_size(13).font_medium().text_color(on ? "#ffffff" : C.muted).child("Shell")));
+      })
       .child(tool("bell", "bell", false, () => {}))
       .child(tool("pins", "pin", false, () => {}))
       .child(tool("members-t", "members", membersOn, () => run("layout.toggle", { id: "members" })))
